@@ -18,14 +18,22 @@
       color: white;
     }
 
-    /* 🔥 SAĞ ÜST BUTONLAR */
+    /* 🔥 SAĞ ÜST KULLANICI PANELİ */
     .top-buttons {
       position: fixed;
       top: 20px;
       right: 25px;
-      display: flex;
+      display: none;
       gap: 12px;
       z-index: 9999;
+      align-items: center;
+    }
+
+    .top-buttons span {
+      padding: 10px 14px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.2);
+      font-weight: bold;
     }
 
     .top-buttons a {
@@ -84,10 +92,6 @@
       margin-bottom: 20px;
     }
 
-    .ip-box:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
     .buttons a {
       display: block;
       margin: 10px 0;
@@ -97,17 +101,18 @@
       text-decoration: none;
       border-radius: 30px;
       font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .buttons a:hover {
-      transform: scale(1.05);
     }
   </style>
 </head>
 
 <body>
 
+<!-- 🔥 SAĞ ÜST PANEL -->
+<div class="top-buttons" id="userPanel">
+  <span id="userInfo"></span>
+  <a id="adminBtn" href="yetkili.html" style="display:none;">Yetkili</a>
+  <a href="#" onclick="logout()">Logout</a>
+</div>
 
 <div class="container">
   <h1>ArxonNetwork</h1>
@@ -122,83 +127,27 @@
   </div>
 
   <div class="buttons">
-  <a href="https://discord.gg/pwfbYdMg9m" target="_blank">Discord</a>
-  <a href="https://cinar-a.github.io/ArxonNetwork/magaza.html">Mağaza</a>
-
-  <a id="loginBtn" href="login.html">Login</a>
-  <a id="registerBtn" href="register.html">Register</a>
-
-  <a id="adminBtn" href="yetkili.html" style="display:none;">Yetkili Paneli</a>
-</div>
-
-
+    <a href="https://discord.gg/pwfbYdMg9m" target="_blank">Discord</a>
+    <a href="https://cinar-a.github.io/ArxonNetwork/magaza.html">Mağaza</a>
+    <a id="loginBtn" href="login.html">Login</a>
+    <a id="registerBtn" href="register.html">Register</a>
   </div>
 </div>
 
 <script>
-const ip = "ArxonNetwork.aternos.me";
-const port = "20659";
-
-async function checkServer() {
-  const statusEl = document.getElementById("server-status");
-  const playersEl = document.getElementById("players");
-
-  try {
-    let res = await fetch(`https://api.mcsrvstat.us/2/${ip}:${port}`, {
-      cache: "no-store"
-    });
-    let data = await res.json();
-
-    if (data.online) {
-      statusEl.innerHTML = "🟢 Sunucu AÇIK";
-      statusEl.style.color = "#00ff88";
-      playersEl.innerHTML = `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
-      return;
-    }
-
-    // fallback API
-    res = await fetch(`https://api.mcstatus.io/v2/status/java/${ip}:${port}`, {
-      cache: "no-store"
-    });
-    data = await res.json();
-
-    if (data.online) {
-      statusEl.innerHTML = "🟢 Sunucu AÇIK";
-      statusEl.style.color = "#00ff88";
-      playersEl.innerHTML = `👥 Oyuncular: ${data.players.online} / ${data.players.max}`;
-      return;
-    }
-
-    throw "offline";
-
-  } catch {
-    statusEl.innerHTML = "🔴 Sunucu KAPALI";
-    statusEl.style.color = "#ff4c4c";
-    playersEl.innerHTML = "";
-  }
-}
-
-checkServer();
-setInterval(checkServer, 2000); // ⏱️ 2 saniye
-</script>
-
-<script>
-const loggedUser = localStorage.getItem("loginUser");
-
-if (loggedUser) {
-  const loginBtn = document.getElementById("loginBtn");
-  const registerBtn = document.getElementById("registerBtn");
-
-  if (loginBtn) loginBtn.style.display = "none";
-  if (registerBtn) registerBtn.style.display = "none";
+function copyIP() {
+  navigator.clipboard.writeText("ArxonNetwork.aternos.me:20659");
+  alert("IP kopyalandı");
 }
 </script>
+
 <script>
 const admins = ["Syvex", "MEHMETY3232"];
 const currentUser = localStorage.getItem("loginUser");
 
 if (currentUser) {
   const raw = localStorage.getItem("user_" + currentUser);
+
   if (raw) {
     const data = JSON.parse(raw);
 
@@ -206,13 +155,11 @@ if (currentUser) {
     document.getElementById("userInfo").innerText =
       "👤 " + currentUser + " | 💳 " + (data.credit || 0);
 
-    // login/register gizle
     document.getElementById("loginBtn")?.remove();
     document.getElementById("registerBtn")?.remove();
 
-    // admin kontrol
     if (admins.includes(currentUser)) {
-      document.getElementById("adminTopBtn").style.display = "inline-block";
+      document.getElementById("adminBtn").style.display = "inline-block";
     }
   }
 }
@@ -224,22 +171,4 @@ function logout() {
 </script>
 
 </body>
-  <div class="top-buttons" id="userPanel" style="display:none;">
-  <span id="userInfo"
-        style="padding:10px 14px;border-radius:14px;
-        background:rgba(255,255,255,0.2);font-weight:bold;">
-  </span>
-
-  <a id="adminTopBtn" href="yetkili.html" style="display:none;">Yetkili</a>
-  <a href="#" onclick="logout()">Logout</a>
-</div>
-
 </html>
-<script src="auth.js"></script>
-<script>
-if (isLoggedIn()) {
-  console.log("Giriş yapan:", getUser());
-} else {
-  console.log("Misafir");
-}
-</script>
