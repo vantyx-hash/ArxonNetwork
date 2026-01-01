@@ -72,25 +72,25 @@
   <div class="item">
     <h2>VIP</h2>
     <div class="price">30 Kredi</div>
-    <button>Satın Al</button>
+    <button onclick="buy('VIP', 30)">Satın Al</button>
   </div>
 
   <div class="item">
     <h2>VIP+</h2>
     <div class="price">50 Kredi</div>
-    <button>Satın Al</button>
+    <button onclick="buy('VIP+', 50)">Satın Al</button>
   </div>
 
   <div class="item">
     <h2>ArxonVIP</h2>
     <div class="price">70 Kredi</div>
-    <button>Satın Al</button>
+    <button onclick="buy('ArxonVIP', 70)">Satın Al</button>
   </div>
 
   <div class="item">
     <h2>ArxonVIP+</h2>
     <div class="price">100 Kredi</div>
-    <button>Satın Al</button>
+    <button onclick="buy('ArxonVIP+', 100)">Satın Al</button>
   </div>
 </div>
 
@@ -100,19 +100,21 @@
   </a>
 </div>
 
-</body>
-</html>
 <script src="auth.js"></script>
 <script>
 const currentUser = localStorage.getItem("loginUser");
+
 if (!currentUser) {
-  alert("Giriş yapmadan mağazaya bakamazsın");
+  alert("Giriş yapmadan mağazaya giremezsin");
   location.href = "login.html";
 }
 
 function buy(item, price) {
   const raw = localStorage.getItem("user_" + currentUser);
-  if (!raw) return alert("Kullanıcı datası yok");
+  if (!raw) {
+    alert("Kullanıcı datası yok");
+    return;
+  }
 
   const data = JSON.parse(raw);
 
@@ -122,9 +124,13 @@ function buy(item, price) {
   }
 
   data.credit -= price;
-  data.rank = item; // VIP, VIP+, vs
+  data.rank = item;
 
   localStorage.setItem("user_" + currentUser, JSON.stringify(data));
-  alert(item + " satın alındı 🎉");
+
+  alert(item + " satın alındı 🎉\nKalan kredi: " + data.credit);
 }
 </script>
+
+</body>
+</html>
