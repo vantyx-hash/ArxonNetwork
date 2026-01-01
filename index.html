@@ -193,8 +193,47 @@ if (loggedUser) {
   if (registerBtn) registerBtn.style.display = "none";
 }
 </script>
+<script>
+const admins = ["Syvex", "MEHMETY3232"];
+const currentUser = localStorage.getItem("loginUser");
+
+if (currentUser) {
+  const raw = localStorage.getItem("user_" + currentUser);
+  if (raw) {
+    const data = JSON.parse(raw);
+
+    document.getElementById("userPanel").style.display = "flex";
+    document.getElementById("userInfo").innerText =
+      "👤 " + currentUser + " | 💳 " + (data.credit || 0);
+
+    // login/register gizle
+    document.getElementById("loginBtn")?.remove();
+    document.getElementById("registerBtn")?.remove();
+
+    // admin kontrol
+    if (admins.includes(currentUser)) {
+      document.getElementById("adminTopBtn").style.display = "inline-block";
+    }
+  }
+}
+
+function logout() {
+  localStorage.removeItem("loginUser");
+  location.reload();
+}
+</script>
 
 </body>
+  <div class="top-buttons" id="userPanel" style="display:none;">
+  <span id="userInfo"
+        style="padding:10px 14px;border-radius:14px;
+        background:rgba(255,255,255,0.2);font-weight:bold;">
+  </span>
+
+  <a id="adminTopBtn" href="yetkili.html" style="display:none;">Yetkili</a>
+  <a href="#" onclick="logout()">Logout</a>
+</div>
+
 </html>
 <script src="auth.js"></script>
 <script>
