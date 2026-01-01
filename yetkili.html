@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Yetkili Paneli</title>
+<style>
+body { background:#0e0e0e; color:white; font-family:Arial; text-align:center; }
+.box { background:#1a1a1a; padding:25px; margin:20px auto; width:320px; border-radius:12px; }
+input, button { padding:10px; margin:5px; width:90%; }
+button { cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<h1>🛡️ Yetkili Paneli</h1>
+<p id="who"></p>
+
+<div class="box">
+<h3>💳 Kredi Ver</h3>
+<input id="kime" placeholder="Kullanıcı adı">
+<input id="miktar" type="number" placeholder="Miktar">
+<button onclick="krediVer()">Ver</button>
+</div>
+
+<div class="box">
+<h3>🔨 Ban Sistemi</h3>
+<input id="banuser" placeholder="Kullanıcı">
+<button onclick="banla()">BAN</button>
+<button onclick="unban()">UNBAN</button>
+</div>
+
+<div class="box">
+<button onclick="logout()">ÇIKIŞ YAP</button>
+</div>
+
+<script>
+const yetkililer = ["Cinar", "Admin"];
+const me = localStorage.getItem("loginUser");
+
+if (!yetkililer.includes(me)) {
+  alert("Yetkin yok");
+  location.href = "index.html";
+}
+
+document.getElementById("who").innerText = "Yetkili: " + me;
+
+function krediVer() {
+  const u = kime.value;
+  const m = parseInt(miktar.value);
+
+  const raw = localStorage.getItem("user_" + u);
+  if (!raw) return alert("Kullanıcı yok");
+
+  const data = JSON.parse(raw);
+  data.credit += m;
+
+  localStorage.setItem("user_" + u, JSON.stringify(data));
+  alert("Kredi verildi");
+}
+
+function banla() {
+  const u = banuser.value;
+  const raw = localStorage.getItem("user_" + u);
+  if (!raw) return alert("Yok");
+
+  const d = JSON.parse(raw);
+  d.banned = true;
+  localStorage.setItem("user_" + u, JSON.stringify(d));
+  alert("BANLANDI");
+}
+
+function unban() {
+  const u = banuser.value;
+  const raw = localStorage.getItem("user_" + u);
+  if (!raw) return alert("Yok");
+
+  const d = JSON.parse(raw);
+  d.banned = false;
+  localStorage.setItem("user_" + u, JSON.stringify(d));
+  alert("BAN AÇILDI");
+}
+
+function logout() {
+  localStorage.removeItem("loginUser");
+  location.href = "index.html";
+}
+</script>
+
+</body>
+</html>
