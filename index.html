@@ -109,8 +109,11 @@ if (currentUser) {
     const data = JSON.parse(raw);
 
     document.getElementById("userPanel").style.display = "flex";
-    document.getElementById("userInfo").innerText =
-      "👤 " + currentUser + " | 💳 " + (data.credit || 0);
+    let rankText = data.rank ? " | ⭐ " + data.rank : "";
+
+document.getElementById("userInfo").innerText =
+  "👤 " + currentUser + rankText + " | 💳 " + (data.credit || 0);
+
 
     document.getElementById("loginBtn").remove();
     document.getElementById("registerBtn").remove();
