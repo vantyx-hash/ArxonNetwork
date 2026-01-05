@@ -17,8 +17,19 @@ body {
   padding:30px;
   border-radius:20px;
 }
-h1 { color:#00c6ff; }
-li { margin:10px 0; }
+input, textarea, button {
+  width:100%;
+  margin:10px 0;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  font-size:15px;
+}
+button {
+  background:#00c6ff;
+  font-weight:bold;
+  cursor:pointer;
+}
 </style>
 </head>
 
@@ -26,16 +37,33 @@ li { margin:10px 0; }
 <div class="box">
   <h1>🛡 AAC Başvuru</h1>
 
-  <ul>
-    <li><b>Kont Alma İşini Nasıl Yapıyorsunuz?</b></li>
-    <li><b>Kont Alırken Hangi Uygulamaları Kullanıyorsunuz?</b></li>
-    <li><b>Oyundaki Adınız</b></li>
-  </ul>
+  <input id="nick" placeholder="Oyundaki Adın">
+  <textarea id="kont" placeholder="Kont alma işini nasıl yapıyorsun?"></textarea>
+  <textarea id="uyg" placeholder="Kont alırken hangi uygulamaları kullanıyorsun?"></textarea>
 
-  <p>
-    📌 Başvurunu Discord üzerinden yap:<br>
-    <a href="https://dsc.gg/arxonnw" style="color:#00c6ff;">dsc.gg/arxonnw</a>
-  </p>
+  <button onclick="gonder()">Başvuruyu Gönder</button>
 </div>
+
+<script>
+function gonder() {
+  const basvuru = {
+    nick: document.getElementById("nick").value,
+    kont: document.getElementById("kont").value,
+    uyg: document.getElementById("uyg").value,
+    tarih: new Date().toLocaleString()
+  };
+
+  if (!basvuru.nick || !basvuru.kont || !basvuru.uyg) {
+    alert("Boş bırakma lan");
+    return;
+  }
+
+  let list = JSON.parse(localStorage.getItem("aac_basvuru")) || [];
+  list.push(basvuru);
+  localStorage.setItem("aac_basvuru", JSON.stringify(list));
+
+  alert("Başvuru alındı. Discorda gel 👉 dsc.gg/arxonnw");
+}
+</script>
 </body>
 </html>
