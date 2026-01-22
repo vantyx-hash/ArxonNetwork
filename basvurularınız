@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Başvurularım | ArxonNetwork</title>
+
+<style>
+body {
+  background: #0f2027;
+  color: white;
+  font-family: Arial;
+  padding: 40px;
+}
+
+.box {
+  max-width: 800px;
+  margin: auto;
+  background: rgba(0,0,0,0.55);
+  padding: 30px;
+  border-radius: 20px;
+}
+
+h1 {
+  color: #7b6cff;
+  margin-bottom: 20px;
+}
+
+.app {
+  background: rgba(255,255,255,0.08);
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 15px;
+}
+
+.status-beklemede {
+  color: orange;
+  font-weight: bold;
+}
+
+.status-onaylandı {
+  color: #00ff99;
+  font-weight: bold;
+}
+
+.status-reddedildi {
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+.back {
+  margin-top: 25px;
+  display: inline-block;
+  background: #7b6cff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1>📄 Başvurularım</h1>
+
+  <div id="list"></div>
+
+  <a class="back" href="index.html">⬅ Ana Sayfa</a>
+</div>
+
+<script>
+const user = localStorage.getItem("loginUser");
+const listDiv = document.getElementById("list");
+
+if (!user) {
+  listDiv.innerHTML = "<i>Giriş yapmadan başvurulara bakamazsın.</i>";
+} else {
+  const all = JSON.parse(localStorage.getItem("basvurular")) || [];
+  const mine = all.filter(b => b.user === user);
+
+  if (mine.length === 0) {
+    listDiv.innerHTML = "<i>Henüz bir başvurun yok.</i>";
+  } else {
+    mine.forEach(b => {
+      let statusText = "";
+      let cls = "";
+
+      if (b.status === "beklemede") {
+        statusText = "⏳ Onay Bekliyor";
+        cls = "status-beklemede";
+      }
+      if (b.status === "onaylandı") {
+        statusText = "✅ Onaylandı";
+        cls = "status-onaylandı";
+      }
+      if (b.status === "reddedildi") {
+        statusText = "❌ Onaylanmadı";
+        cls = "status-reddedildi";
+      }
+
+      listDiv.innerHTML += `
+        <div class="app">
+          <b>📌 Tür:</b> ${b.type.toUpperCase()}<br>
+          <b>📝 Açıklama:</b> ${b.reason}<br>
+          <b>🕒 Tarih:</b> ${b.date}<br>
+          <b>📍 Durum:</b>
+          <span class="${cls}">${statusText}</span>
+        </div>
+      `;
+    });
+  }
+}
+</script>
+
+</body>
+</html>
