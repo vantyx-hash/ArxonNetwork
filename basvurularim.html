@@ -42,60 +42,39 @@ h1 {
   <h1>📄 Başvurularım</h1>
   <div id="list"></div>
 </div>
-
 <script>
 const user = localStorage.getItem("loginUser");
-const listDiv = document.getElementById("list");
 
 if (!user) {
-  listDiv.innerHTML = "Giriş yapmamışsın.";
+  alert("Giriş yapmadan bu sayfayı göremezsin.");
+  location.href = "index.html";
+}
+
+const listEl = document.getElementById("list");
+const key = "applications_" + user;
+const apps = JSON.parse(localStorage.getItem(key)) || [];
+
+if (apps.length === 0) {
+  listEl.innerHTML = "<p>Henüz bir başvurun yok.</p>";
 } else {
-  let found = false;
+  listEl.innerHTML = "";
+  apps.forEach((a, i) => {
+    listEl.innerHTML += `
+      <div class="app">
+        <b>📌 Tür:</b> ${a.type}<br>
+        <b>📅 Tarih:</b> ${a.date}<br>
+        <b>📊 Durum:</b> ${a.status}<br><br>
 
-  const aac = JSON.parse(localStorage.getItem("aac_basvuru")) || [];
-  const rehber = JSON.parse(localStorage.getItem("rehber_basvuru")) || [];
+        ${a.why ? "<b>Neden:</b><br>" + a.why + "<br><br>" : ""}
+        ${a.kont ? "<b>Kont Süreci:</b><br>" + a.kont + "<br><br>" : ""}
 
-  aac.forEach(b => {
-    if (b.nick === user) {
-      found = true;
-      listDiv.innerHTML += `
-        <div class="app">
-          <b>🛡 AAC Başvurusu</b><br>
-          Tarih: ${b.tarih}<br>
-          Durum:
-          <span class="status ${b.status || 'wait'}">
-            ${b.status === "ok" ? "Onaylandı"
-              : b.status === "no" ? "Reddedildi"
-              : "Onay Bekliyor"}
-          </span>
-        </div>
-      `;
-    }
+        <small>#${i + 1}</small>
+      </div>
+    `;
   });
-
-  rehber.forEach(b => {
-    if (b.nick === user) {
-      found = true;
-      listDiv.innerHTML += `
-        <div class="app">
-          <b>📘 Rehber Başvurusu</b><br>
-          Tarih: ${b.tarih}<br>
-          Durum:
-          <span class="status ${b.status || 'wait'}">
-            ${b.status === "ok" ? "Onaylandı"
-              : b.status === "no" ? "Reddedildi"
-              : "Onay Bekliyor"}
-          </span>
-        </div>
-      `;
-    }
-  });
-
-  if (!found) {
-    listDiv.innerHTML = "Henüz bir başvurun yok.";
-  }
 }
 </script>
+
 
 </body>
 </html>
