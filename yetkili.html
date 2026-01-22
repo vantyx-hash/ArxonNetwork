@@ -11,11 +11,7 @@ body {
   font-family:Arial;
   padding:30px;
 }
-
-h2, h3 {
-  color:#7b6cff;
-}
-
+h2,h3 { color:#00c6ff; }
 .box {
   background:rgba(0,0,0,0.5);
   padding:20px;
@@ -23,36 +19,33 @@ h2, h3 {
   max-width:450px;
   margin-bottom:30px;
 }
-
-input, button {
+input,button {
   width:100%;
   padding:10px;
-  margin:6px 0;
+  margin:8px 0;
   border-radius:20px;
   border:none;
 }
-
 button {
   background:#00c6ff;
   font-weight:bold;
   cursor:pointer;
 }
-
 .app {
   background:rgba(0,0,0,0.6);
   padding:15px;
   border-radius:12px;
   margin-bottom:15px;
-  border-left:4px solid #7b6cff;
+  border-left:4px solid #00c6ff;
 }
-
-.actions button {
+.app b { color:#7b6cff; }
+.app small { opacity:0.7; }
+.action-btns button {
   width:48%;
-  margin-top:10px;
+  margin:5px 1%;
 }
-
-.ok { background:#00ff99; }
-.no { background:#ff5555; }
+.ok { background:#2ecc71; }
+.no { background:#e74c3c; }
 </style>
 </head>
 
@@ -64,7 +57,6 @@ button {
 <div class="box">
   <input id="target" placeholder="Kullanıcı adı">
   <input id="credit" type="number" placeholder="Verilecek kredi">
-
   <button onclick="giveCredit()">💳 Kredi Ver</button>
   <button onclick="banUser()">⛔ Banla</button>
   <button onclick="unbanUser()">✅ Ban Aç</button>
@@ -74,129 +66,101 @@ button {
 <h3>🛡 AAC Başvuruları</h3>
 <div id="aacList"></div>
 
-<hr style="opacity:0.3; margin:30px 0;">
+<hr style="opacity:.3">
 
 <h3>📘 Rehber Başvuruları</h3>
 <div id="rehberList"></div>
 
 <script>
-/* ========== AUTH ========== */
 const currentUser = localStorage.getItem("loginUser");
 const admins = ["mehmety3232","syvex"];
 
-if (!currentUser || !admins.includes(currentUser.toLowerCase())) {
+if (!currentUser || !admins.includes(currentUser.toLowerCase()))
   location.href="index.html";
-}
 
-adminName.innerText = "👤 Yetkili: " + currentUser;
+adminName.innerText="👤 Yetkili: "+currentUser;
 
-/* ========== USER ACTIONS ========== */
-function giveCredit() {
-  const u = target.value;
-  const c = Number(credit.value);
-  if (!u || !c) return alert("Alanları doldur");
-
-  const raw = localStorage.getItem("user_"+u);
-  if (!raw) return alert("Kullanıcı yok");
-
-  const d = JSON.parse(raw);
-  d.credit = (d.credit||0)+c;
-  localStorage.setItem("user_"+u,JSON.stringify(d));
+/* KREDİ */
+function giveCredit(){
+  const raw=localStorage.getItem("user_"+target.value);
+  if(!raw) return alert("Kullanıcı yok");
+  const d=JSON.parse(raw);
+  d.credit=(d.credit||0)+Number(credit.value);
+  localStorage.setItem("user_"+target.value,JSON.stringify(d));
   alert("Kredi verildi");
 }
 
-function banUser() {
-  const u = target.value;
-  const raw = localStorage.getItem("user_"+u);
-  if (!raw) return alert("Kullanıcı yok");
-  const d = JSON.parse(raw);
-  d.banned = true;
-  localStorage.setItem("user_"+u,JSON.stringify(d));
-  alert("Banlandı");
+/* BAN */
+function banUser(){
+  const raw=localStorage.getItem("user_"+target.value);
+  if(!raw) return alert("Yok");
+  const d=JSON.parse(raw);
+  d.banned=true;
+  localStorage.setItem("user_"+target.value,JSON.stringify(d));
+}
+function unbanUser(){
+  const raw=localStorage.getItem("user_"+target.value);
+  if(!raw) return alert("Yok");
+  const d=JSON.parse(raw);
+  d.banned=false;
+  localStorage.setItem("user_"+target.value,JSON.stringify(d));
 }
 
-function unbanUser() {
-  const u = target.value;
-  const raw = localStorage.getItem("user_"+u);
-  if (!raw) return alert("Kullanıcı yok");
-  const d = JSON.parse(raw);
-  d.banned = false;
-  localStorage.setItem("user_"+u,JSON.stringify(d));
-  alert("Ban açıldı");
-}
-
-/* ========== AAC BAŞVURULAR ========== */
-function loadAAC() {
-  const list = JSON.parse(localStorage.getItem("aac_basvuru")) || [];
-  const el = document.getElementById("aacList");
-  el.innerHTML = "";
-
-  if (!list.length) {
-    el.innerHTML = "AAC başvurusu yok.";
-    return;
+/* STATUS + SİLME */
+function setStatus(key,index,status){
+  let list=JSON.parse(localStorage.getItem(key))||[];
+  if(status==="no"){
+    list.splice(index,1); // RED → SİL
+  } else {
+    list[index].status="ok"; // ONAY
   }
-
-  list.forEach((b,i)=>{
-    el.innerHTML += `
-      <div class="app">
-        <b>Nick:</b> ${b.nick}<br>
-        <b>Kont:</b><br>${b.kont}<br><br>
-        <b>Uygulamalar:</b><br>${b.uyg}<br>
-        <small>📅 ${b.tarih}</small>
-
-        <div class="actions">
-          <button class="ok" onclick="setStatus('aac_basvuru',${i},'ok')">✔ Onayla</button>
-          <button class="no" onclick="setStatus('aac_basvuru',${i},'no')">✖ Reddet</button>
-        </div>
-      </div>
-    `;
-  });
-}
-
-/* ========== REHBER BAŞVURULAR ========== */
-function loadRehber() {
-  const list = JSON.parse(localStorage.getItem("rehber_basvuru")) || [];
-  const el = document.getElementById("rehberList");
-  el.innerHTML = "";
-
-  if (!list.length) {
-    el.innerHTML = "Rehber başvurusu yok.";
-    return;
-  }
-
-  list.forEach((b,i)=>{
-    el.innerHTML += `
-      <div class="app">
-        <b>Nick:</b> ${b.nick}<br>
-        <b>Mesaj:</b><br>${b.metin}<br>
-        <small>📅 ${b.tarih}</small>
-
-        <div class="actions">
-          <button class="ok" onclick="setStatus('rehber_basvuru',${i},'ok')">✔ Onayla</button>
-          <button class="no" onclick="setStatus('rehber_basvuru',${i},'no')">✖ Reddet</button>
-        </div>
-      </div>
-    `;
-  });
-}
-
-/* ========== STATUS SET ========== */
-function setStatus(key,index,status) {
-  const list = JSON.parse(localStorage.getItem(key));
-  list[index].status = status;
   localStorage.setItem(key,JSON.stringify(list));
-  loadAAC();
-  loadRehber();
+  loadAAC(); loadRehber();
 }
 
-/* ========== LOGOUT ========== */
-function logout() {
+/* AAC */
+function loadAAC(){
+  const list=JSON.parse(localStorage.getItem("aac_basvuru")||"[]");
+  aacList.innerHTML=list.length? "" : "<p>Başvuru yok</p>";
+  list.forEach((b,i)=>{
+    aacList.innerHTML+=`
+    <div class="app">
+      <b>${b.nick}</b><br>
+      ${b.kont}<br><br>
+      ${b.uyg}<br>
+      <small>${b.tarih}</small>
+      <div class="action-btns">
+        <button class="ok" onclick="setStatus('aac_basvuru',${i},'ok')">Onayla</button>
+        <button class="no" onclick="setStatus('aac_basvuru',${i},'no')">Reddet</button>
+      </div>
+    </div>`;
+  });
+}
+
+/* REHBER */
+function loadRehber(){
+  const list=JSON.parse(localStorage.getItem("rehber_basvuru")||"[]");
+  rehberList.innerHTML=list.length? "" : "<p>Başvuru yok</p>";
+  list.forEach((b,i)=>{
+    rehberList.innerHTML+=`
+    <div class="app">
+      <b>${b.nick}</b><br>
+      ${b.yazi}<br>
+      <small>${b.tarih}</small>
+      <div class="action-btns">
+        <button class="ok" onclick="setStatus('rehber_basvuru',${i},'ok')">Onayla</button>
+        <button class="no" onclick="setStatus('rehber_basvuru',${i},'no')">Reddet</button>
+      </div>
+    </div>`;
+  });
+}
+
+loadAAC(); loadRehber();
+
+function logout(){
   localStorage.removeItem("loginUser");
   location.href="login.html";
 }
-
-loadAAC();
-loadRehber();
 </script>
 
 </body>
