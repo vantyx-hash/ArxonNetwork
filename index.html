@@ -44,6 +44,15 @@ if (currentUser) {
   const raw = localStorage.getItem("user_" + currentUser);
   if (raw) {
     const data = JSON.parse(raw);
+<script>
+function openAAC() {
+  location.href = "aac-basvuru.html";
+}
+
+function openRehber() {
+  location.href = "rehber-basvuru.html";
+}
+</script>
 
     document.getElementById("profileBar").style.display = "flex";
     document.getElementById("mc-name").innerText = currentUser;
