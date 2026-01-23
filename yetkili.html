@@ -73,7 +73,7 @@ button {
 
 <script>
 function loadAAC() {
-  const list = JSON.parse(localStorage.getItem("aac_basvuru") || "[]");
+  const list = JSON.parse(localStorage.getItem("aac_basvurular") || "[]");
   const el = document.getElementById("aacList");
 
   if (list.length === 0) {
