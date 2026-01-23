@@ -4,6 +4,48 @@
   <meta charset="UTF-8">
   <title>ArxonMC</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* Arka plan */
+    body {
+      background: url('enderdragon-savas.png') no-repeat center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Bildirim stili */
+    .notif {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #333;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+
+    /* Kart stili (mevcut) */
+    .card {
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      padding: 20px;
+      margin: 50px auto;
+      width: 300px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .buttons button {
+      margin: 5px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 
 <body>
@@ -22,7 +64,10 @@
 
 <!-- ANA KART -->
 <div class="card">
-  <p><b>IP:</b> <span id="server-ip">193.164.4.244</span></p>
+  <p>
+    <b>IP:</b> <span id="server-ip">193.164.4.244</span>
+    <button onclick="copyIP()">📋 Kopyala</button>
+  </p>
 
   <div class="status">
     <b>Sunucu:</b> <span id="status-text">Kontrol ediliyor...</span><br>
@@ -105,6 +150,18 @@ async function checkServer() {
 
 checkServer();
 setInterval(checkServer, 15000);
+
+/* ================== COPY IP ================== */
+function copyIP() {
+  const ip = document.getElementById("server-ip").innerText;
+  navigator.clipboard.writeText(ip).then(() => {
+    const notif = document.createElement("div");
+    notif.innerText = "Sunucu adresi kopyalandı!";
+    notif.className = "notif";
+    document.body.appendChild(notif);
+    setTimeout(() => notif.remove(), 2000);
+  });
+}
 </script>
 
 </body>
