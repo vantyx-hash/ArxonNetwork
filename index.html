@@ -7,254 +7,144 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <style>
-    :root {
-      --main: #00d9ff;
-      --dark: #1a1a2e;
-      --mid: #0f3460;
-      --text: #ffffff;
-      --text2: #e0e0e0;
+    :root{
+      --main:#00d9ff;--dark:#1a1a2e;--mid:#0f3460;
+      --text:#fff;--text2:#e0e0e0;--ok:#00ff88;--err:#ff3366;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(circle at top, #0a0f2c, #000);
-      color: var(--text);
-      overflow-x: hidden;
-    }
-
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 40px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-
-    header h1 {
-      color: var(--main);
-      font-weight: 900;
-    }
-
-    nav a {
-      color: var(--text2);
-      margin-left: 20px;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: var(--main);
-      text-shadow: 0 0 10px var(--main);
-    }
-
-    section {
-      padding: 100px 40px;
-      min-height: 100vh;
-      display: none;
-    }
-
-    section.active { display: block; }
-
-    .hero {
-      text-align: center;
-    }
-
-    .hero h2 {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      color: var(--main);
-      text-shadow: 0 0 20px var(--main);
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      margin-bottom: 40px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 15px 30px;
-      margin: 10px;
-      background: linear-gradient(135deg, var(--main), #00aacc);
-      color: #000;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px var(--main);
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 60px;
-    }
-
-    .card {
-      background: rgba(26,26,46,0.85);
-      padding: 30px;
-      border-radius: 16px;
-      border: 1px solid var(--mid);
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      border-color: var(--main);
-      box-shadow: 0 0 25px rgba(0,217,255,0.4);
-      transform: translateY(-5px);
-    }
-
-    .card h3 { color: var(--main); margin-bottom: 15px; }
-
-    .price {
-      font-size: 2rem;
-      color: var(--main);
-      margin: 20px 0;
-    }
-
-    form {
-      max-width: 400px;
-      margin: auto;
-      background: rgba(26,26,46,0.9);
-      padding: 40px;
-      border-radius: 16px;
-    }
-
-    form input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: rgba(0,0,0,0.6);
-      color: var(--text2);
-    }
-
-    @media(max-width:600px){
-      .hero h2 { font-size: 2.2rem; }
-      header { flex-direction: column; gap: 10px; }
-    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Orbitron',sans-serif;background:#050814;color:var(--text)}
+    #particles-js{position:fixed;width:100%;height:100%;z-index:-1}
+    header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px)}
+    header h1{color:var(--main);font-weight:900;display:flex;align-items:center;gap:10px}
+    header img{width:40px}
+    nav a{color:var(--text2);margin-left:20px;text-decoration:none}
+    nav a:hover{color:var(--main)}
+    section{display:none;padding:80px 40px;min-height:100vh}
+    section.active{display:block}
+    .hero{text-align:center}
+    .hero img{width:220px;margin:30px 0;filter:drop-shadow(0 0 20px var(--main))}
+    .hero h2{font-size:3rem;color:var(--main)}
+    .btn{padding:14px 30px;background:var(--main);color:#000;border-radius:8px;font-weight:700;cursor:pointer;border:none;margin:5px}
+    .btn:hover{box-shadow:0 0 20px var(--main)}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;margin-top:40px}
+    .card{background:rgba(26,26,46,.9);padding:25px;border-radius:16px;border:1px solid var(--mid)}
+    .card h3{color:var(--main)}
+    form{max-width:420px;margin:auto;background:rgba(26,26,46,.9);padding:35px;border-radius:16px}
+    input,select,textarea{width:100%;padding:12px;margin-bottom:12px;border-radius:8px;border:none}
+    footer{text-align:center;padding:25px;background:#000;color:var(--text2)}
   </style>
 </head>
 <body>
-
 <div id="particles-js"></div>
-
 <header>
-  <h1>ARXON NW</h1>
-  <nav>
-    <a href="#/">Ana Sayfa</a>
-    <a href="#/store">Store</a>
-    <a href="#/login">Login</a>
-    <a href="#/register">Register</a>
-    <a href="#/help">Help</a>
-  </nav>
+  <h1><img src="https://i.imgur.com/gIxuS6G.png">ARXON NW</h1>
+  <nav id="nav"></nav>
 </header>
 
 <section id="home" class="active">
   <div class="hero">
     <h2>Kurt sürüsüne katıl. Güçlen.</h2>
-    <p>BoxMining dünyasında zirveye tırman. Güç, rekabet ve ödül burada.</p>
-    <a class="btn" onclick="copyIP()">IP Kopyala</a>
+    <img src="https://i.imgur.com/gIxuS6G.png">
+    <p>Canlı Oyuncu: <span id="online">?</span></p>
+    <button class="btn" onclick="copyIP()">IP Kopyala</button>
     <a class="btn" href="https://discord.gg/HEEPr9k9uD" target="_blank">Discord</a>
   </div>
-
-  <div class="cards">
-    <div class="card"><h3>⚡ Performans</h3><p>Lag yok. Güçlü altyapı.</p></div>
-    <div class="card"><h3>🐺 Kurt Teması</h3><p>Agresif, karanlık ve elit.</p></div>
-    <div class="card"><h3>💎 VIP Sistem</h3><p>Adil ama güçlü avantajlar.</p></div>
-  </div>
 </section>
 
-<section id="store">
-  <h2>VIP Paketleri</h2>
-  <div class="cards">
-    <div class="card"><h3>Bronze</h3><div class="price">₺50</div><p>Başlangıç avantajları</p><a class="btn">Satın Al</a></div>
-    <div class="card"><h3>Silver</h3><div class="price">₺100</div><p>Daha fazla yetki</p><a class="btn">Satın Al</a></div>
-    <div class="card"><h3>Gold</h3><div class="price">₺200</div><p>Güçlü özellikler</p><a class="btn">Satın Al</a></div>
-    <div class="card"><h3>Diamond</h3><div class="price">₺350</div><p>Elit kurt seviyesi</p><a class="btn">Satın Al</a></div>
-  </div>
-</section>
+<section id="store"><h2>VIP Paketleri</h2><div class="cards">
+<div class="card"><h3>Bronze</h3><p>₺50</p></div>
+<div class="card"><h3>Silver</h3><p>₺100</p></div>
+<div class="card"><h3>Gold</h3><p>₺200</p></div>
+<div class="card"><h3>Diamond</h3><p>₺350</p></div>
+</div></section>
 
-<section id="login">
-  <h2>Giriş Yap</h2>
-  <form>
-    <input type="text" placeholder="Kullanıcı Adı">
-    <input type="password" placeholder="Şifre">
-    <button class="btn" type="submit">Giriş</button>
-  </form>
-</section>
+<section id="login"><h2>Giriş</h2><form onsubmit="login(event)">
+<input id="luser" placeholder="Kullanıcı Adı" required>
+<input id="lpass" type="password" placeholder="Şifre" required>
+<button class="btn">Giriş</button>
+<p>Hesabın yok mu? <a href="#/register">Kayıt Ol</a></p>
+</form></section>
 
-<section id="register">
-  <h2>Kayıt Ol</h2>
-  <form>
-    <input type="text" placeholder="Kullanıcı Adı">
-    <input type="email" placeholder="Email">
-    <input type="password" placeholder="Şifre">
-    <button class="btn" type="submit">Kayıt Ol</button>
-  </form>
-</section>
+<section id="register"><h2>Kayıt</h2><form onsubmit="register(event)">
+<input id="ruser" placeholder="Kullanıcı Adı" required>
+<input id="remail" type="email" placeholder="Email" required>
+<input id="rpass" type="password" placeholder="Şifre" required>
+<input id="rpass2" type="password" placeholder="Şifre Tekrar" required>
+<button class="btn">Kayıt Ol</button>
+</form></section>
 
-<section id="help">
-  <h2>Yardım & Bilgi</h2>
-  <div class="cards">
-    <div class="card"><h3>SSS</h3><p>Sunucuya nasıl girerim? IP'yi kopyala ve Minecraft'a gir.</p></div>
-    <div class="card"><h3>Komutlar</h3><p>/spawn, /warp, /shop</p></div>
-    <div class="card"><h3>İletişim</h3><p>Discord üzerinden destek alabilirsin.</p></div>
-  </div>
-</section>
+<section id="panel"><h2>Panel</h2><div id="panelInfo"></div></section>
 
-<footer>
-  © 2026 Arxon NW • BoxMining Network
-</footer>
+<section id="basvuru"><h2>Yetkili Başvurusu</h2><form onsubmit="basvur(event)">
+<input id="bmc" placeholder="MC Nick" required>
+<input id="byas" placeholder="Yaş" required>
+<input id="bdisc" placeholder="Discord" required>
+<select id="brol"><option>Moderatör</option><option>Admin</option><option>Builder</option></select>
+<textarea id="bden" placeholder="Deneyim"></textarea>
+<textarea id="bneden" placeholder="Neden sen?"></textarea>
+<button class="btn">Gönder</button>
+</form></section>
+
+<section id="help"><h2>Yardım</h2><p>/spawn /warp /shop</p></section>
+
+<footer>© Arxon NW 2026</footer>
 
 <script>
-  function router(){
-    const hash = location.hash || '#/';
-    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
-    if(hash === '#/') document.getElementById('home').classList.add('active');
-    if(hash === '#/store') document.getElementById('store').classList.add('active');
-    if(hash === '#/login') document.getElementById('login').classList.add('active');
-    if(hash === '#/register') document.getElementById('register').classList.add('active');
-    if(hash === '#/help') document.getElementById('help').classList.add('active');
-  }
-  window.addEventListener('hashchange', router);
+const nav=document.getElementById('nav');
+function renderNav(){
+  const u=localStorage.getItem('user');
+  nav.innerHTML=`
+  <a href="#/">Ana Sayfa</a>
+  <a href="#/store">Store</a>
+  ${u?'<a href="#/panel">Panel</a><a href="#/basvuru">Başvuru</a><a onclick="logout()">Logout</a>':'<a href="#/login">Login</a><a href="#/register">Register</a>'}
+  <a href="#/help">Help</a>`;
+}
+renderNav();
 
-  function copyIP(){
-    navigator.clipboard.writeText('193.164.4.244');
-    alert('IP kopyalandı: 193.164.4.244');
-  }
+function router(){
+  let h=location.hash||'#/';
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  if(h==='#/panel'&&!localStorage.getItem('user')){location.hash='#/login';return}
+  document.getElementById(h.replace('#/','')||'home').classList.add('active');
+  if(h==='#/panel')loadPanel();
+}
+window.onhashchange=router;router();
 
-  particlesJS('particles-js',{
-    particles:{number:{value:80},color:{value:'#00d9ff'},shape:{type:'circle'},opacity:{value:0.5},size:{value:3},move:{enable:true,speed:2}},
-    interactivity:{events:{onhover:{enable:true,mode:'repulse'}}}
-  });
+function register(e){e.preventDefault();
+  if(rpass.value!==rpass2.value)return alert('Şifreler uyuşmuyor');
+  const users=JSON.parse(localStorage.getItem('users')||'[]');
+  users.push({u:ruser.value,e:remail.value,p:rpass.value,vip:'Yok',date:new Date().toLocaleDateString(),apps:[]});
+  localStorage.setItem('users',JSON.stringify(users));
+  localStorage.setItem('user',ruser.value);
+  renderNav();location.hash='#/panel';
+}
+
+function login(e){e.preventDefault();
+  const users=JSON.parse(localStorage.getItem('users')||'[]');
+  const f=users.find(x=>x.u===luser.value&&x.p===lpass.value);
+  if(!f)return alert('Hatalı giriş');
+  localStorage.setItem('user',f.u);renderNav();location.hash='#/panel';
+}
+
+function logout(){localStorage.removeItem('user');renderNav();location.hash='#/';}
+
+function loadPanel(){
+  const users=JSON.parse(localStorage.getItem('users'));
+  const u=users.find(x=>x.u===localStorage.getItem('user'));
+  panelInfo.innerHTML=`<p>Kullanıcı: ${u.u}</p><p>Email: ${u.e}</p><p>VIP: ${u.vip}</p><p>Kayıt: ${u.date}</p><h3>Başvurular</h3>${u.apps.map(a=>'<p>'+a+'</p>').join('')}`;
+}
+
+function basvur(e){e.preventDefault();
+  const users=JSON.parse(localStorage.getItem('users'));
+  const u=users.find(x=>x.u===localStorage.getItem('user'));
+  u.apps.push(brol.value+' - '+bmc.value);
+  localStorage.setItem('users',JSON.stringify(users));
+  alert('Başvuru alındı');location.hash='#/panel';
+}
+
+function copyIP(){navigator.clipboard.writeText('193.164.4.244');alert('IP kopyalandı');}
+
+particlesJS('particles-js',{particles:{number:{value:70},color:{value:'#00d9ff'},move:{speed:2}}});
 </script>
-
 </body>
 </html>
