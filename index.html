@@ -5,13 +5,10 @@
 <title>Arxon Network</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  min-height: 100vh;
   font-family: Arial, sans-serif;
   background: url("https://images.wallpapersden.com/image/download/minecraft-village_bGZlZ2mUmZqaraWkpJRmZ21lrWxnZQ.jpg")
     no-repeat center center fixed;
@@ -19,62 +16,54 @@ body {
   color: #fff;
 }
 
-/* BAŞLIK */
-h1 {
-  text-align: center;
-  margin-top: 30px;
-  text-shadow: 0 0 15px #000;
-}
-
-/* PROFİL BAR */
-.profile-bar {
-  display: none;
-  align-items: center;
-  gap: 12px;
-  background: rgba(0,0,0,0.75);
-  padding: 10px 20px;
-}
-
-.profile-bar img {
-  width: 48px;
-  height: 48px;
-  border-radius: 6px;
-}
-
-.profile-info {
+/* NAVBAR */
+.navbar {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0,0,0,0.8);
+  padding: 12px 25px;
 }
 
-.profile-bar button {
-  margin-left: auto;
-  padding: 6px 12px;
+.nav-left {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.nav-center button {
+  margin: 0 5px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-right img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
 }
 
 /* ANA KART */
 .card {
   background: rgba(0,0,0,0.65);
-  width: 320px;
+  width: 360px;
   max-width: 90%;
-  margin: 60px auto;
-  padding: 20px;
-  border-radius: 12px;
+  margin: 80px auto;
+  padding: 25px;
+  border-radius: 14px;
   text-align: center;
-  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  box-shadow: 0 0 25px rgba(0,0,0,0.7);
 }
 
 .status {
   margin: 15px 0;
-}
-
-.buttons button {
-  width: 100%;
-  margin: 6px 0;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
 }
 
 /* BİLDİRİM */
@@ -91,17 +80,25 @@ h1 {
 
 <body>
 
-<h1>🔥 Arxon Network 🔥</h1>
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="nav-left">🔥 Arxon Network</div>
 
-<div class="profile-bar" id="profileBar">
-  <img id="mc-head">
-  <div class="profile-info">
-    <span id="mc-name"></span>
-    <span id="mc-credit"></span>
+  <div class="nav-center">
+    <button onclick="go('magaza.html')">🛒 Mağaza</button>
+    <button onclick="go('aac-basvuru.html')">🛡 AAC</button>
+    <button onclick="go('rehber-basvuru.html')">📘 Rehber</button>
+    <button onclick="go('basvurularim.html')">📄 Başvurularım</button>
   </div>
-  <button onclick="logout()">Çıkış</button>
+
+  <div class="nav-right" id="profileBar" style="display:none;">
+    <img id="mc-head">
+    <span id="mc-name"></span>
+    <button onclick="logout()">Çıkış</button>
+  </div>
 </div>
 
+<!-- ANA KART -->
 <div class="card">
   <p>
     <b>IP:</b> <span id="server-ip">193.164.4.244</span>
@@ -112,31 +109,21 @@ h1 {
     <b>Sunucu:</b> <span id="status-text">Kontrol ediliyor...</span><br>
     Oyuncu: <span id="player-count">-</span>
   </div>
-
-  <div class="buttons">
-    <button onclick="go('magaza.html')">🛒 Mağaza</button>
-    <button onclick="go('aac-basvuru.html')">🛡 AAC Başvuru</button>
-    <button onclick="go('rehber-basvuru.html')">📘 Rehber Başvuru</button>
-    <button onclick="go('basvurularim.html')">📄 Başvurularım</button>
-    <button onclick="go('ArxonNetworkHaklar.html')">Gizlilik Hakları</button>
-  </div>
 </div>
 
 <script>
 /* LOGIN */
 const user = localStorage.getItem("loginUser");
 if (user) {
-  const data = JSON.parse(localStorage.getItem("user_" + user) || "{}");
   profileBar.style.display = "flex";
   mc-name.innerText = user;
-  mc-credit.innerText = "💎 " + (data.credit || 0);
   mc-head.src = "https://mc-heads.net/avatar/" + user + "/64";
 }
 
 /* NAV */
 function go(page) {
   document.body.style.opacity = "0";
-  setTimeout(() => location.href = page, 400);
+  setTimeout(() => location.href = page, 300);
 }
 
 function logout() {
