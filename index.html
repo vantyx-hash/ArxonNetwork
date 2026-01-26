@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Arxon Network</title>
+<title>Arxon MC</title>
 
 <style>
 * { box-sizing: border-box; }
@@ -10,152 +10,108 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: url("https://images.wallpapersden.com/image/download/minecraft-village_bGZlZ2mUmZqaraWkpJRmZ21lrWxnZQ.jpg")
-    no-repeat center center fixed;
-  background-size: cover;
+  background: #0b0b0b;
   color: #fff;
 }
 
 /* NAVBAR */
 .navbar {
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0,0,0,0.8);
-  padding: 12px 25px;
+  padding: 0 30px;
+  background: #000;
 }
 
+/* SOL */
 .nav-left {
-  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg,#00c6ff,#0072ff);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: bold;
 }
 
-.nav-center button {
-  margin: 0 5px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.site-name {
+  font-size: 18px;
+  font-weight: 600;
 }
 
+/* ORTA */
+.nav-center a {
+  margin: 0 14px;
+  color: #ddd;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.nav-center a:hover {
+  color: #00c6ff;
+}
+
+/* SAĞ */
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
-.nav-right img {
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
+.nav-right a {
+  color: #ddd;
+  text-decoration: none;
+  font-size: 14px;
 }
 
-/* ANA KART */
-.card {
-  background: rgba(0,0,0,0.65);
-  width: 360px;
-  max-width: 90%;
-  margin: 80px auto;
-  padding: 25px;
-  border-radius: 14px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0,0,0,0.7);
-}
-
-.status {
-  margin: 15px 0;
-}
-
-/* BİLDİRİM */
-.notif {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #222;
-  padding: 10px 15px;
+.btn-login {
+  padding: 7px 14px;
   border-radius: 6px;
+  background: #111;
+}
+
+.btn-register {
+  padding: 7px 16px;
+  border-radius: 6px;
+  background: #1da1ff;
+  color: #fff;
 }
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
-  <div class="nav-left">🔥 Arxon Network</div>
 
+  <!-- SOL -->
+  <div class="nav-left">
+    <div class="logo">A</div>
+    <div class="site-name">Arxon MC</div>
+  </div>
+
+  <!-- ORTA -->
   <div class="nav-center">
-    <button onclick="go('magaza.html')">🛒 Mağaza</button>
-    <button onclick="go('aac-basvuru.html')">🛡 AAC</button>
-    <button onclick="go('rehber-basvuru.html')">📘 Rehber</button>
-    <button onclick="go('basvurularim.html')">📄 Başvurularım</button>
+    <a href="#">🏠 Anasayfa</a>
+    <a href="#">🛒 Mağaza</a>
+    <a href="#">❓ Yardım</a>
+    <a href="#">🔒 Destek</a>
   </div>
 
-  <div class="nav-right" id="profileBar" style="display:none;">
-    <img id="mc-head">
-    <span id="mc-name"></span>
-    <button onclick="logout()">Çıkış</button>
+  <!-- SAĞ -->
+  <div class="nav-right">
+    <a class="btn-login" href="#">↪ Giriş Yap</a>
+    <a class="btn-register" href="#">👤 Kayıt Ol</a>
   </div>
+
 </div>
-
-<!-- ANA KART -->
-<div class="card">
-  <p>
-    <b>IP:</b> <span id="server-ip">193.164.4.244</span>
-    <button onclick="copyIP()">📋</button>
-  </p>
-
-  <div class="status">
-    <b>Sunucu:</b> <span id="status-text">Kontrol ediliyor...</span><br>
-    Oyuncu: <span id="player-count">-</span>
-  </div>
-</div>
-
-<script>
-/* LOGIN */
-const user = localStorage.getItem("loginUser");
-if (user) {
-  profileBar.style.display = "flex";
-  mc-name.innerText = user;
-  mc-head.src = "https://mc-heads.net/avatar/" + user + "/64";
-}
-
-/* NAV */
-function go(page) {
-  document.body.style.opacity = "0";
-  setTimeout(() => location.href = page, 300);
-}
-
-function logout() {
-  localStorage.removeItem("loginUser");
-  location.reload();
-}
-
-/* SERVER STATUS */
-async function checkServer() {
-  try {
-    const r = await fetch("https://api.mcstatus.io/v2/status/java/193.164.4.244:25565",{cache:"no-store"});
-    const d = await r.json();
-    status-text.innerText = d.online ? "🟢 AÇIK" : "🔴 KAPALI";
-    player-count.innerText = d.online ? d.players.online+" / "+d.players.max : "0";
-  } catch {
-    status-text.innerText = "🔴 KAPALI";
-    player-count.innerText = "0";
-  }
-}
-checkServer();
-setInterval(checkServer,15000);
-
-/* COPY IP */
-function copyIP() {
-  navigator.clipboard.writeText(server-ip.innerText);
-  const n=document.createElement("div");
-  n.className="notif";
-  n.innerText="IP kopyalandı";
-  document.body.appendChild(n);
-  setTimeout(()=>n.remove(),2000);
-}
-</script>
 
 </body>
 </html>
