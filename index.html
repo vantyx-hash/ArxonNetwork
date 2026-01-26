@@ -303,9 +303,7 @@ async function serverStatus(){
 }
 serverStatus();
 setInterval(serverStatus,10000);
-</script>
-
-<script>
+  <script>
 async function registerCount(){
   await fetch("https://api.countapi.xyz/hit/arxon/register");
   const r=await fetch("https://api.countapi.xyz/get/arxon/register");
@@ -314,6 +312,17 @@ async function registerCount(){
 }
 registerCount();
 </script>
+<script>
+const glow = document.getElementById("cursor-glow");
+
+document.addEventListener("mousemove", e => {
+  glow.style.left = e.clientX + "px";
+  glow.style.top  = e.clientY + "px";
+});
+</script>
+
+</script>
+
 
 </body>
 </html>
