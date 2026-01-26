@@ -241,3 +241,115 @@
   function showRegisterSuccess(msg){ const m=document.getElementById('registerMessage'); m.className='success-message'; m.textContent=msg; m.style.display='block'; }
 
   /* ===== LOGIN ===== */
+  <section id="loginSection" class="page-section" style="display:block;">
+  <div class="container">
+    <h1>GİRİŞ YAP</h1>
+    <form id="loginForm">
+      <div class="form-group">
+        <label>Kullanıcı Adı</label>
+        <input type="text" id="login-username" class="form-input" required>
+      </div>
+      <div class="form-group">
+        <label>Şifre</label>
+        <input type="password" id="login-password" class="form-input" required>
+      </div>
+      <div id="loginMessage" class="error-message"></div>
+      <button type="submit" class="btn btn-auth">GİRİŞ YAP</button>
+      <p>Hesabın yok mu? <a href="#" onclick="showSection('registerSection')">Kayıt Ol</a></p>
+    </form>
+  </div>
+</section>
+
+<!-- REGISTER SECTION -->
+<section id="registerSection" class="page-section">
+  <div class="container">
+    <h1>KAYIT OL</h1>
+    <form id="registerForm">
+      <div class="form-group">
+        <label>Kullanıcı Adı</label>
+        <input type="text" id="reg-username" class="form-input" placeholder="3-16 karakter" required>
+        <small class="form-hint">3-16 karakter, alfanumerik</small>
+      </div>
+      <div class="form-group">
+        <label>E-posta Adresi</label>
+        <input type="email" id="reg-email" class="form-input" placeholder="email@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>Şifre</label>
+        <input type="password" id="reg-password" class="form-input" placeholder="En az 8 karakter" minlength="8" required>
+      </div>
+      <div class="form-group">
+        <label>Şifre Tekrar</label>
+        <input type="password" id="reg-password-confirm" class="form-input" placeholder="Şifreni tekrar gir" minlength="8" required>
+      </div>
+      <div class="form-options">
+        <label><input type="checkbox" id="terms" required> Kullanım şartlarını kabul ediyorum</label>
+      </div>
+      <div id="registerMessage" class="error-message"></div>
+      <button type="submit" class="btn btn-auth">KAYIT OL</button>
+      <p>Zaten hesabın var mı? <a href="#" onclick="showSection('loginSection')">Giriş Yap</a></p>
+    </form>
+  </div>
+</section>
+
+<!-- PANEL SECTION -->
+<section id="panelSection" class="page-section">
+  <div class="container">
+    <h1>PROFİLİM</h1>
+    <div class="panel-header">
+      <div class="user-card">
+        <img src="https://crafatar.com/avatars/steve?overlay" alt="Avatar" class="user-avatar-large" id="panelAvatar">
+        <div class="user-info-main">
+          <h2 id="panelUsername">Username</h2>
+          <div class="user-badges">
+            <span class="badge badge-vip" id="vipBadge" style="display:none;">⭐ VIP</span>
+            <span class="badge badge-member">👤 Üye</span>
+          </div>
+          <p>Kayıt: <span id="panelRegDate"></span></p>
+        </div>
+      </div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-value" id="statPlaytime">0 saat</div>
+        <div class="stat-label">Oynama Süresi</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-value" id="statLevel">1</div>
+        <div class="stat-label">Seviye</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-icon">💎</div>
+        <div class="stat-value" id="statBoxmines">0</div>
+        <div class="stat-label">BoxMine Sayısı</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// SHOW SECTION
+function showSection(id) {
+  document.querySelectorAll('.page-section').forEach(sec => sec.style.display='none');
+  document.getElementById(id).style.display='block';
+}
+
+// LOCALSTORAGE FUNCTIONS
+function isLoggedIn() { return localStorage.getItem('arxon_logged_in')==='true'; }
+function getCurrentUser() {
+  const username = localStorage.getItem('arxon_current_user');
+  if(!username) return null;
+  const users = JSON.parse(localStorage.getItem('arxon_users')||'{}');
+  return users[username];
+}
+function logout() {
+  if(confirm('Çıkış yapmak istediğinize emin misiniz?')) {
+    localStorage.removeItem('arxon_logged_in');
+    localStorage.removeItem('arxon_current_user');
+    showSection('loginSection');
+    updateHeader();
+  }
+}
+function updateHeader() {
