@@ -2,142 +2,270 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<title>Arxon Network</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arxon NW - Minecraft Sunucusu</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body { font-family: 'Inter', sans-serif; }
-.hero-bg {
-  background: url('https://images.unsplash.com/photo-1611078489191-9f5e3173c31d?fit=crop&w=1920&h=1080') center/cover no-repeat;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
-.toast {
-  position: fixed;
-  top: 20px;
-  right: -400px;
-  background: #111;
+
+body {
+  height: 100vh;
+  background: url("https://i.imgur.com/gIxuS6G.png") center/cover no-repeat fixed;
+  overflow: hidden;
   color: white;
-  padding: 15px 25px;
-  border-radius: 12px;
-  z-index: 9999;
-  transition: right 0.3s;
-  border-left: 4px solid #00d9ff;
 }
-.toast.show { right: 20px; }
+
+/* PARTİCLES */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* NAVBAR */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 25px;
+  z-index: 10;
+}
+
+.nav-left, .nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navbar button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* CENTER */
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+  text-align: center;
+}
+
+.logo {
+  width: 200px;
+  margin-bottom: 20px;
+}
+
+.ip-box {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.copy-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: black;
+  padding: 15px 25px;
+  border-radius: 8px;
+  display: none;
+  z-index: 999;
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.popup-box {
+  background: #111;
+  padding: 25px;
+  width: 300px;
+  border-radius: 10px;
+}
+
+.popup-box input {
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px;
+}
+
+.popup-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+/* DUYURULAR */
+.announcements {
+  position: fixed;
+  inset: 0;
+  background: #0b0b0b;
+  display: none;
+  z-index: 15;
+  padding: 80px 20px;
+}
+
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+/* DISCORD */
+.discord {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.discord img {
+  width: 32px;
+}
 </style>
 </head>
 
-<body class="bg-black text-white">
+<body>
 
-<!-- NAVBAR -->
-<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
-  <div class="container mx-auto px-4 flex justify-between items-center h-16">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center font-bold">A</div>
-      <span class="font-bold text-xl hidden md:block">Arxon NW</span>
-    </div>
+<canvas id="particles"></canvas>
 
-    <div class="hidden md:flex space-x-4">
-      <a href="#" class="hover:text-cyan-400">🏠 Anasayfa</a>
-      <a href="#store" class="hover:text-cyan-400">🛒 Mağaza</a>
-      <button onclick="openAnnouncements()" class="hover:text-cyan-400">📢 Duyurular</button>
-      <a href="#support" class="hover:text-cyan-400">🎧 Destek</a>
-    </div>
-
-    <div class="hidden md:flex space-x-2">
-      <button onclick="showToast('Login yakında')" class="hover:text-cyan-400">Giriş</button>
-      <button onclick="showToast('Register yakında')" class="bg-cyan-500 px-4 py-2 rounded">Kayıt</button>
-    </div>
+<div class="navbar">
+  <div class="nav-left">
+    <button onclick="openAnnouncements()">Duyurular</button>
   </div>
-</nav>
 
-<!-- HERO -->
-<section class="relative min-h-screen flex items-center justify-center hero-bg">
-  <div class="absolute inset-0 bg-black/70"></div>
-  <div class="relative z-10 text-center px-4">
-    <h1 class="text-6xl font-bold mb-4">Arxon NW</h1>
-    <p class="text-gray-300 mb-6">Kurt sürüsüne katıl. Güçlen.</p>
-
-    <div class="flex gap-4 justify-center">
-      <button class="bg-cyan-500 px-6 py-3 rounded">Giriş Yap</button>
-      <button class="border border-cyan-500 px-6 py-3 rounded">Kayıt Ol</button>
-    </div>
-
-    <div onclick="copyIP()" class="mt-6 cursor-pointer bg-gray-900 px-6 py-3 rounded inline-flex gap-2">
-      <span>IP:</span><span class="text-cyan-400 font-bold">193.164.4.244</span>
-    </div>
+  <div class="nav-right" id="authButtons">
+    <button onclick="openLogin()">Giriş</button>
+    <button onclick="openRegister()">Kayıt</button>
   </div>
-</section>
 
-<!-- STORE -->
-<section id="store" class="container mx-auto px-4 py-16">
-  <h2 class="text-3xl font-bold mb-6">🛒 Mağaza</h2>
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="bg-gray-900 p-4 rounded">
-      <h3 class="font-bold">VIP+</h3>
-      <p class="text-cyan-400">110 Kredi</p>
-      <button class="mt-3 bg-cyan-500 w-full py-2 rounded">Satın Al</button>
-    </div>
+  <div class="nav-right" id="logoutBtn" style="display:none">
+    <button onclick="logout()">Çıkış Yap</button>
   </div>
-</section>
+</div>
 
-<!-- DUYURULAR (SEKME GİBİ) -->
-<section id="announcements" class="hidden fixed inset-0 bg-black z-50 overflow-y-auto pt-24 px-4">
-  <div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-3xl font-bold text-cyan-400">📢 Duyurular</h2>
-      <button onclick="closeAnnouncements()" class="text-gray-400 hover:text-white text-xl">✖</button>
-    </div>
+<div class="center">
+  <img class="logo" src="https://i.imgur.com/g8QXjvO.png">
+  <div class="ip-box" onclick="copyIP()">play.boxmining.xyz</div>
+  <div>Online: 123 kişi</div>
 
-    <div class="space-y-6">
-      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
-        <h3 class="text-xl font-bold">🔥 BoxMining Sezonu Açıldı</h3>
-        <p class="text-gray-300 mt-2">
-          Yeni sezon başladı. Özel eventler ve ödüller aktif.
-        </p>
-        <div class="text-xs text-gray-500 mt-3">12 Ocak 2026</div>
-      </div>
-
-      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
-        <h3 class="text-xl font-bold">🛠 Bakım Duyurusu</h3>
-        <p class="text-gray-300 mt-2">
-          Sunucu 02:00 - 02:30 arası bakımdadır.
-        </p>
-        <div class="text-xs text-gray-500 mt-3">10 Ocak 2026</div>
-      </div>
-    </div>
+  <div class="discord" style="margin-top:20px">
+    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png">
+    <a href="https://discord.gg/HEEPr9k9uD" target="_blank">Discord’a Katıl</a>
+    <small>Discord Daveti: discord.gg/HEEPr9k9uD</small>
   </div>
-</section>
+</div>
 
-<!-- FOOTER -->
-<footer class="bg-black border-t border-gray-800 py-8 text-center text-gray-400">
-  © 2025 Arxon NW
-</footer>
+<div class="copy-alert" id="copyAlert">IP KOPYALANDI</div>
 
-<!-- TOAST -->
-<div id="toast" class="toast"></div>
+<!-- LOGIN -->
+<div class="popup" id="login">
+  <div class="popup-box">
+    <h3>Giriş</h3>
+    <input placeholder="Kullanıcı Adı">
+    <input type="password" placeholder="Şifre">
+    <button onclick="login()">Giriş Yap</button>
+  </div>
+</div>
+
+<!-- REGISTER -->
+<div class="popup" id="register">
+  <div class="popup-box">
+    <h3>Kayıt Ol</h3>
+    <input placeholder="Kullanıcı Adı">
+    <input type="password" placeholder="Şifre">
+    <button onclick="login()">Kayıt Ol</button>
+  </div>
+</div>
+
+<!-- DUYURULAR -->
+<div class="announcements" id="announcements">
+  <button class="back-btn" onclick="closeAnnouncements()">← Geri</button>
+  <h2>Duyurular</h2>
+  <p>BoxMining Season başladı. Gir oyna, kaz.</p>
+</div>
 
 <script>
-function showToast(msg){
-  const t = document.getElementById("toast");
-  t.innerText = msg;
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2500);
+function copyIP() {
+  navigator.clipboard.writeText("play.boxmining.xyz");
+  document.getElementById("copyAlert").style.display = "block";
+  setTimeout(()=>{document.getElementById("copyAlert").style.display="none"},1500);
 }
 
-function copyIP(){
-  navigator.clipboard.writeText("193.164.4.244");
-  showToast("IP kopyalandı");
+function openLogin(){document.getElementById("login").style.display="flex"}
+function openRegister(){document.getElementById("register").style.display="flex"}
+
+function login(){
+  document.getElementById("login").style.display="none";
+  document.getElementById("register").style.display="none";
+  document.getElementById("authButtons").style.display="none";
+  document.getElementById("logoutBtn").style.display="flex";
+}
+
+function logout(){
+  document.getElementById("authButtons").style.display="flex";
+  document.getElementById("logoutBtn").style.display="none";
 }
 
 function openAnnouncements(){
-  document.getElementById("announcements").classList.remove("hidden");
+  document.getElementById("announcements").style.display="block";
 }
 
 function closeAnnouncements(){
-  document.getElementById("announcements").classList.add("hidden");
+  document.getElementById("announcements").style.display="none";
 }
+
+/* PARTICLES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = Array.from({length:60},()=>({
+  x: Math.random()*canvas.width,
+  y: Math.random()*canvas.height,
+  r: Math.random()*2+1,
+  dx: Math.random()-0.5,
+  dy: Math.random()-0.5
+}));
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="rgba(255,255,255,0.6)";
+  particles.forEach(p=>{
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>canvas.width) p.dx*=-1;
+    if(p.y<0||p.y>canvas.height) p.dy*=-1;
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
