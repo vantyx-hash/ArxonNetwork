@@ -2,263 +2,119 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8" />
-<title>ValeronMC Server</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Areon MC</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family: Inter, Arial, sans-serif;
-  color:#fff;
-  background:#000;
-}
-
-/* ARKA PLAN: TEK SATÜRN */
-.bg{
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at center, rgba(0,0,0,.15), #000 70%),
-    url("https://images.wallpapersden.com/image/download/saturn-planet-4k_bGZlZ2mUmZqaraWkpJRmZ21lrWxnZQ.jpg")
-      no-repeat center center;
-  background-size:cover;
-  z-index:-1;
-}
-
-/* NAVBAR (ATTIGIN FOTOYLA AYNI STIL) */
-.navbar{
-  height:72px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 32px;
-  background:rgba(0,0,0,.7);
-  backdrop-filter: blur(14px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-}
-.nav-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.brand{
-  font-weight:600;
-  font-size:18px;
-}
-.nav-center a{
-  margin:0 14px;
-  color:#d7d7d7;
-  text-decoration:none;
-  font-size:14.5px;
-}
-.nav-center a:hover{color:#4cc9ff}
-.nav-right a{
-  margin-left:10px;
-  padding:8px 16px;
-  border-radius:10px;
-  text-decoration:none;
-  font-size:14px;
-}
-.login{background:#111;color:#fff}
-.register{
-  background:linear-gradient(135deg,#2afcff,#1f6bff);
-  color:#000;
-}
-
-/* HERO */
-.hero{
-  min-height:calc(100vh - 72px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-/* SOL STATUS */
-.status{
-  position:absolute;
-  top:36px; left:36px;
-  padding:16px 22px;
-  border-radius:18px;
-  backdrop-filter: blur(14px);
-  background:rgba(10,20,30,.55);
-  border:1px solid rgba(42,252,255,.35);
-  box-shadow:0 0 30px rgba(42,252,255,.15);
-  font-size:14px;
-}
-
-/* SAĞ DISCORD */
-.discord{
-  position:absolute;
-  top:36px; right:36px;
-  padding:16px 22px;
-  border-radius:18px;
-  background:linear-gradient(135deg,#5865F2,#404EED);
-  color:#fff;
-  text-decoration:none;
-  font-weight:600;
-  box-shadow:0 0 30px rgba(88,101,242,.45);
-}
-
-/* ORTA KART */
-.center{
-  text-align:center;
-  padding:48px 64px;
-  border-radius:30px;
-  backdrop-filter: blur(18px);
-  background:rgba(0,0,0,.45);
-  box-shadow:0 0 70px rgba(0,0,0,.65);
-}
-
-/* BUZ KURTBAŞI LOGO (INLINE SVG) */
-.logo-wrap{
-  width:120px; height:120px;
-  margin:0 auto 18px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%, #b8f7ff, #2afcff 40%, #1f6bff 75%);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 40px rgba(42,252,255,.6);
-}
-.logo-wrap svg{width:78px;height:78px}
-
-.center h1{
-  margin:10px 0 6px;
-  font-size:40px;
-}
-.center p{color:#cfcfcf}
-
-/* BUTONLAR */
-.actions{margin-top:26px}
-.actions button{
-  padding:14px 34px;
-  margin:0 8px;
-  border-radius:18px;
-  border:none;
-  cursor:pointer;
-  font-size:15px;
-}
-.btn-login{
-  background:linear-gradient(135deg,#2afcff,#1f6bff);
-  color:#000;
-}
-.btn-register{
-  background:transparent;
-  color:#2afcff;
-  border:1px solid rgba(42,252,255,.6);
-}
-
-/* IP */
-.ip{
-  margin-top:26px;
-  padding:14px 22px;
-  border-radius:18px;
-  display:inline-flex;
-  gap:12px;
-  align-items:center;
-  backdrop-filter: blur(12px);
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.15);
-}
-.ip span{color:#2afcff}
-.ip button{
-  background:none;border:none;color:#fff;cursor:pointer
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:#05070a;color:#fff}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:#000}
+.nav-left{display:flex;align-items:center;gap:12px}
+.logo{width:40px;height:40px;border-radius:10px;background:#1ea7ff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.menu{display:flex;gap:25px}
+.menu a{color:#cfd8dc;text-decoration:none;font-size:14px}
+.menu a:hover{color:#1ea7ff}
+.nav-right{display:flex;gap:12px}
+.btn{padding:10px 18px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+.btn-login{background:#0f172a;color:#1ea7ff;border:1px solid #1ea7ff}
+.btn-register{background:#1ea7ff;color:#000}
+.hero{min-height:90vh;display:flex;align-items:center;justify-content:center;position:relative;text-align:center;background:radial-gradient(circle at center,#1b2735 0%,#05070a 60%)}
+.planet{position:absolute;width:520px;height:520px;border-radius:50%;background:linear-gradient(135deg,#7a5cff,#1ea7ff);opacity:.15}
+.hero-card{position:relative;z-index:2}
+.avatar{width:80px;height:80px;border-radius:50%;background:#1ea7ff;margin:0 auto 15px auto;display:flex;align-items:center;justify-content:center;font-weight:700}
+.hero h1{font-size:42px;margin-bottom:10px}
+.hero p{opacity:.7;margin-bottom:25px}
+.hero-buttons{display:flex;justify-content:center;gap:15px;margin-bottom:20px}
+.copy{background:#0f172a;border:1px solid #1ea7ff;padding:10px 18px;border-radius:8px;color:#1ea7ff;font-size:14px}
+.box-left{position:absolute;left:20px;top:120px;background:#0f172a;padding:14px 18px;border-radius:10px;font-size:13px;border:1px solid #1ea7ff}
+.box-right{position:absolute;right:20px;top:120px;background:#1e40af;padding:14px 18px;border-radius:10px;font-size:13px}
+.news{padding:60px 80px}
+.news h2{font-size:26px;margin-bottom:25px}
+.news-card{display:flex;gap:20px;background:#0b1220;border-radius:18px;padding:20px;align-items:center}
+.news-img{width:260px;height:160px;background:#1e293b;border-radius:14px}
+.news-content h3{color:#1ea7ff;margin-bottom:10px}
+.news-content p{opacity:.7;font-size:14px;margin-bottom:15px}
+.read-btn{background:#1ea7ff;color:#000;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+.footer{background:#000;padding:40px 80px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;font-size:14px}
+.footer h4{margin-bottom:12px;color:#1ea7ff}
+.footer a{display:block;color:#cfd8dc;text-decoration:none;margin-bottom:6px;font-size:13px}
+.footer a:hover{color:#1ea7ff}
+.bottom{grid-column:1/5;text-align:center;margin-top:30px;font-size:12px;opacity:.5}
 </style>
 </head>
-
 <body>
-<div class="bg"></div>
 
-<!-- NAVBAR -->
-<div class="navbar">
+<div class="nav">
   <div class="nav-left">
-    <div class="logo-wrap" style="width:36px;height:36px;box-shadow:none">
-      <!-- mini kurt -->
-      <svg viewBox="0 0 64 64" fill="none">
-        <path d="M12 40 L20 16 L32 24 L44 16 L52 40 L32 52 Z"
-              fill="#e9fbff"/>
-        <path d="M26 34 L30 36 L26 38 ZM38 34 L34 36 L38 38 Z"
-              fill="#1f6bff"/>
-      </svg>
-    </div>
-    <div class="brand">ValeronMC</div>
+    <div class="logo">A</div>
+    <strong>Areon Mc</strong>
   </div>
-
-  <div class="nav-center">
+  <div class="menu">
     <a href="#">Anasayfa</a>
     <a href="#">Mağaza</a>
     <a href="#">Yardım</a>
     <a href="#">Destek</a>
   </div>
-
-  <div class="nav-right" id="auth-buttons">
-  <a class="login" href="login.html">Giriş Yap</a>
-  <a class="register" href="register.html">Kayıt Ol</a>
-</div>
-
-<div class="nav-right" id="logout-button" style="display:none">
-  <a class="register" href="#" onclick="logout()">Logout</a>
-</div>
-
-</div>
-
-<!-- HERO -->
-<div class="hero">
-
-  <div class="status">
-    <div id="st">Kontrol ediliyor</div>
-    <div id="pl">Oyuncu: -</div>
-    <small>193.164.4.244</small>
-  </div>
-
-  <a class="discord" href="#">BİZE KATIL<br><small>DISCORD</small></a>
-
-  <div class="center">
-    <div class="logo-wrap">
-      <!-- BUZ KURTBAŞI -->
-      <svg viewBox="0 0 64 64" fill="none">
-        <path d="M8 42 L18 10 L32 20 L46 10 L56 42 L32 58 Z"
-              fill="#e9fbff"/>
-        <path d="M26 36 L30 38 L26 40 ZM38 36 L34 38 L38 40 Z"
-              fill="#1f6bff"/>
-        <path d="M24 46 L32 48 L40 46"
-              stroke="#1f6bff" stroke-width="2" />
-      </svg>
-    </div>
-
-    <h1>ValeronMC Server</h1>
-    <p>Topluluğumuza katılmak için giriş yap veya kayıt ol</p>
-
-    <div class="actions">
-      <button class="btn-login">Giriş Yap</button>
-      <button class="btn-register">Kayıt Ol</button>
-    </div>
-
-    <div class="ip">
-      <span id="ip">193.164.4.244</span>
-      <button onclick="copyIP()">📋</button>
-    </div>
+  <div class="nav-right">
+    <button class="btn btn-login">Giriş Yap</button>
+    <button class="btn btn-register">Kayıt Ol</button>
   </div>
 </div>
 
-<script>
-const IP="193.164.4.244", PORT="25565";
-async function check(){
-  try{
-    const r=await fetch(`https://api.mcstatus.io/v2/status/java/${IP}:${PORT}`,{cache:"no-store"});
-    const d=await r.json();
-    if(d.online){
-      st.textContent="Sunucu Açık";
-      pl.textContent=`Oyuncu: ${d.players.online} / ${d.players.max}`;
-    } else throw "";
-  }catch{
-    st.textContent="Sunucu Kapalı";
-    pl.textContent="Oyuncu: 0";
-  }
-}
-check(); setInterval(check,15000);
-function copyIP(){navigator.clipboard.writeText(IP)}
-</script>
+<section class="hero">
+  <div class="planet"></div>
+
+  <div class="box-left">0 OYUNCU AKTİF<br>areonmc.aternos.me:55716</div>
+  <div class="box-right">BİZE KATIL<br>discord.gg/areonhq</div>
+
+  <div class="hero-card">
+    <div class="avatar">A</div>
+    <h1>Areon Mc</h1>
+    <p>Topluluğumuza katılmak için lütfen giriş yapın veya kaydolun.</p>
+    <div class="hero-buttons">
+      <button class="btn btn-register">Giriş Yap</button>
+      <button class="btn btn-login">Kayıt Ol</button>
+    </div>
+    <div class="copy">Sunucu Adresini Kopyala: areonmc.aternos.me:55716</div>
+  </div>
+</section>
+
+<section class="news">
+  <h2>Son Haberler</h2>
+  <div class="news-card">
+    <div class="news-img"></div>
+    <div class="news-content">
+      <h3>Boxmining Düello Güncellemesi!</h3>
+      <p>Duel sistemi güncellendi. Sunucuda yepyeni 1v1 düello sistemi aktif edildi...</p>
+      <a href="#" class="read-btn">Devamını Oku</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>
+    <h4>Hakkımızda</h4>
+    <a href="#">Yönetim</a>
+    <a href="#">Ekip</a>
+  </div>
+  <div>
+    <h4>Hızlı Menü</h4>
+    <a href="#">Anasayfa</a>
+    <a href="#">Mağaza</a>
+    <a href="#">Destek</a>
+  </div>
+  <div>
+    <h4>Sosyal Medya</h4>
+    <a href="#">YouTube</a>
+    <a href="#">Discord</a>
+  </div>
+  <div>
+    <h4>Bağlantılar</h4>
+    <a href="#">KVKK</a>
+    <a href="#">Gizlilik</a>
+  </div>
+  <div class="bottom">© 2026 Areon MC - Tüm hakları saklıdır.</div>
+</footer>
+
 </body>
 </html>
