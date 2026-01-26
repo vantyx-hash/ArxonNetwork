@@ -3,130 +3,109 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arxon NW - Minecraft Sunucusu</title>
+<title>Arxon NW</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-body { font-family: 'Inter', sans-serif; overflow-x:hidden; }
-.hero-bg { background: linear-gradient(90deg, #000, #111); position:relative; }
-@keyframes spin-slow { 0%{transform: rotate(0deg);} 100%{transform: rotate(360deg);} }
-#saturn { position:absolute; width:200px; height:200px; top:10%; left:50%; margin-left:-100px; animation: spin-slow 60s linear infinite; border-radius:50%; }
-#boxminingInfo { position:fixed; bottom:120px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.7); color:white; padding:10px 20px; border-radius:12px; display:none;}
-#discordFloat { position:fixed; bottom:20px; right:20px; background:#5865F2; color:white; padding:10px 15px; border-radius:8px; display:none;}
-.modal-bg { position:fixed; inset:0; background:black/70; display:none; justify-center; items-center; z-index:60; }
-.modal { background:#111; padding:30px; border-radius:12px; width:90%; max-width:400px; text-align:center; }
+body { font-family: 'Inter', sans-serif; background-color:#0f0f0f; }
+.modal { background-color: rgba(0,0,0,0.7); backdrop-filter: blur(4px); }
 </style>
 </head>
-<body class="bg-black text-white">
+<body class="text-white">
 
 <!-- Navbar -->
-<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-gray-800 p-2 flex justify-between items-center">
-  <div class="flex items-center space-x-2">
-    <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex justify-center items-center font-bold">A</div>
-    <span class="hidden md:block font-bold text-xl">Arxon NW</span>
-  </div>
-  <div class="space-x-2" id="authButtons">
-    <button onclick="openModal('login')" class="px-3 py-1 hover:bg-gray-800/50 rounded">Giriş</button>
-    <button onclick="openModal('register')" class="px-3 py-1 rounded bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600">Kayıt</button>
-  </div>
-  <div id="logoutBtn" class="hidden">
-    <button onclick="logout()" class="px-3 py-1 rounded bg-red-600 hover:bg-red-700">Çıkış</button>
+<nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+  <div class="container mx-auto px-4 flex justify-between items-center h-16">
+    <a href="#" class="flex items-center space-x-2">
+      <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center font-bold">A</div>
+      <span class="hidden md:block font-bold text-xl">Arxon NW</span>
+    </a>
+
+    <div class="hidden md:flex items-center space-x-2">
+      <button id="loginBtn" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-cyan-600 transition-all">🔑 Giriş Yap</button>
+      <button id="registerBtn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 transition-all">✨ Kayıt Ol</button>
+      <button id="logoutBtn" class="px-4 py-2 rounded-lg bg-red-600 hidden">🚪 Çıkış Yap</button>
+    </div>
+
+    <div class="md:hidden flex space-x-2">
+      <button id="loginBtnMobile" class="px-4 py-2 rounded-lg bg-gray-800 hover:bg-cyan-600 transition-all">🔑</button>
+      <button id="registerBtnMobile" class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 transition-all">✨</button>
+      <button id="logoutBtnMobile" class="px-4 py-2 rounded-lg bg-red-600 hidden">🚪</button>
+    </div>
   </div>
 </nav>
 
 <!-- Hero -->
-<section id="hero" class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-  <!-- Satürn -->
-  <img id="saturn" src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg" class="shadow-2xl">
-
-  <!-- Hero Content -->
-  <div class="relative z-10 text-center px-4">
+<div class="relative min-h-screen flex items-center justify-center">
+  <div class="absolute inset-0 bg-black/70"></div>
+  <div class="relative z-10 text-center">
     <h1 class="text-5xl font-bold mb-4">Arxon NW</h1>
-    <p class="text-gray-300 mb-8">Boxmining düelloları ve eğlenceli Minecraft deneyimi!</p>
-
-    <div class="flex gap-4 justify-center" id="heroButtons">
-      <button onclick="openModal('login')" class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg">Giriş Yap</button>
-      <button onclick="openModal('register')" class="px-8 py-4 border-2 border-cyan-500 rounded-lg">Kayıt Ol</button>
-    </div>
-
-    <!-- Support / Help kutuları -->
-    <div class="flex gap-4 justify-center mt-6">
-      <div class="bg-gray-900/70 p-4 rounded-lg hover:bg-gray-800/80 transition-all">
-        <h3 class="font-bold text-cyan-400">Support</h3>
-        <p class="text-gray-300 text-sm">Her zaman yanınızdayız, Discord üzerinden destek alabilirsiniz.</p>
-      </div>
-      <div class="bg-gray-900/70 p-4 rounded-lg hover:bg-gray-800/80 transition-all">
-        <h3 class="font-bold text-cyan-400">Help</h3>
-        <p class="text-gray-300 text-sm">Boxmining ile 1v1 düello sistemi hakkında bilgiler.</p>
-      </div>
-    </div>
+    <p class="text-gray-300 mb-8">Topluluğumuza katılmak için giriş yap veya kayıt ol.</p>
   </div>
-</section>
-
-<!-- Boxmining Info -->
-<div id="boxminingInfo">
-  ⚔️ Boxmining Düelloları Aktif! /duel &lt;oyuncu&gt;
 </div>
 
-<!-- Discord float -->
-<div id="discordFloat">
-  💬 <a href="https://discord.gg/waREnQHqzj" target="_blank">Discord'a Katıl!</a>
-</div>
+<!-- Login/Register Modal -->
+<div id="loginPanel" class="hidden fixed inset-0 flex justify-center items-center modal z-50">
+  <div class="bg-gray-900 p-8 rounded-lg w-full max-w-md text-center">
+    <h2 class="text-2xl font-bold mb-4">Giriş / Kayıt</h2>
+    
+    <div id="loginForm">
+      <input type="text" placeholder="Kullanıcı Adı" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <input type="password" placeholder="Şifre" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <button id="loginSubmit" class="w-full bg-cyan-500 hover:bg-cyan-400 py-3 rounded-lg mt-2">Giriş Yap</button>
+    </div>
 
-<!-- Modal -->
-<div id="modalBg" class="modal-bg flex">
-  <div class="modal">
-    <h2 id="modalTitle" class="text-2xl font-bold mb-4">Giriş</h2>
-    <input id="username" type="text" placeholder="Kullanıcı Adı" class="w-full p-2 mb-3 rounded bg-gray-800 border border-gray-700 text-white">
-    <input id="password" type="password" placeholder="Şifre" class="w-full p-2 mb-4 rounded bg-gray-800 border border-gray-700 text-white">
-    <button id="modalSubmit" class="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded mb-2">Giriş Yap</button>
-    <button onclick="closeModal()" class="w-full py-2 bg-gray-800 rounded">İptal</button>
+    <div id="registerForm" class="hidden mt-4">
+      <input type="text" placeholder="Kullanıcı Adı" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <input type="password" placeholder="Şifre" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <input type="email" placeholder="E-posta" class="w-full mb-3 p-3 rounded bg-gray-800 text-white">
+      <button id="registerSubmit" class="w-full bg-blue-500 hover:bg-blue-400 py-3 rounded-lg mt-2">Kayıt Ol</button>
+    </div>
+
+    <button id="closePanel" class="mt-4 text-gray-400 hover:text-white">✖ Kapat</button>
   </div>
 </div>
 
 <script>
-let loggedIn = false;
+// Panel toggle
+const loginPanel = document.getElementById('loginPanel');
+const loginBtn = document.getElementById('loginBtn');
+const registerBtn = document.getElementById('registerBtn');
+const loginBtnMobile = document.getElementById('loginBtnMobile');
+const registerBtnMobile = document.getElementById('registerBtnMobile');
+const logoutBtn = document.getElementById('logoutBtn');
+const logoutBtnMobile = document.getElementById('logoutBtnMobile');
+const closePanel = document.getElementById('closePanel');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
 
-function openModal(type){
-  document.getElementById('modalBg').style.display='flex';
-  const title = type==='login' ? 'Giriş Yap' : 'Kayıt Ol';
-  document.getElementById('modalTitle').innerText = title;
-  document.getElementById('modalSubmit').innerText = title;
-}
+loginBtn.addEventListener('click', ()=>{loginPanel.classList.remove('hidden'); loginForm.classList.remove('hidden'); registerForm.classList.add('hidden');});
+registerBtn.addEventListener('click', ()=>{loginPanel.classList.remove('hidden'); loginForm.classList.add('hidden'); registerForm.classList.remove('hidden');});
+loginBtnMobile.addEventListener('click', ()=>{loginPanel.classList.remove('hidden'); loginForm.classList.remove('hidden'); registerForm.classList.add('hidden');});
+registerBtnMobile.addEventListener('click', ()=>{loginPanel.classList.remove('hidden'); loginForm.classList.add('hidden'); registerForm.classList.remove('hidden');});
 
-function closeModal(){
-  document.getElementById('modalBg').style.display='none';
-}
+closePanel.addEventListener('click', ()=>{loginPanel.classList.add('hidden');});
 
-function loginUser(){
-  loggedIn = true;
-  document.getElementById('authButtons').style.display='none';
-  document.getElementById('logoutBtn').style.display='inline-block';
-  document.getElementById('heroButtons').style.display='none';
-  closeModal();
-}
-
-function logout(){
-  loggedIn = false;
-  document.getElementById('authButtons').style.display='inline-flex';
-  document.getElementById('logoutBtn').style.display='none';
-  document.getElementById('heroButtons').style.display='flex';
-}
-
-// Fake login/register
-document.getElementById('modalSubmit').addEventListener('click', loginUser);
-
-// Scroll ile Boxmining ve Discord göster
-window.addEventListener('scroll', ()=>{
-  let scrollY = window.scrollY;
-  if(scrollY>200){
-    document.getElementById('boxminingInfo').style.display='block';
-    document.getElementById('discordFloat').style.display='block';
-  } else {
-    document.getElementById('boxminingInfo').style.display='none';
-    document.getElementById('discordFloat').style.display='none';
-  }
+// Login/Register simülasyonu
+document.getElementById('loginSubmit').addEventListener('click', ()=>{
+    loginPanel.classList.add('hidden');
+    loginBtn.classList.add('hidden'); registerBtn.classList.add('hidden');
+    loginBtnMobile.classList.add('hidden'); registerBtnMobile.classList.add('hidden');
+    logoutBtn.classList.remove('hidden'); logoutBtnMobile.classList.remove('hidden');
 });
+
+document.getElementById('registerSubmit').addEventListener('click', ()=>{
+    loginPanel.classList.add('hidden');
+    loginBtn.classList.add('hidden'); registerBtn.classList.add('hidden');
+    loginBtnMobile.classList.add('hidden'); registerBtnMobile.classList.add('hidden');
+    logoutBtn.classList.remove('hidden'); logoutBtnMobile.classList.remove('hidden');
+});
+
+// Logout
+logoutBtn.addEventListener('click', ()=>{logoutBtn.classList.add('hidden'); logoutBtnMobile.classList.add('hidden'); loginBtn.classList.remove('hidden'); registerBtn.classList.remove('hidden'); loginBtnMobile.classList.remove('hidden'); registerBtnMobile.classList.remove('hidden');});
+logoutBtnMobile.addEventListener('click', ()=>{logoutBtn.classList.add('hidden'); logoutBtnMobile.classList.add('hidden'); loginBtn.classList.remove('hidden'); registerBtn.classList.remove('hidden'); loginBtnMobile.classList.remove('hidden'); registerBtnMobile.classList.remove('hidden');});
 </script>
 
 </body>
