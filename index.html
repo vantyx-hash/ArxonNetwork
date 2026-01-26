@@ -3,147 +3,141 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arxon NW | Minecraft Network</title>
-
-<!-- Tailwind CDN -->
+<title>Arxon NW - Minecraft Sunucusu</title>
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- Font -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-  body { font-family: 'Orbitron', sans-serif; }
-  .hero-bg {
-    background-image:
-      linear-gradient(to bottom, rgba(5,8,20,.85), rgba(5,8,20,.95)),
-      url("https://images.unsplash.com/photo-1611078489191-9f5e3173c31d?fit=crop&w=1920&h=1080");
-    background-size: cover;
-    background-position: center;
-  }
-  .glow {
-    text-shadow: 0 0 15px #00d9ff;
-  }
+body { font-family: 'Inter', sans-serif; }
+.hero-bg {
+  background: url('https://images.unsplash.com/photo-1611078489191-9f5e3173c31d?fit=crop&w=1920&h=1080') center/cover no-repeat;
+}
+.toast {
+  position: fixed;
+  top: 20px;
+  right: -400px;
+  background: #111;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  z-index: 9999;
+  transition: right 0.3s;
+  border-left: 4px solid #00d9ff;
+}
+.toast.show { right: 20px; }
 </style>
 </head>
 
-<body class="bg-[#050814] text-white">
+<body class="bg-black text-white">
 
 <!-- NAVBAR -->
-<nav class="fixed top-0 w-full z-50 bg-black/70 backdrop-blur border-b border-cyan-500/20">
-  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 bg-cyan-400 rounded-lg flex items-center justify-center font-black text-black">A</div>
-      <span class="font-bold text-xl">ARXON NW</span>
+<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+  <div class="container mx-auto px-4 flex justify-between items-center h-16">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center font-bold">A</div>
+      <span class="font-bold text-xl hidden md:block">Arxon NW</span>
     </div>
-    <div class="hidden md:flex gap-6 text-sm">
-      <a href="#home" class="hover:text-cyan-400">Ana Sayfa</a>
-      <a href="#store" class="hover:text-cyan-400">Store</a>
-      <a href="#help" class="hover:text-cyan-400">Yardım</a>
-      <a href="#support" class="hover:text-cyan-400">Support</a>
+
+    <div class="hidden md:flex space-x-4">
+      <a href="#" class="hover:text-cyan-400">🏠 Anasayfa</a>
+      <a href="#store" class="hover:text-cyan-400">🛒 Mağaza</a>
+      <button onclick="openAnnouncements()" class="hover:text-cyan-400">📢 Duyurular</button>
+      <a href="#support" class="hover:text-cyan-400">🎧 Destek</a>
     </div>
-    <div id="authButtons" class="flex gap-2">
-      <button onclick="openModal('login')" class="px-4 py-2 text-sm hover:text-cyan-400">Giriş</button>
-      <button onclick="openModal('register')" class="px-4 py-2 text-sm bg-cyan-500 text-black rounded hover:bg-cyan-400">Kayıt</button>
+
+    <div class="hidden md:flex space-x-2">
+      <button onclick="showToast('Login yakında')" class="hover:text-cyan-400">Giriş</button>
+      <button onclick="showToast('Register yakında')" class="bg-cyan-500 px-4 py-2 rounded">Kayıt</button>
     </div>
-    <button id="logoutBtn" onclick="logout()" class="hidden px-4 py-2 text-sm bg-red-500 rounded">Logout</button>
   </div>
 </nav>
 
 <!-- HERO -->
-<section id="home" class="hero-bg min-h-screen flex items-center justify-center text-center px-6">
-  <div class="mt-16">
-    <img src="https://i.imgur.com/g8QXjvO.png" class="w-48 mx-auto mb-6 drop-shadow-[0_0_30px_#00d9ff]">
-    <h1 class="text-4xl md:text-6xl font-black glow mb-4">Kurt sürüsüne katıl. Güçlen.</h1>
-    <p class="text-gray-300 mb-8">BoxMining • Survival • PvP • Etkinlikler</p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <button onclick="copyIP()" class="px-8 py-4 bg-cyan-500 text-black font-bold rounded hover:scale-105 transition">IP Kopyala</button>
-      <a href="https://discord.gg/HEEPr9k9uD" target="_blank" class="px-8 py-4 border border-cyan-400 rounded hover:bg-cyan-400/10">Discord</a>
+<section class="relative min-h-screen flex items-center justify-center hero-bg">
+  <div class="absolute inset-0 bg-black/70"></div>
+  <div class="relative z-10 text-center px-4">
+    <h1 class="text-6xl font-bold mb-4">Arxon NW</h1>
+    <p class="text-gray-300 mb-6">Kurt sürüsüne katıl. Güçlen.</p>
+
+    <div class="flex gap-4 justify-center">
+      <button class="bg-cyan-500 px-6 py-3 rounded">Giriş Yap</button>
+      <button class="border border-cyan-500 px-6 py-3 rounded">Kayıt Ol</button>
+    </div>
+
+    <div onclick="copyIP()" class="mt-6 cursor-pointer bg-gray-900 px-6 py-3 rounded inline-flex gap-2">
+      <span>IP:</span><span class="text-cyan-400 font-bold">193.164.4.244</span>
     </div>
   </div>
 </section>
 
 <!-- STORE -->
-<section id="store" class="max-w-7xl mx-auto px-6 py-20">
-  <h2 class="text-3xl font-bold mb-10 text-cyan-400">Store</h2>
+<section id="store" class="container mx-auto px-4 py-16">
+  <h2 class="text-3xl font-bold mb-6">🛒 Mağaza</h2>
   <div class="grid md:grid-cols-3 gap-6">
-    <div class="bg-[#0f172a] p-6 rounded-xl border border-cyan-500/20">
-      <h3 class="font-bold text-xl mb-2">VIP</h3>
-      <p class="text-cyan-400 mb-4">₺100</p>
-      <button class="w-full bg-cyan-500 text-black py-2 rounded">Satın Al</button>
-    </div>
-    <div class="bg-[#0f172a] p-6 rounded-xl border border-cyan-500/20">
-      <h3 class="font-bold text-xl mb-2">VIP+</h3>
-      <p class="text-cyan-400 mb-4">₺200</p>
-      <button class="w-full bg-cyan-500 text-black py-2 rounded">Satın Al</button>
-    </div>
-    <div class="bg-[#0f172a] p-6 rounded-xl border border-cyan-500/20">
-      <h3 class="font-bold text-xl mb-2">MVP</h3>
-      <p class="text-cyan-400 mb-4">₺350</p>
-      <button class="w-full bg-cyan-500 text-black py-2 rounded">Satın Al</button>
+    <div class="bg-gray-900 p-4 rounded">
+      <h3 class="font-bold">VIP+</h3>
+      <p class="text-cyan-400">110 Kredi</p>
+      <button class="mt-3 bg-cyan-500 w-full py-2 rounded">Satın Al</button>
     </div>
   </div>
 </section>
 
-<!-- HELP -->
-<section id="help" class="bg-black/40 py-16 px-6 text-center">
-  <h2 class="text-3xl font-bold text-cyan-400 mb-4">Yardım</h2>
-  <p>syvex_1234</p>
-</section>
+<!-- DUYURULAR (SEKME GİBİ) -->
+<section id="announcements" class="hidden fixed inset-0 bg-black z-50 overflow-y-auto pt-24 px-4">
+  <div class="max-w-4xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold text-cyan-400">📢 Duyurular</h2>
+      <button onclick="closeAnnouncements()" class="text-gray-400 hover:text-white text-xl">✖</button>
+    </div>
 
-<!-- SUPPORT -->
-<section id="support" class="py-16 px-6 text-center">
-  <h2 class="text-3xl font-bold text-cyan-400 mb-4">Support</h2>
-  <p>Destek için Discord üzerinden ticket açabilirsin.</p>
+    <div class="space-y-6">
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+        <h3 class="text-xl font-bold">🔥 BoxMining Sezonu Açıldı</h3>
+        <p class="text-gray-300 mt-2">
+          Yeni sezon başladı. Özel eventler ve ödüller aktif.
+        </p>
+        <div class="text-xs text-gray-500 mt-3">12 Ocak 2026</div>
+      </div>
+
+      <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+        <h3 class="text-xl font-bold">🛠 Bakım Duyurusu</h3>
+        <p class="text-gray-300 mt-2">
+          Sunucu 02:00 - 02:30 arası bakımdadır.
+        </p>
+        <div class="text-xs text-gray-500 mt-3">10 Ocak 2026</div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- FOOTER -->
-<footer class="bg-black border-t border-cyan-500/10 py-6 text-center text-gray-400 text-sm">
-  © 2026 Arxon NW
+<footer class="bg-black border-t border-gray-800 py-8 text-center text-gray-400">
+  © 2025 Arxon NW
 </footer>
 
-<!-- LOGIN / REGISTER MODAL -->
-<div id="modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
-  <div class="bg-[#0f172a] p-8 rounded-xl w-full max-w-sm border border-cyan-500/30">
-    <h3 id="modalTitle" class="text-xl font-bold mb-4"></h3>
-    <input id="username" placeholder="Kullanıcı Adı" class="w-full mb-3 p-2 rounded bg-black border border-gray-700">
-    <input id="password" type="password" placeholder="Şifre" class="w-full mb-4 p-2 rounded bg-black border border-gray-700">
-    <button onclick="submitAuth()" class="w-full bg-cyan-500 text-black py-2 rounded">Devam</button>
-    <button onclick="closeModal()" class="w-full mt-2 text-sm text-gray-400">Kapat</button>
-  </div>
-</div>
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
 
 <script>
-let mode = "login";
+function showToast(msg){
+  const t = document.getElementById("toast");
+  t.innerText = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
 
-function openModal(type){
-  mode = type;
-  document.getElementById("modalTitle").innerText =
-    type === "login" ? "Giriş Yap" : "Kayıt Ol";
-  document.getElementById("modal").classList.remove("hidden");
-  document.getElementById("modal").classList.add("flex");
-}
-function closeModal(){
-  document.getElementById("modal").classList.add("hidden");
-}
-function submitAuth(){
-  localStorage.setItem("user", document.getElementById("username").value);
-  closeModal();
-  updateAuthUI();
-}
-function logout(){
-  localStorage.removeItem("user");
-  updateAuthUI();
-}
-function updateAuthUI(){
-  const user = localStorage.getItem("user");
-  document.getElementById("authButtons").style.display = user ? "none" : "flex";
-  document.getElementById("logoutBtn").style.display = user ? "block" : "none";
-}
 function copyIP(){
   navigator.clipboard.writeText("193.164.4.244");
-  alert("IP kopyalandı");
+  showToast("IP kopyalandı");
 }
-updateAuthUI();
+
+function openAnnouncements(){
+  document.getElementById("announcements").classList.remove("hidden");
+}
+
+function closeAnnouncements(){
+  document.getElementById("announcements").classList.add("hidden");
+}
 </script>
 
 </body>
