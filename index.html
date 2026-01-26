@@ -5,47 +5,23 @@
 <title>Arxon NW</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:#020617;
-  color:white;
-}
-nav{
-  background:rgba(0,0,0,.6);
-  padding:15px 25px;
-  display:flex;
-  justify-content:space-between;
-}
-input,button{
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  border-radius:8px;
-  border:none;
-}
-button{
-  background:#0ea5e9;
-  color:black;
-  font-weight:bold;
-  cursor:pointer;
-}
-button:hover{opacity:.9}
-.box{
-  max-width:400px;
-  margin:40px auto;
-  background:#020617;
-  border:1px solid #0ea5e9;
-  padding:20px;
-  border-radius:12px;
-}
+body{margin:0;font-family:Arial;background:#020617;color:white}
+nav{display:flex;justify-content:space-between;align-items:center;
+background:rgba(0,0,0,.6);padding:15px 25px}
+a,button{color:white;background:none;border:none;cursor:pointer;font-size:16px}
+button.primary{background:#0ea5e9;color:black;padding:8px 14px;border-radius:8px}
+section{padding:40px;text-align:center}
 .hidden{display:none}
-.card{
-  border:1px solid #0ea5e9;
-  padding:10px;
-  border-radius:8px;
-  margin-bottom:8px;
+.modal{
+position:fixed;inset:0;background:rgba(0,0,0,.7);
+display:flex;align-items:center;justify-content:center
 }
+.box{
+background:#020617;border:1px solid #0ea5e9;
+padding:25px;border-radius:12px;width:320px
+}
+input{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:none}
+.card{border:1px solid #0ea5e9;padding:10px;border-radius:8px;margin:10px 0}
 </style>
 </head>
 
@@ -53,126 +29,119 @@ button:hover{opacity:.9}
 
 <nav>
   <b>Arxon NW</b>
-  <div id="navBtn"></div>
+  <div id="navBtns">
+    <button onclick="openLogin()">Giriş Yap</button>
+    <button class="primary" onclick="openRegister()">Kayıt Ol</button>
+  </div>
 </nav>
 
-<!-- AUTH -->
-<div id="auth" class="box">
-  <h2>Giriş</h2>
-  <input id="loginUser" placeholder="Kullanıcı adı">
-  <input id="loginPass" type="password" placeholder="Şifre">
-  <button onclick="login()">Giriş Yap</button>
+<!-- ANA SAYFA -->
+<section>
+  <h1>Arxon NW Minecraft Sunucusu</h1>
+  <p>IP: <b>193.164.4.244</b></p>
+</section>
 
-  <hr style="margin:20px 0;border-color:#0ea5e9">
+<!-- MAĞAZA -->
+<section id="store" class="hidden">
+  <h2>Mağaza</h2>
+  <div class="card">VIP+ – 110 Kredi</div>
+</section>
 
-  <h2>Kayıt Ol</h2>
-  <input id="regUser" placeholder="Kullanıcı adı">
-  <input id="regPass" type="password" placeholder="Şifre">
-  <button onclick="register()">Kayıt Ol</button>
+<!-- DUYURULAR -->
+<section id="ann" class="hidden">
+  <h2>Duyurular</h2>
+  <div id="annList"></div>
+  <div id="adminBox" class="hidden">
+    <input id="annText" placeholder="Duyuru yaz">
+    <button class="primary" onclick="addAnn()">Gönder</button>
+  </div>
+</section>
 
-  <p id="msg"></p>
+<!-- LOGIN -->
+<div id="loginModal" class="modal hidden">
+  <div class="box">
+    <h3>Giriş Yap</h3>
+    <input id="loginUser" placeholder="Kullanıcı">
+    <input id="loginPass" type="password" placeholder="Şifre">
+    <button class="primary" onclick="login()">Giriş</button>
+    <button onclick="closeAll()">İptal</button>
+  </div>
 </div>
 
-<!-- PANEL -->
-<div id="panel" class="box hidden">
-  <h2>Hoş geldin <span id="who"></span></h2>
-
-  <div id="adminPanel" class="hidden">
-    <h3>Duyuru At (syvex)</h3>
-    <input id="annText" placeholder="Duyuru yaz">
-    <button onclick="addAnn()">Gönder</button>
+<!-- REGISTER -->
+<div id="registerModal" class="modal hidden">
+  <div class="box">
+    <h3>Kayıt Ol</h3>
+    <input id="regUser" placeholder="Kullanıcı">
+    <input id="regPass" type="password" placeholder="Şifre">
+    <button class="primary" onclick="register()">Kayıt</button>
+    <button onclick="closeAll()">İptal</button>
   </div>
-
-  <h3>Duyurular</h3>
-  <div id="anns"></div>
-
-  <button onclick="logout()">Çıkış</button>
 </div>
 
 <script>
-// -------- INIT --------
+// INIT
 if(!localStorage.users){
-  localStorage.users = JSON.stringify({
+  localStorage.users=JSON.stringify({
     syvex:{password:"1234",role:"admin"}
-  });
+  })
 }
-if(!localStorage.anns){
-  localStorage.anns="[]";
+if(!localStorage.anns){localStorage.anns="[]"}
+
+// MODALS
+function openLogin(){loginModal.classList.remove("hidden")}
+function openRegister(){registerModal.classList.remove("hidden")}
+function closeAll(){
+  loginModal.classList.add("hidden")
+  registerModal.classList.add("hidden")
 }
 
-// -------- AUTH --------
+// AUTH
 function login(){
-  const u=loginUser.value;
-  const p=loginPass.value;
-  const users=JSON.parse(localStorage.users);
-
-  if(!users[u] || users[u].password!==p){
-    msg.innerText="Hatalı kullanıcı veya şifre";
-    return;
-  }
-  localStorage.currentUser=u;
-  loadPanel();
+  const u=loginUser.value,p=loginPass.value
+  const users=JSON.parse(localStorage.users)
+  if(!users[u]||users[u].password!==p)return alert("Hatalı")
+  localStorage.currentUser=u
+  location.reload()
 }
 
 function register(){
-  const u=regUser.value;
-  const p=regPass.value;
-  const users=JSON.parse(localStorage.users);
-
-  if(!u || !p){
-    msg.innerText="Boş bırakma";
-    return;
-  }
-  if(users[u]){
-    msg.innerText="Bu kullanıcı var";
-    return;
-  }
-
-  users[u]={password:p,role:"user"};
-  localStorage.users=JSON.stringify(users);
-  localStorage.currentUser=u;
-  loadPanel();
+  const u=regUser.value,p=regPass.value
+  const users=JSON.parse(localStorage.users)
+  if(users[u])return alert("Var")
+  users[u]={password:p,role:"user"}
+  localStorage.users=JSON.stringify(users)
+  localStorage.currentUser=u
+  location.reload()
 }
 
 function logout(){
-  localStorage.removeItem("currentUser");
-  location.reload();
+  localStorage.removeItem("currentUser")
+  location.reload()
 }
 
-// -------- PANEL --------
-function loadPanel(){
-  auth.classList.add("hidden");
-  panel.classList.remove("hidden");
+// PANEL
+const u=localStorage.currentUser
+if(u){
+  navBtns.innerHTML=`<button onclick="logout()">Çıkış Yap</button>`
+  store.classList.remove("hidden")
+  ann.classList.remove("hidden")
 
-  const u=localStorage.currentUser;
-  who.innerText=u;
-
-  const users=JSON.parse(localStorage.users);
+  const users=JSON.parse(localStorage.users)
   if(users[u].role==="admin"){
-    adminPanel.classList.remove("hidden");
+    adminBox.classList.remove("hidden")
   }
 
-  loadAnns();
-}
-
-function loadAnns(){
-  anns.innerHTML="";
   JSON.parse(localStorage.anns).forEach(a=>{
-    anns.innerHTML+=`<div class="card">${a}</div>`;
-  });
+    annList.innerHTML+=`<div class="card">${a}</div>`
+  })
 }
 
 function addAnn(){
-  const arr=JSON.parse(localStorage.anns);
-  arr.unshift(annText.value);
-  localStorage.anns=JSON.stringify(arr);
-  annText.value="";
-  loadAnns();
-}
-
-// -------- AUTO --------
-if(localStorage.currentUser){
-  loadPanel();
+  const arr=JSON.parse(localStorage.anns)
+  arr.unshift(annText.value)
+  localStorage.anns=JSON.stringify(arr)
+  location.reload()
 }
 </script>
 
