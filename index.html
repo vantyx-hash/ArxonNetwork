@@ -1,477 +1,165 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Arxon Network | Minecraft Sunucusu</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Header Test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 
-  <style>
-    :root{
-      --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      --purple: #9b5cff;
-      --pink: #ff5fd7;
-      --blue: #4dd0ff;
-      --dark: #0b0b16;
-      --card: rgba(20,20,40,0.85);
-      --text: #eaeaff;
-      --muted: #a0a0c0;
-      --green: #3dff9a;
-      --red: #ff4d4d;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:#000;
+  font-family:Poppins,sans-serif;
+}
 
-    *{
-      box-sizing: border-box;
-      margin:0;
-      padding:0;
-    }
+/* HEADER */
+.header{
+  position:relative;
+  height:240px;
+  overflow:hidden;
+  background:
+    linear-gradient(135deg, rgba(20,10,40,.9), rgba(10,10,25,.9)),
+    url("https://images.unsplash.com/photo-1601758123927-196c13a3cdb0") center/cover;
+}
 
-    html{
-      scroll-behavior: smooth;
-    }
+/* PARTICLES */
+canvas{
+  position:absolute;
+  inset:0;
+  z-index:1;
+}
 
-    body{
-      font-family: 'Poppins', sans-serif;
-      min-height:100vh;
-      background: var(--bg-gradient);
-      color: var(--text);
-    }
+/* CONTENT */
+.header-content{
+  position:relative;
+  z-index:2;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 60px;
+  color:#fff;
+}
 
-    a{
-      color:inherit;
-      text-decoration:none;
-      cursor:pointer;
-    }
+/* LEFT / RIGHT */
+.info{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:rgba(0,0,0,.45);
+  padding:16px 20px;
+  border-radius:18px;
+  backdrop-filter: blur(6px);
+}
 
-    /* NAVBAR */
-    .navbar{
-      position:sticky;
-      top:0;
-      z-index:1000;
-      background: linear-gradient(90deg, #1b163a, #2e2469);
-      box-shadow: 0 8px 30px rgba(155,92,255,0.35);
-    }
+.info img{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+}
 
-    .nav-inner{
-      max-width:1200px;
-      margin:auto;
-      padding:14px 20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:20px;
-      flex-wrap:wrap;
-    }
+.info h4{
+  font-size:16px;
+}
+.info p{
+  font-size:13px;
+  opacity:.7;
+}
 
-    .nav-logo{
-      font-weight:800;
-      font-size:22px;
-      background: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
+/* CENTER LOGO */
+.center-logo{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
 
-    .nav-links{
-      display:flex;
-      gap:16px;
-      flex-wrap:wrap;
-    }
+.center-logo img{
+  width:120px;
+  filter:
+    drop-shadow(0 0 15px #6cf)
+    drop-shadow(0 0 35px #8a5cff);
+}
 
-    .nav-links a{
-      font-size:14px;
-      opacity:.9;
-      transition:.2s;
-    }
-
-    .nav-links a:hover{
-      opacity:1;
-      color: var(--pink);
-    }
-
-    /* SECTIONS */
-    .container{
-      max-width:1100px;
-      margin:auto;
-      padding:60px 20px;
-    }
-
-    .section{
-      display:none;
-      animation: fade .35s ease;
-    }
-
-    .section.active{
-      display:block;
-    }
-
-    @keyframes fade{
-      from{opacity:0; transform:translateY(10px)}
-      to{opacity:1; transform:none}
-    }
-
-    /* HERO */
-    .hero{
-      text-align:center;
-      margin-bottom:50px;
-    }
-
-    .hero h1{
-      font-size:52px;
-      font-weight:800;
-      line-height:1.1;
-      background: linear-gradient(90deg, var(--purple), var(--blue), var(--pink));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-    }
-
-    .hero p{
-      margin-top:12px;
-      font-size:18px;
-      color: var(--muted);
-    }
-
-    /* CARDS */
-    .card{
-      background: var(--card);
-      border-radius:20px;
-      padding:28px;
-      box-shadow: 0 0 35px rgba(155,92,255,0.35);
-      transition:.25s;
-    }
-
-    .card:hover{
-      transform: scale(1.04);
-      box-shadow: 0 0 55px rgba(155,92,255,0.6);
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-      gap:24px;
-    }
-
-    /* SERVER STATUS */
-    .status{
-      text-align:center;
-    }
-
-    .status h2{
-      font-size:24px;
-      margin-bottom:10px;
-    }
-
-    .status .online{
-      color: var(--green);
-      font-weight:700;
-    }
-
-    .status .offline{
-      color: var(--red);
-      font-weight:700;
-    }
-
-    .ip-box{
-      margin-top:16px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      align-items:center;
-    }
-
-    .ip{
-      font-weight:600;
-      letter-spacing:1px;
-    }
-
-    button{
-      background: linear-gradient(90deg, var(--purple), var(--pink));
-      border:none;
-      color:#fff;
-      padding:12px 18px;
-      border-radius:14px;
-      font-weight:600;
-      cursor:pointer;
-      transition:.2s;
-    }
-
-    button:hover{
-      transform:scale(1.05);
-      filter:brightness(1.1);
-    }
-
-    /* SHOP */
-    .price{
-      font-size:26px;
-      font-weight:800;
-      margin:10px 0;
-      color: var(--green);
-    }
-
-    ul{
-      margin-top:10px;
-      padding-left:18px;
-      color: var(--muted);
-      font-size:14px;
-    }
-
-    /* FORMS */
-    form{
-      max-width:420px;
-      margin:auto;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-
-    input, textarea{
-      padding:12px 14px;
-      border-radius:12px;
-      border:none;
-      outline:none;
-      background:#14142a;
-      color:#fff;
-      font-family:inherit;
-    }
-
-    textarea{
-      min-height:120px;
-      resize:vertical;
-    }
-
-    /* FAQ */
-    .faq-item{
-      margin-bottom:14px;
-    }
-
-    .faq-q{
-      cursor:pointer;
-      font-weight:600;
-      color: var(--purple);
-    }
-
-    .faq-a{
-      display:none;
-      font-size:14px;
-      color: var(--muted);
-      margin-top:6px;
-    }
-
-    /* FOOTER */
-    footer{
-      text-align:center;
-      padding:30px 10px;
-      color: var(--muted);
-      font-size:14px;
-    }
-
-    /* MOBILE */
-    @media(max-width:600px){
-      .hero h1{font-size:38px}
-      .nav-links{justify-content:center}
-    }
-  </style>
+/* RESPONSIVE */
+@media(max-width:800px){
+  .header-content{padding:20px}
+  .center-logo img{width:90px}
+}
+</style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="nav-inner">
-    <div class="nav-logo">Arxon Network</div>
-    <div class="nav-links">
-      <a onclick="showSection('home')">Ana Sayfa</a>
-      <a onclick="showSection('shop')">Mağaza</a>
-      <a onclick="showSection('help')">Yardım</a>
-      <a onclick="showSection('login')">Giriş Yap</a>
-      <a onclick="showSection('register')">Kayıt Ol</a>
-      <a onclick="showSection('support')">Destek/Ticket</a>
-      <a onclick="showSection('privacy')">Gizlilik</a>
-      <a onclick="showSection('kvkk')">KVKK</a>
+<header class="header">
+  <canvas id="particles"></canvas>
+
+  <div class="header-content">
+    <!-- LEFT -->
+    <div class="info">
+      <img src="https://cdn-icons-png.flaticon.com/512/919/919827.png">
+      <div>
+        <h4>play.vironcraft.com</h4>
+        <p>25 Kişi Oyunda</p>
+      </div>
+    </div>
+
+    <!-- CENTER LOGO -->
+    <div class="center-logo">
+      <!-- BURAYA KURT LOGONU KOY -->
+      <img src="https://i.imgur.com/4Z7w0kY.png" alt="Wolf Logo">
+    </div>
+
+    <!-- RIGHT -->
+    <div class="info">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png">
+      <div>
+        <h4>Discord</h4>
+        <p>-- / -- Çevrimiçi</p>
+      </div>
     </div>
   </div>
-</nav>
-
-<div class="container">
-
-  <!-- HOME -->
-  <section id="home" class="section active">
-    <div class="hero">
-      <h1>Arxon Network</h1>
-      <p>Her zaman en iyisi!</p>
-    </div>
-
-    <div class="grid">
-      <div class="card status">
-        <h2>Sunucu Durumu</h2>
-        <div id="serverStatus">Yükleniyor...</div>
-        <div class="ip-box">
-          <div class="ip">193.164.4.244</div>
-          <button onclick="copyIP()">Sunucu Adresini Kopyala</button>
-        </div>
-        <p id="motd" style="margin-top:12px;font-size:13px;color:var(--muted)"></p>
-      </div>
-
-      <div class="card status">
-        <h2>Discord</h2>
-        <p>Topluluğumuza katıl</p>
-        <a href="https://discord.gg/HEEPr9k9uD" target="_blank">
-          <button style="margin-top:14px">Discord Sunucusuna Katıl</button>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- SHOP -->
-  <section id="shop" class="section">
-    <h2 style="text-align:center;margin-bottom:30px">Alışverişe Başla!</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Elmas VIP+</h3>
-        <div class="price">149₺</div>
-        <ul>
-          <li>Özel sohbet rengi</li>
-          <li>VIP alanları</li>
-          <li>Ek /kit</li>
-        </ul>
-        <button style="margin-top:14px">Satın Al</button>
-      </div>
-
-      <div class="card">
-        <h3>Ultra VIP</h3>
-        <div class="price">249₺</div>
-        <ul>
-          <li>Tüm VIP+ özellikleri</li>
-          <li>Özel uçma</li>
-          <li>Ek kasa anahtarı</li>
-        </ul>
-        <button style="margin-top:14px">Satın Al</button>
-      </div>
-
-      <div class="card">
-        <h3>Legend</h3>
-        <div class="price">399₺</div>
-        <ul>
-          <li>Tüm özellikler</li>
-          <li>Özel eşyalar</li>
-          <li>Öncelikli destek</li>
-        </ul>
-        <button style="margin-top:14px">Satın Al</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- HELP -->
-  <section id="help" class="section">
-    <h2 style="text-align:center;margin-bottom:30px">Sana nasıl yardımcı olabiliriz?</h2>
-
-    <div class="card">
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFAQ(this)">Sunucuya nasıl girerim?</div>
-        <div class="faq-a">IP adresini kopyalayıp Minecraft'a girmen yeterli.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFAQ(this)">VIP aldım gelmedi</div>
-        <div class="faq-a">Destek bölümünden ticket açabilirsin.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFAQ(this)">Konu bulunamadı</div>
-        <div class="faq-a">Aradığın şey burada yok. Şimdilik.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LOGIN -->
-  <section id="login" class="section">
-    <h2 style="text-align:center;margin-bottom:30px">Giriş Yap</h2>
-    <form>
-      <input placeholder="Kullanıcı Adı veya E-posta">
-      <input type="password" placeholder="Şifre">
-      <button>Giriş Yap</button>
-    </form>
-  </section>
-
-  <!-- REGISTER -->
-  <section id="register" class="section">
-    <h2 style="text-align:center;margin-bottom:30px">Kayıt Ol</h2>
-    <form>
-      <input placeholder="Kullanıcı Adı">
-      <input placeholder="E-posta">
-      <input type="password" placeholder="Şifre">
-      <input type="password" placeholder="Şifre Tekrar">
-      <button>Kayıt Ol</button>
-    </form>
-  </section>
-
-  <!-- SUPPORT -->
-  <section id="support" class="section">
-    <h2 style="text-align:center;margin-bottom:30px">Destek Talebi Oluştur</h2>
-    <form>
-      <input placeholder="Konu">
-      <textarea placeholder="Mesajın"></textarea>
-      <button>Gönder</button>
-    </form>
-  </section>
-
-  <!-- PRIVACY -->
-  <section id="privacy" class="section">
-    <h2>Gizlilik Sözleşmesi - Arxon Network</h2>
-    <p>Bu metin örnek amaçlıdır. Kullanıcı bilgilerinin korunması bizim için önemlidir.</p>
-    <p>Toplanan veriler hizmet kalitesini artırmak için kullanılır.</p>
-    <p>Üçüncü şahıslarla paylaşım yapılmaz.</p>
-    <p>Yasal yükümlülükler saklıdır.</p>
-    <p>Detaylı bilgi için destek ekibimizle iletişime geçebilirsiniz.</p>
-  </section>
-
-  <!-- KVKK -->
-  <section id="kvkk" class="section">
-    <h2>Kişisel Verilerin Korunması ve İşlenmesi</h2>
-    <ol>
-      <li>Veri sorumlusu Arxon Network'tür.</li>
-      <li>Veriler hizmet sunumu amacıyla toplanır.</li>
-      <li>Hukuki yükümlülükler kapsamında saklanır.</li>
-      <li>Kullanıcılar haklarını destek birimi üzerinden kullanabilir.</li>
-    </ol>
-  </section>
-
-</div>
-
-<footer>
-  © 2026 Arxon Network
-</footer>
+</header>
 
 <script>
-  function showSection(id){
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo({top:0, behavior:'smooth'});
-  }
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let w,h,particles;
 
-  function copyIP(){
-    navigator.clipboard.writeText('193.164.4.244');
-    alert('IP kopyalandı!');
-  }
+function resize(){
+  w = canvas.width = window.innerWidth;
+  h = canvas.height = 240;
+}
+window.addEventListener("resize",resize);
+resize();
 
-  function toggleFAQ(el){
-    const a = el.nextElementSibling;
-    a.style.display = a.style.display === 'block' ? 'none' : 'block';
-  }
+particles = Array.from({length:60},()=>({
+  x:Math.random()*w,
+  y:Math.random()*h,
+  r:Math.random()*2+1,
+  dx:(Math.random()-.5)*0.4,
+  dy:(Math.random()-.5)*0.4,
+  c:Math.random()>0.5 ? "rgba(140,90,255,.8)" : "rgba(120,200,255,.8)"
+}));
 
-  // SERVER STATUS
-  fetch('https://api.mcsrvstat.us/3/193.164.4.244')
-    .then(r => r.json())
-    .then(d => {
-      const el = document.getElementById('serverStatus');
-      if(d.online){
-        el.innerHTML = `<span class="online">${d.players.online} oyuncu aktif</span>`;
-        document.getElementById('motd').innerText = d.motd?.clean?.join(' ') || '';
-      }else{
-        el.innerHTML = `<span class="offline">Sunucu Kapalı</span>`;
-      }
-    })
-    .catch(()=>{
-      document.getElementById('serverStatus').innerHTML = '<span class="offline">Durum alınamadı</span>';
-    });
+function animate(){
+  ctx.clearRect(0,0,w,h);
+  particles.forEach(p=>{
+    p.x+=p.dx; p.y+=p.dy;
+    if(p.x<0||p.x>w||p.y<0||p.y>h){
+      p.x=Math.random()*w;
+      p.y=Math.random()*h;
+    }
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.c;
+    ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
 </script>
 
 </body>
