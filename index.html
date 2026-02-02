@@ -1,349 +1,715 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Noxan Oyuncu - Kalitenin Yeni Adresi</title>
-  <style>
-    :root {
-      --primary: #00aaff;
-      --dark: #0d1117;
-      --gray: #161b22;
-      --light: #c9d1d9;
-      --green: #238636;
-    }
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--dark);
-      color: var(--light);
-      min-height: 100vh;
-    }
-    #loading-screen {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.8rem;
-      transition: opacity 0.8s;
-    }
-    #loading-screen.hidden { opacity: 0; pointer-events: none; }
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="LeaderOS">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?cache=1745847284">
 
-    header {
-      background: rgba(0,0,0,0.7);
-      padding: 1rem 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(8px);
-    }
-    .logo { font-size: 1.8rem; font-weight: bold; color: var(--primary); }
-    nav a {
-      color: var(--light);
-      margin: 0 1.2rem;
-      text-decoration: none;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    nav a:hover, nav a.active { color: var(--primary); }
+    <title>Avenor Craft - Kalitenin Adresi</title>
+    <meta name="description" content="Türkiye&#039;nin en iyi Boxmining deneyimini yaşamak için aramıza katılın! mc.AvenorCraft.com - 1.16.5 ve üzeri"/>
+    <link rel="canonical" href="https://avenorcraft.com"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Avenor Craft - Kalitenin Adresi"/>
+    <meta property="og:description" content="Türkiye&#039;nin en iyi Boxmining deneyimini yaşamak için aramıza katılın! mc.AvenorCraft.com - 1.16.5 ve üzeri"/>
+    <meta property="og:url" content="https://avenorcraft.com"/>
+    <meta property="og:site_name" content="Avenor Craft"/>
+    
+    <!-- CSRF -->
+    <meta name="csrf-token" content="d9c90e3258cde7df6e6c2dd557c0879a9ddaa1e4ad2273d7724a95fa97f63cbf">
 
-    .container { max-width: 1200px; margin: 0 auto; padding: 2rem 5%; }
-    .hidden { display: none !important; }
+    <!-- EXTRAS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.4.0/dist/select2-bootstrap4.min.css">
+    <link rel="stylesheet" href="https://npmcdn.com/flickity@2/dist/flickity.css">
 
-    .hero {
-      text-align: center;
-      padding: 6rem 1rem 4rem;
-      background: linear-gradient(rgba(0,170,255,0.08), transparent);
-    }
-    .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-    .hero .slogan { font-size: 1.6rem; color: var(--primary); margin-bottom: 2rem; }
-    .ip-box {
-      background: var(--gray);
-      padding: 1.5rem;
-      border-radius: 12px;
-      display: inline-block;
-      margin: 1.5rem 0;
-      font-size: 1.4rem;
-      border: 2px solid var(--primary);
-    }
-    .btn {
-      background: var(--primary);
-      color: white;
-      padding: 0.9rem 2rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      margin: 0.5rem;
-      transition: 0.3s;
-    }
-    .btn:hover { background: #0088cc; transform: translateY(-2px); }
+    <!-- THEMES -->
+    <link rel="stylesheet" type="text/css" href="/assets/gale/css/app.1745788049.css">
+    <link rel="stylesheet" type="text/css" href="/assets/gale/css/bootstrap-grid.min.1745788049.css">
 
-    .section { padding: 3rem 0; }
-    .card {
-      background: var(--gray);
-      padding: 2rem;
-      border-radius: 12px;
-      margin: 1.5rem 0;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    form { display: flex; flex-direction: column; gap: 1.2rem; }
-    input, button { padding: 0.9rem; border-radius: 6px; border: 1px solid #444; background: #0d1117; color: white; }
-    .balance { font-size: 1.4rem; color: gold; margin: 1rem 0; }
+    <link rel="stylesheet" type="text/css" href="/assets/gale/css/plugins/ckeditor/content-styles.1745788049.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.2/animations/scale.min.css"/>
 
-    footer {
-      text-align: center;
-      padding: 2rem;
-      background: #000;
-      margin-top: 4rem;
-      font-size: 0.9rem;
-      color: #888;
-    }
-  </style>
-</head>
-<body>
+    <!-- AlpineJS Plugins -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs-collapse/3.14.8/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
 
-<!-- Yükleme / Güvenlik Ekranı -->
-<div id="loading-screen">
-  <div>Güvenlik Kontrolü Yapılıyor...</div>
-  <div style="margin-top:1rem;font-size:1.1rem;">Noxan Oyuncu'ya Hoş Geldiniz • Lütfen bekleyin</div>
-</div>
+    <!-- AlpineJS Core -->
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+    <!-- Fast Average Color Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/fast-average-color@9.4.0/dist/index.browser.min.js"></script>
 
-<header>
-  <div class="logo">Noxan Oyuncu</div>
-  <nav>
-    <a data-page="home" class="active">Ana Sayfa</a>
-    <a data-page="store">Mağaza</a>
-    <a data-page="credits-charge">Kredi Yükle</a>
-    <a data-page="profile">Profil</a>
-    <a data-page="settings">Ayarlar</a>
-    <a data-page="help">Yardım</a>
-    <span id="user-status">Misafir</span>
-  </nav>
+    <script src="/assets/gale/js/theme.1745788049.js"></script>
+
+    <!-- THEME SETTINGS -->
+        <style>
+        :root {
+        --color-indigo-50: 255 247 237;--color-indigo-100: 255 237 213;--color-indigo-200: 254 215 170;--color-indigo-300: 253 186 116;--color-indigo-400: 251 146 60;--color-indigo-500: 249 115 22;--color-indigo-600: 234 88 12;--color-indigo-700: 194 65 12;--color-indigo-800: 154 52 18;--color-indigo-900: 124 45 18;--color-voon-950: 8 8 8;
+          --color-voon-900: 10 10 10;
+          --color-voon-800: 14 14 14;
+          --color-voon-700: 18 18 18;
+          --color-voon-background: 18 18 18;
+          --color-voon-card: 14 14 14;
+          --color-neutral-900: 23 23 23;
+          --color-zinc-600: 82 82 91;        }
+    </style>
+
+        
+    <!-- CUSTOM CSS -->
+    <style type="text/css">
+            </style>
+
+    <!-- ROLE CSS -->
+    <style type="text/css">
+                
+                        
+                    </style>
+
+    </head>
+<body x-data="body">
+<div id="app">
+    
+    <div x-cloak class="fixed inset-0 flex z-[101]" x-show="profileMenu"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 translate-x-full"
+         x-transition:enter-end="opacity-100 translate-x-0"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="opacity-100 translate-x-0"
+         x-transition:leave-end="opacity-0 translate-x-full">
+        <div @click="toggleProfileMenu()" class="absolute z-10 inset-0 bg-black/50 backdrop-blur-[1px]"></div>
+        <div class="grow"></div>
+        <div class="bg-voon-700 lg:rounded-l-[3rem] w-full lg:w-1/2 h-full relative z-20">
+            <div class="absolute inset-0 bg-voon-900/50"></div>
+            <div class="relative z-10 flex h-full">
+                <div class="grow relative overflow-hidden p-12">
+                    <div class="hidden lg:block">
+                        <div class="absolute -top-32 -left-32 w-80 h-80 border border-indigo-500/10 rounded-full"></div>
+                        <div class="absolute -top-32 -left-32 w-56 h-56 border border-indigo-500/20 rounded-full"></div>
+                        <div class="flex justify-between items-center relative z-10">
+                            <div class="flex gap-8">
+                                <img
+        class="avatar lazyload rounded-2xl h-fit"
+        data-src="https://minotar.net/helm/Syvex/128.png"
+        src="/assets/core/images/loaders/head.png"
+    alt="Syvex"    width="56"    height="56">                                <div>
+                                    <div class="text-2xl font-medium text-white">
+                                        Syvex                                    </div>
+                                    <span class="text-sm text-gray-400">
+                                        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c5a6acaba4b7a0a3a0acaba6a0aaa2a9b085a2a8a4aca9eba6aaa8">[email&#160;protected]</a>                                    </span>
+                                </div>
+                            </div>
+                            <div class="flex gap-5">
+                                <form action="/logout/" method="post">
+                                    <input type="hidden" name="csrf_token" value="d9c90e3258cde7df6e6c2dd557c0879a9ddaa1e4ad2273d7724a95fa97f63cbf">                                    <button class="px-2 py-4 flex gap-3 group items-center">
+                                        <span class="text-red-400/75 text-sm relative transition-all transform group-hover:-translate-x-2 group-hover:text-red-400">Çıkış Yap</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- Contents -->
+                        <div class="mt-16 h-100 z-10">
+                            <div x-transition:enter="transition ease-out duration-300"
+                                 x-transition:enter-start="opacity-0 -translate-x-full"
+                                 x-transition:enter-end="opacity-100 translate-x-0">
+                                <div class="text-sm text-gray-200 uppercase font-medium tracking-wide">Özet</div>
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6 rounded-xl">
+                                    	                                    <div class="rounded-xl flex flex-col gap-3 items-center justify-center h-36 transition bg-emerald-500/5 hover:bg-emerald-500/10">
+		                                    <p class="font-bold text-2xl text-emerald-500 text-center">
+			                                    0.00 Kredi		                                    </p>
+		                                    <span class="text-sm uppercase font-semibold border-emerald-200/50 border-t-2 pt-2 text-white/75">kredi</span>
+	                                    </div>
+                                                                        <div class="rounded-xl flex flex-col gap-3 items-center justify-center h-36 transition bg-orange-500/5 hover:bg-orange-500/10">
+                                                                                <p class="font-bold text-lg text-orange-500 text-center">cinarefeinceoglu                                            <small class="text-xs block font-medium">@gmail.com</small>
+                                        </p>
+                                        <span class="text-sm uppercase font-semibold border-orange-200/50 border-t-2 pt-2 text-white/75">E-Posta</span>
+                                    </div>
+                                </div>
+                                                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:hidden">
+                        <div>
+                            <div @click="toggleProfileMenu()" class="flex items-center rounded-xl py-3 px-6 gap-2 justify-center transition-all hover:gap-4 hover:bg-red-500 bg-red-500/20 text-white/75 hover:text-white">
+                                <i class="fas fa-times text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <div class="text-xl font-medium text-white">
+                                Syvex                            </div>
+                            <span class="text-sm text-gray-400">
+                                <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="781b1116190a1d1e1d11161b1d171f140d381f15191114561b1715">[email&#160;protected]</a>                            </span>
+                            <div class="mt-4 rounded-xl flex flex-col gap-3 items-center justify-center h-36 transition bg-emerald-500/5 hover:bg-emerald-500/10">
+                                <p class="font-bold text-2xl text-emerald-500 text-center">
+                                    0.00 Kredi                                </p>
+                                <span class="text-sm uppercase font-semibold border-emerald-200/50 border-t-2 pt-2 text-white/75">kredi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shrink-0 pt-10 w-32 bg-indigo-900/25 h-full flex items-center justify-center relative z-20">
+                    <div class="grid divide-y divide-indigo-500/25 relative">
+                        <a href="/profile/" class="p-6" x-tooltip.animation.scale.placement.left.raw="Profil">
+                            <i class="fas fa-user text-lg text-white"></i>
+                        </a>
+                                                    <a href="/chest/" class="p-6" x-tooltip.animation.scale.placement.left.raw="Sandık">
+                                <i class="fas fa-archive text-lg text-white"></i>
+                            </a>
+                                                                                                    <a href="/gifts/" class="p-6" x-tooltip.animation.scale.placement.left.raw="Hediye">
+                                <i class="fas fa-gift text-lg text-white"></i>
+                            </a>
+                                                                                                                        <form action="/logout/" method="post">
+                            <input type="hidden" name="csrf_token" value="d9c90e3258cde7df6e6c2dd557c0879a9ddaa1e4ad2273d7724a95fa97f63cbf">                            <button type="submit" class="p-6" x-tooltip.animation.scale.placement.left.raw="Çıkış Yap">
+                                <i class="fas fa-sign-out text-lg text-white"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<header id="header" class="hidden sm:block">
+    <div class="section flex justify-between items-center py-3">
+        <div class="flex gap-20 items-center">
+            <a href="/">
+                <img class="h-[5.5rem]" src="/assets/core/images/uploads/59a78fcd28e2a280769bc1538eef106a.png?cache=1745847284" alt="Avenor Craft - Logo">
+            </a>
+            <nav class="gap-6 lg:flex">
+                                                            <a href="/" class="nav-item mr-2 active" >
+                            Ana Sayfa                        </a>
+                                                                                <a href="/store" class="nav-item mr-2 " >
+                            Mağaza                        </a>
+                                                                                <a href="/help" class="nav-item mr-2 " >
+                            Yardım                        </a>
+                                                                                <a href="/credits/charge" class="nav-item mr-2 " >
+                            Kredi Yükle                        </a>
+                                                                                <a href="/credits/send" class="nav-item mr-2 " >
+                            Kredi Gönder                        </a>
+                                                </nav>
+        </div>
+        <div>
+                            <div class="flex items-center divide-x-2 divide-voon-700">
+                                            <a href="/cart/" class="cursor-pointer pr-6 relative">
+                            <i class="fas fa-basket-shopping text-white text-2xl"></i>
+                            <div class="rounded-full flex items-center justify-center w-5 h-5 bg-emerald-500 text-white text-xs font-medium absolute -left-3 -bottom-2 shopping-cart-count">0</div>
+                        </a>
+                                        <div @click="toggleProfileMenu()" class="relative z-20 hidden lg:flex cursor-pointer gap-5 items-center pl-4">
+                        <img
+        class="avatar lazyload rounded-xl shrink-0"
+        data-src="https://minotar.net/helm/Syvex/128.png"
+        src="/assets/core/images/loaders/head.png"
+    alt="Syvex"    width="36"    height="36">                        <div class="flex flex-col">
+                            <p class="font-bold text-white">
+                                Syvex                            </p>
+                            <small class="uppercase text-xs text-gray-400">Menu</small>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+    </div>
 </header>
 
-<div class="container">
+<!-- Mobile menu, show/hide based on menu state. -->
+<div class="sm:hidden" id="mobile-menu" x-data="{mainMenu: false}">
+    <div class="flex items-center justify-between space-y-1 px-2 pt-2 pb-3">
+        <a href="/">
+            <img class="h-[3rem]" src="/assets/core/images/uploads/59a78fcd28e2a280769bc1538eef106a.png?cache=1745847284" alt="Avenor Craft - Logo">
+        </a>
 
-  <!-- ANA SAYFA -->
-  <section id="page-home" class="section">
-    <div class="hero">
-      <h1>Noxan Oyuncu</h1>
-      <div class="slogan">Kalitenin Yeni Adresi</div>
-      <div class="ip-box">
-        Sunucu IP: <strong>mc.noxanoyuncu.com</strong>
-        <button class="btn" onclick="navigator.clipboard.writeText('mc.noxanoyuncu.com');alert('IP kopyalandı!')">Kopyala</button>
-      </div>
-      <div>
-        <button class="btn" style="background:#2ea44f;" onclick="alert('Oyun başlatılıyor... (gerçekte Minecraft açılmaz)')">ŞİMDİ OYNA</button>
-        <a href="https://discord.gg/örnek" target="_blank" class="btn" style="background:#5865F2;">Discord</a>
-      </div>
-      <p style="margin-top:2rem;">Şu an <strong>247/500</strong> oyuncu çevrimiçi</p>
+        <!-- Mobile menu button-->
+        <button @click="mainMenu = ! mainMenu" type="button" class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg x-cloak="" x-show="!mainMenu" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+            <svg x-cloak x-show="mainMenu" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
     </div>
-  </section>
+    <div x-cloak x-show="mainMenu" class="space-y-1 px-2 pt-2 pb-3">
+                                    <a href="/" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Ana Sayfa</a>
+                                                <a href="/store" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Mağaza</a>
+                                                <a href="/help" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Yardım</a>
+                                                <a href="/credits/charge" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Kredi Yükle</a>
+                                                <a href="/credits/send" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Kredi Gönder</a>
+                                        <div class="flex justify-between">
+                <a @click="toggleProfileMenu()" href="#!" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium flex">
+                    <img
+        class="avatar lazyload rounded-xl shrink-0 mr-2"
+        data-src="https://minotar.net/helm/Syvex/128.png"
+        src="/assets/core/images/loaders/head.png"
+    alt="Syvex"    width="36"    height="36">                    <div class="flex flex-col">
+                        <p class="font-bold text-white">Syvex</p>
+                        <small class="uppercase text-xs text-gray-400">Menu</small>
+                    </div>
+                </a>
+                                    <a href="/cart/" class="block px-3 py-2 relative">
+                        <i class="fas fa-basket-shopping text-white text-2xl"></i>
+                        <div class="rounded-full flex items-center justify-center w-5 h-5 bg-emerald-500 text-white text-xs font-medium absolute left-0 bottom-2">0</div>
+                    </a>
+                            </div>
+            </div>
+</div>
+    <main class="main" role="main">
+        
 
-  <!-- MAĞAZA -->
-  <section id="page-store" class="section hidden">
-    <h2 style="text-align:center;margin-bottom:2rem;">Mağaza</h2>
-    <div class="card">
-      <h3>VIP Rank - 500 Kredi</h3>
-      <p>• Özel tag • Uçma • /fly • Özel sandık</p>
-      <button class="btn">Satın Al</button>
-    </div>
-    <div class="card">
-      <h3>1000 Kredi Paketi - 50 TL</h3>
-      <p>En popüler paket</p>
-      <button class="btn">Satın Al</button>
-    </div>
-    <!-- Daha fazla paket ekleyebilirsin -->
-  </section>
+<section id="__heroSection" x-data="carousel()" x-init="init()">
+    <div class="carousel overflow-hidden" x-ref="carousel">
+        <div class="">
+            <div class="absolute top-0 left-0 bg-cover bg-center w-full h-full" style="background-image: url('/assets/core/images/uploads/c9210feed77e18a0894f302d42b30456.png?cache=1745847284')">
+                <div class="bg-gradient-to-tl from-indigo-800/50 to-indigo-800/20 absolute top-0 left-0 w-full h-full"></div>
+            </div>
+            <div class="section pt-36 pb-60 lg:pt-48 lg:pb-96 relative px-6 z-20">
+                <h1 class="text-white text-5xl font-extrabold mt-6 max-w-2xl">
+                    1 Numaralı Minecraft Sunucusuna Katılın!                </h1>
+                <p class="text-white/75 text-xl font-semibold max-w-lg mt-2">
+                    Avenor Craft ücretsiz bir Minecraft sunucusudur. Aramıza katılın ve sunucunun en iyisi olun!                </p>
+                <div class="flex items-center gap-4 mt-10 relative z-10">
+                    <a href="/play/" class="rounded-2xl py-3 px-8 font-semibold bg-gradient-to-r from-indigo-500 to-indigo-600 text-white relative flex items-center">
+                        <i class="fas fa-gamepad text-2xl mr-3"></i>
+                        Şimdi Oyna                    </a>
+                                    </div>
+            </div>
+        </div>
 
-  <!-- PROFİL -->
-  <section id="page-profile" class="section hidden">
-    <h2>Profilim</h2>
-    <div class="card">
-      <p><strong>Kullanıcı Adı:</strong> <span id="display-username">---</span></p>
-      <p><strong>E-posta:</strong> <span id="display-email">---</span></p>
-      <p class="balance"><strong>Bakiye:</strong> <span id="display-credits">0</span> Kredi</p>
-      <p><strong>Rütbe:</strong> Oyuncu</p>
-      <button class="btn" onclick="logout()">Çıkış Yap</button>
-    </div>
-  </section>
+                                </div>
+    <svg class="absolute -bottom-12 w-full left-0 z-20" style="filter: drop-shadow(0 -85px 45px rgba(0, 0, 0, .5))" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1366 134">
+        <path class="fill-voon-bg" d="M0,91.94C43.71,59.18,114.51,16.29,207.47,3.82c6.79-0.91,32.2-3.96,66.16-3.42 c107.54,1.74,148.6,36.78,252.32,50.55c34.39,4.57,60.71,5.41,78.43,5.96c42.7,1.34,62.27-1.19,67.62-1.92 c32.33-4.43,52.86-13.09,65-17c55.04-17.72,92.95,11.78,189,35c44.78,10.83,82.19,14.22,157,21c0,0,136.88,12.41,195.62-26.42 c0.33-0.22,3.48-2.33,7.91-4.91c4.28-2.49,9.99-5.54,16.95-8.53C1328,43.62,1350.63,41.3,1366,41c0,31,0,62,0,93 c-455.33,0-910.67,0-1366,0C0,119.98,0,105.96,0,91.94z"/>
+    </svg>
+</section>
 
-  <!-- KREDİ YÜKLE -->
-  <section id="page-credits-charge" class="section hidden">
-    <h2>Kredi Yükle</h2>
-    <div class="card">
-      <form id="charge-form">
-        <label>Tutar (TL):</label>
-        <input type="number" min="10" value="50" required>
-        <button type="submit" class="btn">Ödeme Yap (Simülasyon)</button>
-      </form>
-      <p style="margin-top:1rem;color:#aaa;">Gerçek ödeme için backend gerekir (Papara, Enpara vs.)</p>
-    </div>
-  </section>
+    <section class="relative z-20 pb-10 -mt-32 section">
+        <div class="grid gap-12 lg:grid-cols-10">
+            <div class="lg:col-span-10 card card-simple p-6 text-white">
+                <div class="absolute opacity-5 top-0 left-0 w-full h-full bg-cover bg-bottom" style="background-image: url('/assets/gale/img/join-widget-bg.png')"></div>
+                <div class="flex flex-col md:flex-row justify-between gap-6 items-center text-center md:text-left relative">
+                    <div>
+                        <div>
+                            <h2 class="font-bold text-2xl mb-2">Oyuna dahil olma zamanı!</h2>
+                        </div>
+                        <div class="text-indigo-100/75">
+                            Avenor Craft ile minecraft keyfinizi ikiye katlayın. Profesyonelce yapılmış bu sunucu eğlencenin yeni adresi                        </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="cursor-pointer btn-before rounded-lg bg-indigo-600 py-3 px-5 text-white relative">mc.AvenorCraft.com</div>
+                        	                        <span class="text-white/50 text-sm mt-3" data-toggle="onlinebox"><span class="text-white" data-toggle="onlinetext" server-ip="mc.AvenorCraft.com">-/-</span>
+		                      oyuncu aktif                                            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- AYARLAR (örnek basit) -->
-  <section id="page-settings" class="section hidden">
-    <h2>Hesap Ayarları</h2>
-    <div class="card">
-      <p>Şifre Değiştir • E-posta Değiştir • Güvenlik Ayarları</p>
-      <p>(Bu kısım demo – gerçekte formlar olur)</p>
-    </div>
-  </section>
 
-  <!-- YARDIM -->
-  <section id="page-help" class="section hidden">
-    <h2>Yardım & Destek</h2>
-    <div class="card">
-      <p>Sıkça Sorulan Sorular</p>
-      <ul style="margin:1rem 0; line-height:1.8;">
-        <li>Sunucuya nasıl girilir? → mc.noxanoyuncu.com</li>
-        <li>Kredi nasıl yüklenir? → Yukarıdaki menüden</li>
-        <li>Şifremi unuttum → Login sayfasında "Şifremi Unuttum"</li>
-      </ul>
-      <p>Discord'dan hızlı destek alabilirsiniz.</p>
-    </div>
-  </section>
+<section class="section pt-12 pb-20 gap-12 grid lg:grid-cols-10">
+    <div class="lg:col-span-7">
+        <h3 class="text-white font-bold text-2xl">Haber</h3>
+                    <div class="grid gap-12 mt-12">
+                                    <div class="flex flex-col lg:flex-row group">
+                        <div class="flex-1">
+                            <a href="/blog/posts/avenor-craft-aciliyor/" class="block rounded-3xl relative overflow-hidden">
+                                <div class="bg-cover bg-center h-72 lg:h-56 xl:h-72 w-full group-hover:scale-110 transition-all duration-300 group-hover:rotate-3" style="background-image: url('/assets/core/images/blog/posts/31c22f273f68d5b2d0e450c64e024c4b.png')"></div>
+                                <div class="absolute bottom-0 left-0 right-0 pb-3 pt-20 px-5 bg-gradient-to-t from-black/75 flex items-center"></div>
+                            </a>
+                        </div>
+                        <div class="flex-1 flex flex-col p-4">
+                            <div class="py-3">
+                                <a href="/blog/posts/avenor-craft-aciliyor/" class="block">
+                                    <h3 class="line-clamp-1 text-xl font-semibold text-gray-200">
+                                        Avenor Craft Açılıyor!                                    </h3>
+                                </a>
+                                <div class="text-indigo-50/75 mt-2 text-sm line-clamp-2">
+                                    Avenor Craft Yakında Açılıyor!&nbsp;Açılış tarihimiz henüz kesinleşmedi, ancak çok yakında sizlere Discord sunucumuz üzerinden resmi duyuruyu yapacağız. Açılış anını kaçırmamak için hemen discord sunucumuza katılın: https://discord.gg/aveno......
+                                </div>
+                            </div>
+                            <div class="mt-auto flex justify-between items-center">
+                                <span class="py-1 px-2 text-sm rounded-lg text-white/75 bg-indigo-600/20">
+                                    Genel                                </span>
 
-  <!-- GİRİŞ -->
-  <section id="page-login" class="section hidden">
-    <h2>Giriş Yap</h2>
-    <div class="card">
-      <form id="login-form">
-        <input type="text" id="login-username" placeholder="Kullanıcı Adı veya E-posta" required>
-        <input type="password" id="login-password" placeholder="Şifre" required>
-        <button type="submit" class="btn">Giriş Yap</button>
-      </form>
-      <p style="margin-top:1rem;">
-        Hesabın yok mu? <span data-page="register" style="color:var(--primary);cursor:pointer;">Kayıt Ol</span>
-      </p>
-    </div>
-  </section>
+                                <div class="flex divide-x divide-white/20">
+                                    <span class="pr-3 text-white/50 flex items-center gap-2">
+                                        <small>
+                                            0                                        </small>
+                                        <i class="fas fa-message text-xs"></i>
+                                    </span>
+                                    <span class="pl-3 text-white/50 flex items-center gap-2">
+                                        <small>6019</small>
+                                        <i class="fas fa-eye text-xs"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                            </div>
 
-  <!-- KAYIT -->
-  <section id="page-register" class="section hidden">
-    <h2>Kayıt Ol</h2>
-    <div class="card">
-      <form id="register-form">
-        <input type="text" id="reg-username" placeholder="Kullanıcı Adı" required>
-        <input type="email" id="reg-email" placeholder="E-posta" required>
-        <input type="password" id="reg-password" placeholder="Şifre" required>
-        <input type="password" id="reg-password2" placeholder="Şifre Tekrar" required>
-        <button type="submit" class="btn">Kayıt Ol</button>
-      </form>
-      <p style="margin-top:1rem;">
-        Zaten hesabın var mı? <span data-page="login" style="color:var(--primary);cursor:pointer;">Giriş Yap</span>
-      </p>
-    </div>
-  </section>
+            <!-- Pagination -->
+            <div class="flex justify-center items-center mt-12">
+                    <div class="mt-12 pagination">
+        <a href="#!" class="item disable">
+            <i class="fas fa-angle-left"></i>
+        </a>
 
+                                                                                                                                        <a href="?page=1" class="item active">
+                    1                </a>
+                                                                                                                        
+        <a href="#!" class="item disable">
+            <i class="fas fa-angle-right"></i>
+        </a>
+    </div>
+            </div>
+            </div>
+	
+					<div class="lg:col-span-3 flex flex-col gap-8">
+								
+																				<div>
+							<div class="flex justify-between items-center">
+								<span class="text-white/75 font-medium text-lg font-bold">En Çok Kredi Yükleyen</span>
+								<span class="text-white/75">Bu ay</span>
+							</div>
+							<div class="mt-6 card p-6 !overflow-visible hovered flex gap-4">
+								<div class="-mt-10 -ml-10 relative">
+									<div class="bg-top bg-cover w-20 h-24 rounded-2xl"
+     style="background-image: url('https://minotar.net/armor/body/Ordek58/120')">
+</div>									<img class="absolute -bottom-10 -left-2 w-16" src="/assets/gale/img/medal-1.1745788049.svg" alt="">
+								</div>
+								<div>
+									<span class="text-white/75 text-xs uppercase">Kullanıcı Adı</span>
+									<div class="font-semibold text-white text-xl">Ordek58</div>
+									<p class="mt-4 text-white/60 text-sm w-40">
+										Bu ay toplam <strong class="text-white">2,000.00 Kredi</strong> bağış yaptı.									</p>
+								</div>
+								<span class="absolute right-6 top-6 text-red-500/20 text-3xl">
+									<i class="fas fa-heart"></i>
+								</span>
+							</div>
+						</div>
+													
+															<div>
+							<span class="text-white/75 font-medium text-lg font-bold">Son Kredi Yükleyenler</span>
+							<div class="card hovered mt-3">
+								<table class="w-full overflow-hidden">
+									<thead>
+									<tr class="relative z-10 text-xs uppercase text-gray-400 font-medium bg-voon-950">
+										<th class="text-left p-3 relative z-10">Kullanıcı Adı</th>
+										<th class="p-3 relative z-10">Miktar</th>
+									</tr>
+									</thead>
+									<tbody class="text-gray-200 text-sm text-center relative z-10">
+																			<tr>
+											<td class="text-left pl-4">
+												<a href="/members/74932/" class="transition hover:text-green-500">MarketKasiyeri31</a>
+											</td>
+											<td class="font-normal py-4">150.00 Kredi</td>
+										</tr>
+																			<tr>
+											<td class="text-left pl-4">
+												<a href="/members/74477/" class="transition hover:text-green-500">MyLxrdq</a>
+											</td>
+											<td class="font-normal py-4">130.00 Kredi</td>
+										</tr>
+																			<tr>
+											<td class="text-left pl-4">
+												<a href="/members/33249/" class="transition hover:text-green-500">URradio</a>
+											</td>
+											<td class="font-normal py-4">150.00 Kredi</td>
+										</tr>
+																			<tr>
+											<td class="text-left pl-4">
+												<a href="/members/41481/" class="transition hover:text-green-500">Turkishmen</a>
+											</td>
+											<td class="font-normal py-4">1,000.00 Kredi</td>
+										</tr>
+																			<tr>
+											<td class="text-left pl-4">
+												<a href="/members/59757/" class="transition hover:text-green-500">PeltekCan</a>
+											</td>
+											<td class="font-normal py-4">65.00 Kredi</td>
+										</tr>
+																		</tbody>
+								</table>
+							</div>
+						</div>
+													
+								
+									<div>
+						<span class="text-white/75 font-medium text-lg font-bold">Sosyal Medya</span>
+						<div class="mt-3 flex gap-4">
+																													<a href="https://discord.gg/avenor" class="card !h-10 w-10 flex items-center justify-center hover:bg-[#4d48e5] hover:text-white text-[#4d48e5]">
+									<i class="fab fa-discord"></i>
+								</a>
+																																		</div>
+					</div>
+							</div>
+		</section>
+
+
+    </main>
+
+    <div class="bg-voon-700/50 border-t-2 border-zinc-600/10 py-8 relative z-20">
+	<div class="container mx-auto px-4">
+		<div class="row">
+			<div class="col-md-5 mr-auto mb-5 mb-md-0">
+				<div class="text-sm text-center md:text-left flex flex-col">
+					<h3 class="text-white font-semibold uppercase">
+						Hakkımızda					</h3>
+					<div class="text-white/75 max-w-lg mt-2">
+													<p>Kaliteli yetkili ekibimiz ile oyuncularımıza en iyi oyun deneyimini sunmak için çalışıyoruz.</p>											</div>
+					<div class="flex gap-2 mt-2 justify-center md:justify-start">
+																															<a href="https://discord.gg/avenor" class="text-indigo-300/75 transition hover:text-[#4d48e5] p-2 z-10">
+								<i class="fab fa-discord text-lg"></i>
+							</a>
+																							</div>
+				</div>
+			</div>
+			
+							<div class="col-md-2 mb-5 mb-md-0">
+					<div class="text-sm text-center md:text-left flex flex-col">
+						<h3 class="text-white font-semibold uppercase">Hızlı Erişim</h3>
+													<ul class="text-white/75 mt-2">
+																	<li class="mb-1.5 hover:text-white">
+										<a href="/" class="widget-link" >
+																							<i class="fas fa-home mr-1"></i>
+																						Ana Sayfa										</a>
+									</li>
+																	<li class="mb-1.5 hover:text-white">
+										<a href="/store" class="widget-link" >
+																							<i class="fas fa-shopping-cart mr-1"></i>
+																						Mağaza										</a>
+									</li>
+																	<li class="mb-1.5 hover:text-white">
+										<a href="/help" class="widget-link" >
+																							<i class="fas fa-question-circle mr-1"></i>
+																						Yardım										</a>
+									</li>
+															</ul>
+											</div>
+				</div>
+							<div class="col-md-2 mb-5 mb-md-0">
+					<div class="text-sm text-center md:text-left flex flex-col">
+						<h3 class="text-white font-semibold uppercase">Sosyal Medya</h3>
+													<ul class="text-white/75 mt-2">
+																	<li class="mb-1.5 hover:text-white">
+										<a href="" class="widget-link" target="_blank">
+																							<i class="fab fa-instagram mr-1"></i>
+																						Instagram										</a>
+									</li>
+																	<li class="mb-1.5 hover:text-white">
+										<a href="" class="widget-link" target="_blank">
+																							<i class="fab fa-youtube mr-1"></i>
+																						YouTube										</a>
+									</li>
+																	<li class="mb-1.5 hover:text-white">
+										<a href="" class="widget-link" target="_blank">
+																							<i class="fab fa-tiktok mr-1"></i>
+																						TikTok										</a>
+									</li>
+																	<li class="mb-1.5 hover:text-white">
+										<a href="https://discord.gg/avenor" class="widget-link" target="_blank">
+																							<i class="fab fa-discord mr-1"></i>
+																						Discord										</a>
+									</li>
+															</ul>
+											</div>
+				</div>
+							<div class="col-md-2 mb-5 mb-md-0">
+					<div class="text-sm text-center md:text-left flex flex-col">
+						<h3 class="text-white font-semibold uppercase">Bağlantılar</h3>
+													<ul class="text-white/75 mt-2">
+																	<li class="mb-1.5 hover:text-white">
+										<a href="/hizmet-sartlari" class="widget-link" >
+																						Hizmet Koşulları										</a>
+									</li>
+																	<li class="mb-1.5 hover:text-white">
+										<a href="/gizlilik-politikasi" class="widget-link" >
+																						Gizlilik Politikası										</a>
+									</li>
+															</ul>
+											</div>
+				</div>
+					</div>
+		<div class="flex flex-col md:flex-row items-center justify-center md:justify-between border-t border-gray-800/50 mt-4 pt-5">
+			<div class="text-center md:text-left mb-4 md:mb-0">
+				<div class="text-white/75 mt-auto text-sm">
+					<span class="font-medium text-white">Avenor Craft</span>. Tüm hakları saklıdır. &copy; 2026				</div>
+				<div class="text-white/75 mt-auto text-xs mt-2">
+					<a href="https://www.leaderos.com.tr" target="_blank" id="powered_by_leaderos">Powered by <strong>LeaderOS</strong></a><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+						var is_error;
+						var interval = setInterval(function() {
+							if (is_error) {
+								clearInterval(interval);
+								return false;
+							}
+							
+							var brand_el = document.getElementById("powered_by_leaderos");
+							var is_brand_visible = true;
+							
+							if (brand_el) {
+								var style = window.getComputedStyle(brand_el);
+								if (brand_el.offsetParent === null) {
+									is_brand_visible = false;
+								} else if (style.display === "none") {
+									is_brand_visible = false;
+								} else if (style.visibility === "hidden") {
+									is_brand_visible = false;
+								}
+							} else {
+								is_brand_visible = false;
+							}
+							
+							if (!is_brand_visible) {
+								is_error = true;
+								document.body.innerHTML = "<iframe src='https://www.leaderos.com.tr/powered_by_leaderos.php' style='border: 0; position:fixed; top:0; left:0; right:0; bottom:0; width:100%; height:100%'></iframe>";
+							}
+						}, 1000);
+					</script>				</div>
+			</div>
+			<div class="flex gap-2">
+									<div x-cloak class="relative inline-block text-left mb-8 md:mb-0" x-data="{languageMenu: false}">
+						<div>
+							<div @click="languageMenu = ! languageMenu" class="flex text-indigo-200 text-sm border-b-2 py-2 px-3 font-medium cursor-pointer border-indigo-400/50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+								Türkçe								<svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+									<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+								</svg>
+							</div>
+						</div>
+						<div x-show="languageMenu" class="origin-bottom-left absolute bottom-14 left-0 mt-2 w-56 rounded-md shadow-lg bg-voon-900 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+							<div class="py-1" role="none">
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=cs">
+										Čeština									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=de">
+										Deutsch									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=en">
+										English									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=es">
+										Español									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=fr">
+										Français									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=hi">
+										हिन्दी									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=hu">
+										Magyar									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=it">
+										Italiano									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=ja">
+										日本語									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=nl">
+										Nederlands									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=no">
+										Norsk									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=pl">
+										Polski									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=pt_BR">
+										Português (Brasil)									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=ro">
+										Română									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=ru">
+										Русский									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=sv">
+										Svenska									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm active hover:bg-voon-700 hover:text-white" href="?lang=tr">
+										Türkçe									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=vi">
+										Tiếng Việt									</a>
+																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=zh_CN">
+										中文									</a>
+															</div>
+						</div>
+					</div>
+											</div>
+		</div>
+	</div>
+</div>
 </div>
 
-<footer>
-  © 2026 Noxan Oyuncu - Tüm hakları saklıdır. • Powered by basit HTML + JS
-</footer>
+<script>
+    var $onlineAPI = "5";
+</script>
 
 <script>
-// Sayfa değiştirme
-document.querySelectorAll('[data-page]').forEach(el => {
-  el.addEventListener('click', () => {
-    const page = el.getAttribute('data-page');
-    showPage(page);
-  });
-});
-
-function showPage(page) {
-  document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-  const target = document.getElementById(`page-${page}`);
-  if (target) {
-    target.classList.remove('hidden');
-    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-    document.querySelector(`nav a[data-page="${page}"]`)?.classList.add('active');
-  }
-  // Login/register sonrası profile yönlendir
-  if (page === 'login' || page === 'register') {
-    if (localStorage.getItem('noxan_user')) showPage('profile');
-  }
-}
-
-// Loading ekranı 3 saniye sonra kaybolur
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loading-screen').classList.add('hidden');
-  }, 3000);
-});
-
-// Basit auth (localStorage)
-let currentUser = null;
-
-function updateUserDisplay() {
-  currentUser = JSON.parse(localStorage.getItem('noxan_user'));
-  if (currentUser) {
-    document.getElementById('user-status').textContent = currentUser.username;
-    document.getElementById('display-username').textContent = currentUser.username;
-    document.getElementById('display-email').textContent = currentUser.email;
-    document.getElementById('display-credits').textContent = currentUser.credits || 0;
-  } else {
-    document.getElementById('user-status').textContent = 'Misafir';
-  }
-}
-
-function logout() {
-  localStorage.removeItem('noxan_user');
-  updateUserDisplay();
-  showPage('home');
-}
-
-// Login
-document.getElementById('login-form')?.addEventListener('submit', e => {
-  e.preventDefault();
-  const un = document.getElementById('login-username').value.trim();
-  const pw = document.getElementById('login-password').value;
-  const saved = JSON.parse(localStorage.getItem('noxan_user'));
-  if (saved && saved.username === un && saved.password === pw) {
-    alert('Giriş başarılı!');
-    showPage('profile');
-  } else {
-    alert('Kullanıcı adı veya şifre hatalı!');
-  }
-});
-
-// Register
-document.getElementById('register-form')?.addEventListener('submit', e => {
-  e.preventDefault();
-  const un = document.getElementById('reg-username').value.trim();
-  const em = document.getElementById('reg-email').value.trim();
-  const pw = document.getElementById('reg-password').value;
-  const pw2 = document.getElementById('reg-password2').value;
-
-  if (pw !== pw2) return alert('Şifreler eşleşmiyor!');
-  if (un.length < 3) return alert('Kullanıcı adı çok kısa!');
-
-  const user = { username: un, email: em, password: pw, credits: 0 };
-  localStorage.setItem('noxan_user', JSON.stringify(user));
-  alert('Kayıt başarılı! Şimdi giriş yapabilirsiniz.');
-  showPage('login');
-});
-
-updateUserDisplay();
-showPage('home'); // başlangıç sayfası
-
-// Kredi yükle simülasyon
-document.getElementById('charge-form')?.addEventListener('submit', e => {
-  e.preventDefault();
-  alert('Ödeme simülasyonu tamamlandı! (Gerçekte +kredi backend ister)');
-  // İstersen credits artır: currentUser.credits += 100; vs.
-});
+    var lang = {
+        credits: "%credit% kredi",
+        search: "Ara...",
+        loading: "Yükleniyor...",
+        confirm_delete: "Silmek istediğinizden emin misiniz?",
+        player_not_found: "Oyuncu bulunamadı!",
+        play_again: "Tekrar oyna",
+        spinning: "Çeviriliyor...",
+        apply: "Uygula",
+        remove: "Sil",
+        alert_btn_ok: "OK",
+        alert_btn_cancel: "İptal",
+        alert_btn_confirm: "Onayla",
+        alert_btn_buy_credit: "Kredi Yükle",
+        alert_title_success: "Başarılı!",
+        alert_title_error: "Hata!",
+        alert_title_warning: "Uyarı!",
+        alert_title_you_lost: "Kaybettin!",
+        alert_title_you_win: "Kazandınız!",
+        alert_message_server_address_copied: "Sunucu adresi kopyalandı!",
+        alert_message_something_went_wrong: "Bir şeyler yanlış. Sonra tekrar deneyin.",
+        alert_message_lottery_error_duration: "Tekrar çevirmek için %date%'e kadar beklemeniz gerekiyor.",
+        alert_message_lottery_you_lost: "Üzgünüm, kaybettiniz. Sonra tekrar deneyin.",
+        alert_message_lottery_you_win: "Tebrikler! <strong>%prize%</strong> kazandınız!",
+        alert_message_lottery_you_win_chest: "Ürün sandığınıza eklendi.",
+        alert_message_lottery_you_win_credit: "Mevcut Kredi: %credit%",
+        alert_message_lottery_credit_error: "Oynamak için yeterli krediniz bulunmuyor.",
+        alert_message_chest_confirm: "Onaylamadan önce oyunda olduğunuzdan emin olun, aksi takdirde ürün size ulaşmayabilir!",
+        alert_message_chest_sending: "Teslimat işlemi devam ediyor, lütfen bekleyin ve sayfadan ayrılmayın...",
+        alert_message_chest_sent: "Ürün başarıyla teslim edildi, Hayırlı Olsun!",
+        alert_message_chest_server_error: "Sunucuya bağlanırken bir sorun yaşandı, lütfen daha sonra tekrar deneyin.",
+        alert_message_chest_amount_error: "En fazla %amount% adet teslim alabilirsin!",
+        alert_message_login: "Bu işlemi yapabilmek için giriş yapın.",
+        help_voting_success: "Oy kullanımı başarıyla tamamlandı!",
+        alert_message_checkout_credit_error: "Yeterli krediniz bulunmuyor.",
+        alert_message_checkout_success: "Ödeme işlemi tamamlandı ve ürün sandığınıza eklendi.",
+        alert_message_checkout_quantity_error: "Geçerli bir adet giriniz!",
+        alert_message_checkout_stock_error: "Stok nedeniyle bu üründen daha fazla ekleyemezsin!",
+        alert_message_checkout_stock_error2: "Stokta yeterli ürün yok!",
+        alert_message_checkout_cart_empty_error: "Sepetiniz boş!",
+        alert_message_checkout_coupon_invalid: "Kupon geçersiz!",
+        alert_message_checkout_coupon_invalid_for_cart: "Bu kupon, sepetiniz için uygun değil!",
+        alert_message_checkout_coupon_used: "Bu kuponu daha önceden kullandınız!",
+        alert_message_checkout_coupon_expired: "Bu kuponun süresi bitmiş!",
+        alert_message_checkout_coupon_login: "Kupon kullanmak için giriş yapmanız gerekiyor!",
+        alert_message_checkout_coupon_success: "Kupon başarıyla uygulandı!",
+        alert_message_checkout_coupon_price: "Bu kuponu kullanabilmek için sepetiniz en az %amount% kredi değerinde olmalıdır!",
+        alert_message_not_found: "Not found!",
+        limited_stock: "Sınırlı Stok!",
+        out_of_stock: "Stok Yok!"
+    }
 </script>
+
+    <script type="text/javascript" src="https://www.termsfeed.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
+    <script type="text/javascript" charset="UTF-8">
+        document.addEventListener('DOMContentLoaded', function () {
+            cookieconsent.run({"notice_banner_type": "simple", "consent_type": "express", "palette": "dark", "language": "tr", "page_load_consent_levels": ["strictly-necessary", "functionality", "tracking", "targeting"], "notice_banner_reject_button_hide": true, "preferences_center_close_button_hide": false, "page_refresh_confirmation_buttons": false, "website_name": "Avenor Craft", "website_privacy_policy_url": "https://avenorcraft.com/privacy"});
+        });
+    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/16.1.0/lazyload.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/tr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.Marquee/1.5.0/jquery.marquee.min.js"></script>
+
+<script src="/assets/gale/js/main.min.1745788049.js"></script>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/3.0.0/flickity.pkgd.min.js"></script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"a95b76d8a3834b678fcdd8523eefc21d","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
