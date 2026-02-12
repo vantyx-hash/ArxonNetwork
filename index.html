@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS PRO | Premium Gaming</title>
+    <title>CS PRO | Elite Access</title>
     <style>
-        /* CSS Başlangıcı */
+        /* Önceki stiller korunuyor, yeniler ekleniyor */
         body, html {
             margin: 0;
             padding: 0;
@@ -13,145 +13,105 @@
             height: 100%;
             background-color: #000;
             color: white;
-            font-family: 'Orbitron', sans-serif; /* Daha fütüristik bir font */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
         }
 
-        /* Video Arka Plan Konteyneri */
         .video-wrapper {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            overflow: hidden;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2; overflow: hidden;
         }
 
         video {
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            min-width: 100%; min-height: 100%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             object-fit: cover;
-            filter: brightness(0.4) contrast(1.2); /* Videoyu biraz karartır ki yazılar okunsun */
+            filter: brightness(0.3);
         }
 
-        /* Videonun üzerindeki koyu katman */
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
-        }
-
-        /* Fareyi takip eden ışık (Hafifletildi) */
         .cursor-glow {
             position: fixed;
-            width: 700px;
-            height: 700px;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.12) 0%, rgba(0, 255, 255, 0) 70%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
             border-radius: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
             z-index: 0;
-            transition: transform 0.05s linear;
         }
 
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 30px 8%;
-            position: relative;
-            z-index: 10;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; position: relative; z-index: 10;
         }
 
-        .logo {
-            font-size: 30px;
-            font-weight: bold;
-            letter-spacing: 4px;
-            color: #fff;
-        }
-
-        .logo span { color: #00ffff; text-shadow: 0 0 20px #00ffff; }
-
-        .nav-links {
-            list-style: none;
-            display: flex;
-            gap: 40px;
-        }
-
-        .nav-links li a {
-            text-decoration: none;
-            color: #ddd;
-            font-size: 14px;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .nav-links li a:hover { color: #00ffff; }
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; }
+        .logo span { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
 
         main {
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 10;
+            height: 80vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; position: relative; z-index: 5;
         }
 
-        h1 {
-            font-size: 4.5rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            animation: fadeIn 2s ease-in;
-        }
-
-        p {
-            font-size: 1.2rem;
-            color: #ccc;
-            margin: 20px 0 40px;
-            max-width: 600px;
-        }
-
-        .btn-box {
-            display: flex;
-            gap: 20px;
-        }
+        h1 { font-size: 4rem; letter-spacing: 5px; margin-bottom: 10px; }
 
         .btn {
-            padding: 15px 35px;
-            border: 1px solid #00ffff;
-            background: rgba(0, 255, 255, 0.05);
-            color: #00ffff;
-            text-transform: uppercase;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.5s;
+            padding: 15px 35px; border: 1px solid #00ffff;
+            background: rgba(0, 255, 255, 0.05); color: #00ffff;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
             backdrop-filter: blur(5px);
         }
 
-        .btn:hover {
-            background: #00ffff;
-            color: #000;
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.6);
+        .btn:hover { background: #00ffff; color: #000; box-shadow: 0 0 30px #00ffff; }
+
+        /* MODAL (Hile Listesi Paneli) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: none; /* Başlangıçta gizli */
+            justify-content: center; align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(10px);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .modal-content {
+            background: #111;
+            border: 1px solid #00ffff;
+            padding: 40px;
+            width: 400px;
+            text-align: left;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
+            animation: slideUp 0.4s ease-out;
         }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-content h2 {
+            color: #00ffff; margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 10px;
+        }
+
+        .cheat-item {
+            display: flex; justify-content: space-between;
+            padding: 15px 0; border-bottom: 1px solid #222;
+            font-size: 18px; transition: 0.2s;
+        }
+
+        .cheat-item:hover { color: #00ffff; padding-left: 10px; }
+
+        .price { font-weight: bold; color: #fff; }
+
+        .close-btn {
+            position: absolute; top: 10px; right: 15px;
+            font-size: 25px; cursor: pointer; color: #555;
+        }
+        .close-btn:hover { color: #fff; }
+
     </style>
 </head>
 <body>
@@ -159,7 +119,6 @@
     <div class="cursor-glow" id="glow"></div>
 
     <div class="video-wrapper">
-        <div class="overlay"></div>
         <video autoplay muted loop playsinline>
             <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-blue-data-clouds-9962-large.mp4" type="video/mp4">
         </video>
@@ -167,32 +126,68 @@
 
     <nav>
         <div class="logo">CS<span>PRO</span></div>
-        <ul class="nav-links">
-            <li><a href="#">ANASAYFA</a></li>
-            <li><a href="#">ÖZELLİKLER</a></li>
-            <li><a href="#">İSTATİSTİK</a></li>
-            <li><a href="#">İLETİŞİM</a></li>
-        </ul>
     </nav>
 
     <main>
-        <h1>ELİTE ACCESS</h1>
-        <p>Hız, performans ve tam kontrol. Oyunun kurallarını senin için yeniden yazıyoruz.</p>
-        <div class="btn-box">
-            <button class="btn">DETAYLARI GÖR</button>
-            <button class="btn" style="border-color: #fff; color: #fff;">TOPLULUK</button>
-        </div>
+        <h1>ELITE ACCESS</h1>
+        <p>En gelişmiş yazılımlar ile performansını zirveye taşı.</p>
+        <button class="btn" onclick="openModal()">DETAYLARI GÖR</button>
     </main>
 
-    <script>
-        const glow = document.getElementById('glow');
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>AKTİF PAKETLER</h2>
+            
+            <div class="cheat-item">
+                <span>ExHack</span>
+                <span class="price">140 TL</span>
+            </div>
+            
+            <div class="cheat-item">
+                <span>SharkHack</span>
+                <span class="price">200 TL</span>
+            </div>
+            
+            <div class="cheat-item">
+                <span>Enigma Legit</span>
+                <span class="price">235 TL</span>
+            </div>
+            
+            <div class="cheat-item">
+                <span>Enigma HVH</span>
+                <span class="price">210 TL</span>
+            </div>
 
+            <button class="btn" style="width: 100%; margin-top: 20px;" onclick="closeModal()">KAPAT</button>
+        </div>
+    </div>
+
+    <script>
+        // Mouse Işık Takibi
+        const glow = document.getElementById('glow');
         window.addEventListener('mousemove', (e) => {
-            // Işığın mouse'u çok daha akıcı takip etmesi için requestAnimationFrame de kullanılabilir
-            // ama bu basit haliyle de oldukça performanslıdır.
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
+
+        // Modal Fonksiyonları
+        const modal = document.getElementById('modal');
+        
+        function openModal() {
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        // Dışarı tıklayınca kapatma
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
     </script>
 </body>
 </html>
