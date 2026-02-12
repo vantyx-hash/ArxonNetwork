@@ -1,257 +1,217 @@
-
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Firebox BoxPvP - Karamsar Dark Tema">
-    <meta name="author" content="Firebox">
-    <link rel="Shortcut Icon" href="img/favicon.ico" type="image/x-icon">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Firebox BoxPvP - Karamsar Dark Tema">
+<meta name="author" content="Firebox">
+<link rel="Shortcut Icon" href="img/favicon.ico" type="image/x-icon">
 
-    <title>Firebox | Dark BoxPvP</title>
+<title>Firebox | Dark BoxPvP</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="css/animate.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+<link href="css/animate.css" rel="stylesheet">
 
-    <style>
-        /* KARAMSAR DARK TEMA ÖZEL CSS */
-        body {
-            background-color: #080808 !important;
-            color: #b0b0b0 !important;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<style>
 
-        /* Arka Plan ve Karartma */
-        .intro {
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('img/bg.jpg') no-repeat center center !important;
-            background-size: cover !important;
-            height: 100vh;
-        }
+/* =========================
+   SQUADFREE ANA CSS
+========================= */
 
-        /* Navigasyon */
-        .navbar-custom {
-            background-color: rgba(10, 10, 10, 0.95) !important;
-            border-bottom: 2px solid #D46C49 !important;
-            padding: 10px 0 !important;
-        }
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700,900|Montserrat:700');
 
-        .navbar-custom .nav li a {
-            color: #fff !important;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
+body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    color: #666;
+    background-color: #fff;
+}
 
-        .navbar-custom .nav li a:hover {
-            color: #BD9861 !important;
-        }
+h1,h2,h3,h4,h5,h6 {
+    margin: 0 0 30px;
+    text-transform: uppercase;
+    font-family: Montserrat,sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
 
-        /* Kredi Al Butonu - Parlayan Efekt */
-        .btn-kredi {
-            background: linear-gradient(135deg, #BD9861, #D46C49) !important;
-            color: #fff !important;
-            border: none !important;
-            padding: 10px 25px !important;
-            margin-top: 5px;
-            font-weight: bold !important;
-            box-shadow: 0 0 15px rgba(212, 108, 73, 0.4);
-            transition: 0.4s;
-        }
+p {
+    font-size: 16px;
+    line-height: 1.6em;
+}
 
-        .btn-kredi:hover {
-            box-shadow: 0 0 25px rgba(212, 108, 73, 0.8);
-            transform: translateY(-2px);
-        }
+.navbar {
+    margin-bottom: 0;
+}
 
-        /* Bölümler (Sections) */
-        .home-section {
-            background-color: #0a0a0a !important;
-            padding: 80px 0;
-            border-bottom: 1px solid #1a1a1a;
-        }
+.home-section {
+    padding: 110px 0;
+}
 
-        .bg-gray {
-            background-color: #050505 !important;
-        }
+.intro {
+    width:100%;
+    min-height:100vh;
+    background-size: cover;
+    background-attachment: fixed;
+}
 
-        h2, h5 {
-            color: #fff !important;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+.boxed-grey {
+    background: #f9f9f9;
+    padding: 20px;
+}
 
-        .text_color {
-            color: #D46C49 !important;
-        }
+.service-box {
+    padding: 20px;
+    margin-bottom: 30px;
+}
 
-        /* Kartlar (Team & Service Boxes) */
-        .boxed-grey, .service-box {
-            background: #111 !important;
-            border: 1px solid #222 !important;
-            transition: 0.3s;
-            color: #888;
-        }
+footer {
+    text-align: center;
+    padding: 50px 0;
+}
 
-        .boxed-grey:hover, .service-box:hover {
-            border-color: #BD9861 !important;
-            background: #151515 !important;
-        }
+/* =========================
+   FIREBOX DARK TEMA
+   (OVERRIDE)
+========================= */
 
-        /* Alt Bilgi */
-        footer {
-            background-color: #000 !important;
-            padding: 40px 0;
-            border-top: 1px solid #222;
-        }
+body {
+    background-color: #080808 !important;
+    color: #b0b0b0 !important;
+}
 
-        /* Scroll Butonu */
-        .btn-circle {
-            border: 2px solid #BD9861 !important;
-            color: #BD9861 !important;
-        }
+.intro {
+    background:
+      linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+      url('img/bg.jpg') no-repeat center center !important;
+}
 
-        .btn-circle:hover {
-            background: #BD9861 !important;
-            color: #000 !important;
-        }
+.navbar-custom {
+    background-color: rgba(10,10,10,0.95) !important;
+    border-bottom: 2px solid #D46C49;
+}
 
-        /* Discord Butonu */
-        .btn-skin {
-            background-color: transparent !important;
-            border: 2px solid #D46C49 !important;
-            color: #D46C49 !important;
-            font-weight: bold;
-        }
+.navbar-custom .nav li a {
+    color: #fff !important;
+    font-weight: 600;
+}
 
-        .btn-skin:hover {
-            background-color: #D46C49 !important;
-            color: #fff !important;
-        }
-    </style>
+.navbar-custom .nav li a:hover {
+    color: #BD9861 !important;
+}
+
+.btn-kredi {
+    background: linear-gradient(135deg,#BD9861,#D46C49);
+    color: #fff;
+    padding: 10px 25px;
+    box-shadow: 0 0 15px rgba(212,108,73,.4);
+}
+
+.btn-kredi:hover {
+    box-shadow: 0 0 25px rgba(212,108,73,.8);
+}
+
+.home-section {
+    background-color: #0a0a0a !important;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.bg-gray {
+    background-color: #050505 !important;
+}
+
+h2,h5 {
+    color: #fff !important;
+}
+
+.text_color {
+    color: #D46C49 !important;
+}
+
+.boxed-grey,.service-box {
+    background: #111 !important;
+    border: 1px solid #222;
+}
+
+.boxed-grey:hover,.service-box:hover {
+    background: #151515 !important;
+    border-color: #BD9861;
+}
+
+footer {
+    background-color: #000 !important;
+    border-top: 1px solid #222;
+}
+
+.btn-circle {
+    border: 2px solid #BD9861;
+    color: #BD9861;
+}
+
+.btn-circle:hover {
+    background: #BD9861;
+    color: #000;
+}
+
+.btn-skin {
+    border: 2px solid #D46C49;
+    color: #D46C49;
+}
+
+.btn-skin:hover {
+    background: #D46C49;
+    color: #fff;
+}
+
+</style>
 </head>
 
-<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
-    <div id="preloader">
-        <div id="load"></div>
-    </div>
+<body id="page-top">
 
-    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
-        <div class="container">
-            <div class="navbar-header page-scroll">
-                <a class="navbar-brand" href="index.html">
-                    <h1 style="color:#fff; margin:0;">FIRE<span style="color:#D46C49">BOX</span></h1>
-                </a>
-            </div>
+<nav class="navbar navbar-custom navbar-fixed-top">
+<div class="container">
+<a class="navbar-brand" href="#">
+<h1>FIRE<span class="text_color">BOX</span></h1>
+</a>
 
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#intro">GİRİŞ</a></li>
-                    <li><a href="#about">HAKKIMIZDA</a></li>
-                    <li><a href="#service">ÖZELLİKLER</a></li>
-                    <li><a href="https://discord.gg/j7y5Hak6" target="_blank">DESTEK</a></li>
-                    <li><a href="https://donate.bynogame.com/firebox" target="_blank" class="btn-kredi">KREDİ YÜKLE</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+<ul class="nav navbar-nav navbar-right">
+<li class="active"><a href="#intro">GİRİŞ</a></li>
+<li><a href="#about">HAKKIMIZDA</a></li>
+<li><a href="#service">ÖZELLİKLER</a></li>
+<li><a href="https://discord.gg/j7y5Hak6" target="_blank">DESTEK</a></li>
+<li><a href="https://donate.bynogame.com/firebox" target="_blank" class="btn-kredi">KREDİ YÜKLE</a></li>
+</ul>
+</div>
+</nav>
 
-    <section id="intro" class="intro">
-        <div class="slogan" style="margin-top: 15%;">
-            <h2 style="font-size: 60px;">FIREBOX <span class="text_color">BOXPVP</span> </h2>
-            <h4 style="color: #BD9861; font-weight: bold; letter-spacing: 5px;">IP: FIREBOX.ICE.LOL</h4>
-        </div>
-        <div class="page-scroll">
-            <a href="#about" class="btn btn-circle">
-                <i class="fa fa-angle-double-down animated"></i>
-            </a>
-        </div>
-    </section>
+<section id="intro" class="intro text-center">
+<div class="slogan" style="margin-top:15%">
+<h2>FIREBOX <span class="text_color">BOXPVP</span></h2>
+<h4 style="color:#BD9861;letter-spacing:5px;">IP: FIREBOX.ICE.LOL</h4>
+</div>
+</section>
 
-    <section id="about" class="home-section text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2">
-                    <div class="section-heading">
-                        <h2>KARANLIĞA <span class="text_color">HÜKMET</span></h2>
-                        <p>Firebox, sıradan bir sunucu değil; bir savaş meydanıdır. BoxPvP'nin en sert hali, en düşük lag ve en adil yönetimle burada.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="margin-top: 50px;">
-                <div class="col-md-4 col-md-offset-4">
-                    <div class="team boxed-grey">
-                        <div class="inner">
-                            <h5>FIREBOX EKİBİ</h5>
-                            <p class="subtitle">KURUCU KADRO</p>
-                            <div class="avatar"><img src="img/team/1.jpg" alt="" class="img-responsive img-circle" style="filter: grayscale(100%);" /></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="about" class="home-section text-center">
+<div class="container">
+<h2>KARANLIĞA <span class="text_color">HÜKMET</span></h2>
+<p>Firebox sıradan sunucu değil. Saf kaos.</p>
+</div>
+</section>
 
-    <section id="service" class="home-section text-center bg-gray">
-        <div class="container">
-            <h2>SUNUCU <span class="text_color">SİSTEMLERİ</span></h2>
-            <div class="row" style="margin-top: 40px;">
-                <div class="col-md-3">
-                    <div class="service-box">
-                        <i class="fa fa-shield fa-3x text_color"></i>
-                        <h5>ANTİ-CHEAT</h5>
-                        <p>Hileye yer yok. Gelişmiş koruma sistemimizle adil oyun.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="service-box">
-                        <i class="fa fa-bolt fa-3x text_color"></i>
-                        <h5>0 LAG</h5>
-                        <p>En yüksek performanslı makinelerde kesintisiz PvP keyfi.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="service-box">
-                        <i class="fa fa-diamond fa-3x text_color"></i>
-                        <h5>ÖZEL KASALAR</h5>
-                        <p>Birbirinden değerli ödüller barındıran kasa sistemleri.</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="service-box">
-                        <i class="fa fa-users fa-3x text_color"></i>
-                        <h5>KLAN SAVAŞLARI</h5>
-                        <p>Klanını kur, rakiplerini ez ve sunucunun hakimi ol.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<section id="service" class="home-section bg-gray text-center">
+<div class="container">
+<h2>SUNUCU <span class="text_color">SİSTEMLERİ</span></h2>
+</div>
+</section>
 
-    <section id="contact" class="home-section text-center">
-        <div class="container">
-            <h2>ORDUYA <span class="text_color">KATIL</span></h2>
-            <p>Destek talepleri, güncellemeler ve çekilişler için Discord'dayız.</p>
-            <br>
-            <a href="https://discord.gg/j7y5Hak6" target="_blank" class="btn btn-skin btn-lg">DISCORD SUNUCUSUNA GİT</a>
-        </div>
-    </section>
+<footer>
+<p>&copy; 2026 FIREBOX MC</p>
+</footer>
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <p style="color:#444;">&copy; 2026 FIREBOX MC. ALL RIGHTS RESERVED.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.easing.min.js"></script>
-    <script src="js/wow.min.js"></script>
-    <script src="js/custom.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 </html>
