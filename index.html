@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS PRO | Premium Access</title>
+    <title>lavendar HAZE Software | Premium Access</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
@@ -20,7 +20,7 @@
             min-width: 100%; min-height: 100%;
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            object-fit: cover; filter: brightness(0.3);
+            object-fit: cover; filter: brightness(0.25);
         }
 
         /* Mouse Işık Efekti */
@@ -29,7 +29,6 @@
             background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
             border-radius: 50%; pointer-events: none;
             transform: translate(-50%, -50%); z-index: 0;
-            transition: transform 0.05s linear;
         }
 
         /* Navigasyon */
@@ -40,19 +39,11 @@
         .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; cursor: default; }
         .logo span { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
         
-        .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links li { cursor: pointer; color: #aaa; transition: 0.3s; font-weight: 500; }
+        .nav-links { list-style: none; display: flex; gap: 30px; align-items: center; }
+        .nav-links li { cursor: pointer; color: #aaa; transition: 0.3s; font-weight: 500; font-size: 14px; }
         .nav-links li:hover { color: #00ffff; }
 
-        /* Link Stilleri */
-        .direct-link {
-            text-decoration: none;
-            color: inherit;
-        }
-        .direct-link:hover {
-            color: #00ffff !important;
-            text-shadow: 0 0 10px #00ffff;
-        }
+        .direct-link { text-decoration: none; color: inherit; }
 
         /* Ana İçerik */
         main {
@@ -61,7 +52,7 @@
             text-align: center; position: relative; z-index: 5;
         }
         h1 { font-size: 4rem; letter-spacing: 8px; margin-bottom: 5px; }
-        p { color: #888; margin-bottom: 30px; letter-spacing: 1px; }
+        p { color: #888; margin-bottom: 30px; }
 
         .btn {
             padding: 15px 35px; border: 1px solid #00ffff;
@@ -74,7 +65,7 @@
         /* MODAL Paneller */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); display: none;
+            background: rgba(0, 0, 0, 0.92); display: none;
             justify-content: center; align-items: center;
             z-index: 100; backdrop-filter: blur(15px);
         }
@@ -82,24 +73,18 @@
             background: #0a0a0a; border: 1px solid #00ffff;
             padding: 40px; width: 450px; position: relative;
             box-shadow: 0 0 50px rgba(0, 255, 255, 0.1);
-            animation: fadeIn 0.3s ease-out;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-        .modal-content h2 { color: #00ffff; margin-top: 0; border-bottom: 1px solid #222; padding-bottom: 15px; }
-        
-        .item-row {
-            display: flex; justify-content: space-between;
-            padding: 15px 0; border-bottom: 1px solid #1a1a1a;
-        }
+        /* MAĞAZA ÖZEL UYARI (Hata Tasarımı) */
+        .error-modal { border-color: #ff4444 !important; text-align: center; }
+        .error-modal h2 { color: #ff4444 !important; }
+        .error-text { font-size: 1.2rem; font-weight: bold; color: #ffaaaa; margin: 20px 0; }
+
+        .item-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #1a1a1a; }
         .price { color: #00ffff; font-weight: bold; }
-
-        .about-text { line-height: 1.6; color: #ccc; font-size: 1.1rem; }
-
-        .close-x {
-            position: absolute; top: 15px; right: 20px;
-            font-size: 24px; cursor: pointer; color: #444;
-        }
+        .close-x { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #444; }
         .close-x:hover { color: #fff; }
     </style>
 </head>
@@ -117,6 +102,7 @@
         <div class="logo">CS<span>PRO</span></div>
         <ul class="nav-links">
             <li onclick="openModal('aboutModal')">BİZİM HAKKIMIZDA</li>
+            <li onclick="openModal('shopModal')" style="color: #00ffff; font-weight: bold;">MAĞAZA</li>
             <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">TOPLULUK</a></li>
             <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">DESTEK</a></li>
         </ul>
@@ -136,9 +122,17 @@
             <div class="item-row"><span>SharkHack</span> <span class="price">200 TL</span></div>
             <div class="item-row"><span>Enigma Legit</span> <span class="price">235 TL</span></div>
             <div class="item-row"><span>Enigma HVH</span> <span class="price">210 TL</span></div>
-            <a href="https://discord.gg/WR4mznHQYf" target="_blank" style="text-decoration: none;">
-                <button class="btn" style="width: 100%; margin-top: 20px;">DISCORD ÜZERİNDEN SATIN AL</button>
-            </a>
+            <button class="btn" style="width: 100%; margin-top: 20px;" onclick="openModal('shopModal')">SATIN AL</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="shopModal">
+        <div class="modal-content error-modal">
+            <span class="close-x" onclick="closeModal('shopModal')">&times;</span>
+            <h2>SİSTEM UYARISI</h2>
+            <p class="error-text">HENUZ SATIN ALIM MENUSU EKLENMEMIŞTIR :(</p>
+            <p style="color: #666; font-size: 13px;">Lütfen daha sonra tekrar deneyiniz veya Discord üzerinden iletişime geçiniz.</p>
+            <button class="btn" style="border-color: #ff4444; color: #ff4444; width: 100%; margin-top: 20px;" onclick="closeModal('shopModal')">GERİ DÖN</button>
         </div>
     </div>
 
@@ -146,7 +140,7 @@
         <div class="modal-content">
             <span class="close-x" onclick="closeModal('aboutModal')">&times;</span>
             <h2>BİZ KİMİZ?</h2>
-            <p class="about-text">
+            <p style="line-height: 1.6; color: #ccc;">
                 Biz Counter Strike 2 için ve diğer oyunlar için hile geliştiren bir ekibiz. 
                 Yazılımlarımızda hız, gizlilik ve kullanıcı deneyimini ön planda tutuyoruz.
             </p>
@@ -162,6 +156,10 @@
         });
 
         function openModal(id) {
+            // Eğer bir modal açıkken diğerini açarsak öncekini kapat
+            const overlays = document.querySelectorAll('.modal-overlay');
+            overlays.forEach(o => o.style.display = 'none');
+            
             document.getElementById(id).style.display = 'flex';
         }
 
