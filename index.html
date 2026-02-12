@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS PRO | Global Gaming Services</title>
+    <title>CS PRO | Premium Access</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
@@ -29,6 +29,7 @@
             background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
             border-radius: 50%; pointer-events: none;
             transform: translate(-50%, -50%); z-index: 0;
+            transition: transform 0.05s linear;
         }
 
         /* Navigasyon */
@@ -42,6 +43,16 @@
         .nav-links { list-style: none; display: flex; gap: 30px; }
         .nav-links li { cursor: pointer; color: #aaa; transition: 0.3s; font-weight: 500; }
         .nav-links li:hover { color: #00ffff; }
+
+        /* Link Stilleri */
+        .direct-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        .direct-link:hover {
+            color: #00ffff !important;
+            text-shadow: 0 0 10px #00ffff;
+        }
 
         /* Ana İçerik */
         main {
@@ -60,7 +71,7 @@
         }
         .btn:hover { background: #00ffff; color: #000; box-shadow: 0 0 30px #00ffff; }
 
-        /* MODAL (Paneller) */
+        /* MODAL Paneller */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); display: none;
@@ -77,14 +88,12 @@
 
         .modal-content h2 { color: #00ffff; margin-top: 0; border-bottom: 1px solid #222; padding-bottom: 15px; }
         
-        /* Hile Listesi Itemları */
         .item-row {
             display: flex; justify-content: space-between;
             padding: 15px 0; border-bottom: 1px solid #1a1a1a;
         }
         .price { color: #00ffff; font-weight: bold; }
 
-        /* Hakkımızda Yazısı */
         .about-text { line-height: 1.6; color: #ccc; font-size: 1.1rem; }
 
         .close-x {
@@ -108,8 +117,8 @@
         <div class="logo">CS<span>PRO</span></div>
         <ul class="nav-links">
             <li onclick="openModal('aboutModal')">BİZİM HAKKIMIZDA</li>
-            <li>TOPLULUK</li>
-            <li>DESTEK</li>
+            <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">TOPLULUK</a></li>
+            <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">DESTEK</a></li>
         </ul>
     </nav>
 
@@ -127,7 +136,9 @@
             <div class="item-row"><span>SharkHack</span> <span class="price">200 TL</span></div>
             <div class="item-row"><span>Enigma Legit</span> <span class="price">235 TL</span></div>
             <div class="item-row"><span>Enigma HVH</span> <span class="price">210 TL</span></div>
-            <button class="btn" style="width: 100%; margin-top: 20px;" onclick="closeModal('listModal')">KAPAT</button>
+            <a href="https://discord.gg/WR4mznHQYf" target="_blank" style="text-decoration: none;">
+                <button class="btn" style="width: 100%; margin-top: 20px;">DISCORD ÜZERİNDEN SATIN AL</button>
+            </a>
         </div>
     </div>
 
@@ -158,7 +169,6 @@
             document.getElementById(id).style.display = 'none';
         }
 
-        // Dışarı tıklayınca kapatma özelliği
         window.onclick = function(event) {
             if (event.target.className === 'modal-overlay') {
                 event.target.style.display = 'none';
