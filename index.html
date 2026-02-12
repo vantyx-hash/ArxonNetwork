@@ -3,175 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lavendar Haze Software| Premium Access</title>
+    <title>Lavendar HAZE Software| Ultimate Elite</title>
     <style>
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000; color: white;
-            font-family: 'Segoe UI', sans-serif; overflow: hidden;
+            background-color: #020205; color: white;
+            font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
         }
 
-        /* Arka Plan Videosu */
-        .video-wrapper {
+        /* CANVASA ANIMASYONU (Arka Plan Parçacıkları) */
+        #bgCanvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2; overflow: hidden;
-        }
-        video {
-            min-width: 100%; min-height: 100%;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            object-fit: cover; filter: brightness(0.25);
+            z-index: -1; opacity: 0.6;
         }
 
-        /* Mouse Işık Efekti */
+        /* Mouse Işık Efekti (Daha Parlak ve Renkli) */
         .cursor-glow {
-            position: fixed; width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            position: fixed; width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.15) 0%, rgba(0, 100, 255, 0.05) 40%, rgba(0, 0, 0, 0) 70%);
             border-radius: 50%; pointer-events: none;
             transform: translate(-50%, -50%); z-index: 0;
+            mix-blend-mode: screen;
         }
 
         /* Navigasyon */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 8%; position: relative; z-index: 10;
+            padding: 20px 8%; position: fixed; width: 84%; top: 0; z-index: 100;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0,255,255,0.1);
         }
-        .logo { font-size: 24px; font-weight: bold; letter-spacing: 2px; cursor: default; }
-        .logo span { color: #00ffff; text-shadow: 0 0 10px #00ffff; }
-        
-        .nav-links { list-style: none; display: flex; gap: 30px; align-items: center; }
-        .nav-links li { cursor: pointer; color: #aaa; transition: 0.3s; font-weight: 500; font-size: 14px; }
-        .nav-links li:hover { color: #00ffff; }
-
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 3px; }
+        .logo span { color: #00ffff; text-shadow: 0 0 15px #00ffff; }
+        .nav-links { list-style: none; display: flex; gap: 30px; }
+        .nav-links li { cursor: pointer; color: #fff; transition: 0.3s; font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+        .nav-links li:hover { color: #00ffff; transform: translateY(-2px); }
         .direct-link { text-decoration: none; color: inherit; }
 
-        /* Ana İçerik */
-        main {
-            height: 75vh; display: flex; flex-direction: column;
+        /* Bölümler */
+        section {
+            height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            text-align: center; position: relative; z-index: 5;
+            text-align: center; padding: 0 10%; position: relative;
         }
-        h1 { font-size: 4rem; letter-spacing: 8px; margin-bottom: 5px; }
-        p { color: #888; margin-bottom: 30px; }
+        h1 { font-size: 5rem; letter-spacing: 15px; margin-bottom: 10px; text-shadow: 0 0 30px rgba(0,255,255,0.3); }
+        .hero-p { color: #00ffff; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 30px; font-weight: 300; }
 
+        /* Kaydırma Efektleri */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Kartlar */
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+        .feature-card {
+            background: rgba(0, 255, 255, 0.02); border: 1px solid rgba(0, 255, 255, 0.1);
+            padding: 30px; border-radius: 5px; backdrop-filter: blur(5px); transition: 0.4s;
+        }
+        .feature-card:hover { border-color: #00ffff; box-shadow: 0 0 20px rgba(0,255,255,0.2); }
+
+        /* Butonlar */
         .btn {
-            padding: 15px 35px; border: 1px solid #00ffff;
-            background: rgba(0, 255, 255, 0.05); color: #00ffff;
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-            backdrop-filter: blur(5px); text-transform: uppercase;
+            padding: 15px 40px; border: 1px solid #00ffff;
+            background: transparent; color: #00ffff;
+            font-weight: bold; cursor: pointer; transition: 0.4s;
+            text-transform: uppercase; letter-spacing: 2px;
         }
-        .btn:hover { background: #00ffff; color: #000; box-shadow: 0 0 30px #00ffff; }
+        .btn:hover { background: #00ffff; color: #000; box-shadow: 0 0 40px #00ffff; }
 
-        /* MODAL Paneller */
+        /* Modallar */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.92); display: none;
-            justify-content: center; align-items: center;
-            z-index: 100; backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.95); display: none;
+            justify-content: center; align-items: center; z-index: 1000;
         }
         .modal-content {
-            background: #0a0a0a; border: 1px solid #00ffff;
-            padding: 40px; width: 450px; position: relative;
-            box-shadow: 0 0 50px rgba(0, 255, 255, 0.1);
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: #050505; border: 1px solid #00ffff;
+            padding: 40px; width: 450px; text-align: left; position: relative;
         }
-        @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-
-        /* MAĞAZA ÖZEL UYARI (Hata Tasarımı) */
-        .error-modal { border-color: #ff4444 !important; text-align: center; }
-        .error-modal h2 { color: #ff4444 !important; }
-        .error-text { font-size: 1.2rem; font-weight: bold; color: #ffaaaa; margin: 20px 0; }
-
-        .item-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #1a1a1a; }
-        .price { color: #00ffff; font-weight: bold; }
-        .close-x { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #444; }
-        .close-x:hover { color: #fff; }
+        .error-modal { border-color: #ff4444; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #111; }
+        .buy-small-btn { background: #00ffff; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; }
+        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 20px; }
     </style>
 </head>
 <body>
 
+    <canvas id="bgCanvas"></canvas>
     <div class="cursor-glow" id="glow"></div>
-
-    <div class="video-wrapper">
-        <video autoplay muted loop playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-blue-data-clouds-9962-large.mp4" type="video/mp4">
-        </video>
-    </div>
 
     <nav>
         <div class="logo">CS<span>PRO</span></div>
         <ul class="nav-links">
-            <li onclick="openModal('aboutModal')">BİZİM HAKKIMIZDA</li>
-            <li onclick="openModal('shopModal')" style="color: #00ffff; font-weight: bold;">MAĞAZA</li>
+            <li onclick="openModal('aboutModal')">HAKKIMIZDA</li>
+            <li onclick="openModal('shopModal')" style="color:#00ffff">MAĞAZA</li>
             <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">TOPLULUK</a></li>
             <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">DESTEK</a></li>
         </ul>
     </nav>
 
-    <main>
-        <h1>ELITE ACCESS</h1>
-        <p>Geleceğin teknolojisiyle rakiplerinin bir adım önünde ol.</p>
-        <button class="btn" onclick="openModal('listModal')">DETAYLARI GÖR</button>
-    </main>
+    <section>
+        <h1 class="reveal active">CS PRO</h1>
+        <p class="hero-p reveal active">GELECEĞİN HİLE TEKNOLOJİSİ ŞİMDİ BURADA</p>
+        <button class="btn reveal active" onclick="openModal('listModal')">DETAYLARI GÖR</button>
+    </section>
+
+    <section>
+        <h2 class="reveal">SİSTEM ÖZELLİKLERİ</h2>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <h3 style="color:#00ffff">KERNEL LEVEL</h3>
+                <p>Anti-cheat sistemlerinin erişemeyeceği en alt seviyede tam koruma.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3 style="color:#00ffff">AUTO-UPDATE</h3>
+                <p>Oyun güncellendiği an yazılımımız kendini otomatik olarak yeniler.</p>
+            </div>
+            <div class="feature-card reveal">
+                <h3 style="color:#00ffff">LEGIT MODE</h3>
+                <p>İzleyicilerin bile fark edemeyeceği kadar doğal bir oyun deneyimi.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-content">
+            <span class="close-x" onclick="closeModal('aboutModal')">✕</span>
+            <h2 style="color:#00ffff">BİZ KİMİZ?</h2>
+            <p>Biz Counter Strike 2 için ve diğer oyunlar için hile geliştiren bir ekibiz. Yazılımlarımızda hız, gizlilik ve kullanıcı deneyimini ön planda tutuyoruz.</p>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="listModal">
         <div class="modal-content">
-            <span class="close-x" onclick="closeModal('listModal')">&times;</span>
-            <h2>AKTİF PAKETLER</h2>
-            <div class="item-row"><span>ExHack</span> <span class="price">140 TL</span></div>
-            <div class="item-row"><span>SharkHack</span> <span class="price">200 TL</span></div>
-            <div class="item-row"><span>Enigma Legit</span> <span class="price">235 TL</span></div>
-            <div class="item-row"><span>Enigma HVH</span> <span class="price">210 TL</span></div>
-            <button class="btn" style="width: 100%; margin-top: 20px;" onclick="openModal('shopModal')">SATIN AL</button>
+            <span class="close-x" onclick="closeModal('listModal')">✕</span>
+            <h2 style="color:#00ffff">FİYAT LİSTESİ</h2>
+            <div class="item-row"><span>ExHack</span> <div><b>140 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
+            <div class="item-row"><span>SharkHack</span> <div><b>200 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
+            <div class="item-row"><span>Enigma Legit</span> <div><b>235 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
+            <div class="item-row"><span>Enigma HVH</span> <div><b>210 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
         </div>
     </div>
 
     <div class="modal-overlay" id="shopModal">
-        <div class="modal-content error-modal">
-            <span class="close-x" onclick="closeModal('shopModal')">&times;</span>
-            <h2>SİSTEM UYARISI</h2>
-            <p class="error-text">HENUZ SATIN ALIM MENUSU EKLENMEMIŞTIR :(</p>
-            <p style="color: #666; font-size: 13px;">Lütfen daha sonra tekrar deneyiniz veya Discord üzerinden iletişime geçiniz.</p>
-            <button class="btn" style="border-color: #ff4444; color: #ff4444; width: 100%; margin-top: 20px;" onclick="closeModal('shopModal')">GERİ DÖN</button>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="aboutModal">
-        <div class="modal-content">
-            <span class="close-x" onclick="closeModal('aboutModal')">&times;</span>
-            <h2>BİZ KİMİZ?</h2>
-            <p style="line-height: 1.6; color: #ccc;">
-                Biz Counter Strike 2 için ve diğer oyunlar için hile geliştiren bir ekibiz. 
-                Yazılımlarımızda hız, gizlilik ve kullanıcı deneyimini ön planda tutuyoruz.
-            </p>
-            <button class="btn" style="width: 100%; margin-top: 10px;" onclick="closeModal('aboutModal')">ANLADIM</button>
+        <div class="modal-content error-modal" style="text-align: center;">
+            <span class="close-x" onclick="closeModal('shopModal')">✕</span>
+            <h2 style="color:#ff4444">UYARI</h2>
+            <p style="font-size: 1.2rem; font-weight: bold;">HENUZ SATIN ALIM MENUSU EKLENMEMIŞTIR :(</p>
+            <button class="btn" style="border-color:#ff4444; color:#ff4444" onclick="closeModal('shopModal')">KAPAT</button>
         </div>
     </div>
 
     <script>
+        // --- MOUSE IŞIK TAKİBİ ---
         const glow = document.getElementById('glow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
 
-        function openModal(id) {
-            // Eğer bir modal açıkken diğerini açarsak öncekini kapat
-            const overlays = document.querySelectorAll('.modal-overlay');
-            overlays.forEach(o => o.style.display = 'none');
-            
-            document.getElementById(id).style.display = 'flex';
-        }
+        // --- ARKA PLAN ANIMASYONU (Canvas Parçacıkları) ---
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-        function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         }
+        window.addEventListener('resize', resize);
+        resize();
 
-        window.onclick = function(event) {
-            if (event.target.className === 'modal-overlay') {
-                event.target.style.display = 'none';
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
+
+        function init() {
+            for (let i = 0; i < 100; i++) particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        init();
+        animate();
+
+        // --- MODAL VE SCROLL KONTROLLERİ ---
+        function openModal(id) {
+            document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+            document.getElementById(id).style.display = 'flex';
+        }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+        window.addEventListener('scroll', () => {
+            document.querySelectorAll('.reveal').forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
