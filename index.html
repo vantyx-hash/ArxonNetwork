@@ -2,235 +2,184 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>RED PRO | Online Voice Hub</title>
+    <title>RED PRO | Social Hub</title>
     <style>
-        :root { --red: #ff0000; --bg: #050000; --gold: #ffd700; }
+        :root { --red: #ff0000; --bg: #050000; --gold: #ffd700; --panel: #0c0c0c; }
         body, html { margin: 0; padding: 0; background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
 
-        /* Modern Navbar */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--red); position: sticky; top: 0; z-index: 1000; }
-        .nav-links span { margin: 0 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 13px; transition: 0.3s; }
-        .nav-links span:hover { color: var(--red); text-shadow: 0 0 10px var(--red); }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 5%; background: #000; border-bottom: 2px solid var(--red); }
+        .btn { padding: 8px 18px; border: 1px solid var(--red); background: transparent; color: white; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: var(--red); box-shadow: 0 0 15px var(--red); }
 
-        /* Full Screen Panels */
-        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(10px); }
-        .window { width: 500px; padding: 40px; border: 1px solid var(--red); background: #080000; text-align: center; box-shadow: 0 0 30px rgba(255,0,0,0.3); }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
+        .window { width: 700px; padding: 25px; border: 1px solid var(--red); background: var(--panel); text-align: center; }
 
-        /* Lobby & Voice UI */
-        .lobby-card { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #111; margin-bottom: 10px; border-left: 5px solid var(--red); }
-        .voice-indicator { width: 15px; height: 15px; background: #555; border-radius: 50%; display: inline-block; margin-right: 10px; }
-        .active-voice { background: #00ff00; box-shadow: 0 0 10px #00ff00; animation: pulse 1s infinite; }
+        /* SOSYAL SİSTEM */
+        .social-box { display: flex; gap: 20px; height: 400px; margin-top: 15px; }
+        .friend-list { flex: 1; background: #000; border: 1px solid #222; overflow-y: auto; padding: 10px; text-align: left; }
+        .profile-side { width: 250px; background: #111; border: 1px solid var(--red); padding: 15px; display: flex; flex-direction: column; align-items: center; }
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .f-item { padding: 10px; background: #0a0a0a; margin-bottom: 5px; border-left: 3px solid var(--red); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+        .f-item:hover { background: #151515; }
 
-        /* Inputs & Btns */
-        input { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; outline: none; }
-        input:focus { border-color: var(--red); }
-        .btn { padding: 12px 25px; border: 1px solid var(--red); background: transparent; color: white; cursor: pointer; font-weight: bold; transition: 0.3s; width: 100%; margin-top: 10px; }
-        .btn:hover { background: var(--red); box-shadow: 0 0 20px var(--red); }
-
-        .admin-tag { color: var(--gold); border: 1px solid var(--gold); padding: 2px 6px; font-size: 10px; margin-left: 5px; }
+        input { background: #111; border: 1px solid #333; color: white; padding: 10px; width: 100%; box-sizing: border-box; margin: 5px 0; }
+        .id-badge { background: #222; padding: 2px 6px; font-size: 11px; color: #888; border-radius: 4px; }
+        .pp-big { width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--red); margin-bottom: 10px; object-fit: cover; }
     </style>
 </head>
 <body>
 
 <nav>
-    <div style="font-size: 26px; font-weight: bold; color: var(--red); letter-spacing: 2px;">RED PRO</div>
-    <div class="nav-links">
-        <span onclick="toggle('shop')">MAĞAZA</span>
-        <span onclick="toggle('lobbies')">LOBİLER</span>
-        <span id="adm-link" style="display:none; color:var(--gold)" onclick="toggle('admin')">YÖNETİCİ</span>
-        <span id="user-display" style="display:none" onclick="toggle('profile')">
-            <span id="nav-name"></span>
-            <img id="nav-pp" style="width:30px; height:30px; border-radius:50%; vertical-align:middle; margin-left:10px; display:none;">
-        </span>
-        <button id="login-nav" class="btn" style="width:auto; margin:0" onclick="toggle('login')">GİRİŞ YAP</button>
+    <div style="font-size: 24px; font-weight: bold; color: var(--red);">RED PRO <small style="color:white; font-size:10px;">SOCIAL</small></div>
+    <div style="display:flex; gap:15px;">
+        <span onclick="openV('lobbies')" style="cursor:pointer">LOBİLER</span>
+        <span onclick="openV('social')" style="cursor:pointer">ARKADAŞLAR</span>
+        <span id="nav-user" onclick="openV('profile_edit')" style="cursor:pointer; color:var(--red)"></span>
     </div>
 </nav>
 
-<div style="height: 85vh; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <h1 style="font-size: 6rem; margin: 0; color: white; text-shadow: 0 0 20px var(--red);">ONLINE CORE</h1>
-    <p style="color: #444; letter-spacing: 10px;">SESLİ SOHBET VE GERÇEK ZAMANLI LOBİ AKTİF</p>
-</div>
-
-<div id="panel-lobbies" class="overlay">
-    <div class="window" style="width: 600px;">
-        <h2 style="color:var(--red)">AKTİF LOBİLER</h2>
-        <div id="lobby-list" style="max-height: 300px; overflow-y: auto; margin-bottom: 20px;">
-            </div>
-        <button class="btn" onclick="toggle('create')">YENİ LOBİ OLUŞTUR</button>
-        <button class="btn" style="border-color:#333" onclick="toggle()">KAPAT</button>
-    </div>
-</div>
-
-<div id="panel-voice" class="overlay">
+<div id="v-social" class="overlay">
     <div class="window">
-        <h2 id="room-name">LOBİ SESLİ SOHBET</h2>
-        <div style="margin: 20px 0;">
-            <div class="voice-indicator active-voice" id="mic-status"></div>
-            <span id="voice-user-count">Konuşmaya Bağlısınız...</span>
+        <h2 style="margin:0">SOSYAL PANEL</h2>
+        <div style="display:flex; gap:5px; margin-top:10px;">
+            <input type="text" id="add-friend-in" placeholder="Kod (#1234) veya İsim girin...">
+            <button class="btn" style="width:auto" onclick="addFriend()">EKLE</button>
         </div>
-        <p style="font-size: 12px; color: #666;">Arkadaşınla aynı lobiye girersen sesiniz otomatik eşleşir.</p>
-        <button class="btn" onclick="leaveVoice()">LOBİDEN AYRIL</button>
+        
+        <div class="social-box">
+            <div class="friend-list" id="friend-render">
+                </div>
+            <div class="profile-side" id="view-profile">
+                <p style="color:#444">Profil detaylarını görmek için bir arkadaşına tıkla.</p>
+            </div>
+        </div>
+        <button class="btn" onclick="closeV()">KAPAT</button>
     </div>
 </div>
 
-<div id="panel-shop" class="overlay">
+<div id="v-lobbies" class="overlay">
     <div class="window">
-        <h2 style="color:var(--red)">HİLE MAĞAZASI (ÜCRETSİZ)</h2>
-        <div class="lobby-card"><span>ExLoader Premium</span> <button class="btn" style="width:auto" onclick="location.href='https://data.exloader.net/ExLoader_Installer.exe'">İNDİR</button></div>
-        <div class="lobby-card"><span>SharkHack Legit</span> <button class="btn" style="width:auto" onclick="location.href='https://data.exloader.net/ExLoader_Installer.exe'">İNDİR</button></div>
-        <button class="btn" onclick="toggle()">GERİ</button>
+        <h2>AKTİF LOBİLER</h2>
+        <div id="lobby-render" style="height:300px; overflow-y:auto; border:1px solid #222; margin-bottom:10px;"></div>
+        <button class="btn" onclick="openV('create_lobby')">LOBİ KUR</button>
+        <button class="btn" onclick="closeV()">İPTAL</button>
     </div>
 </div>
 
-<div id="panel-login" class="overlay">
-    <div class="window">
-        <h2>SİSTEME GİRİŞ</h2>
-        <input type="text" id="user-in" placeholder="Kullanıcı Adı">
-        <input type="password" id="pass-in" placeholder="Şifre">
+<div id="v-login" class="overlay">
+    <div class="window" style="width:350px;">
+        <h2 class="animated-text">GİRİŞ YAP</h2>
+        <input type="text" id="u-in" placeholder="Nick Seçin">
         <button class="btn" onclick="doLogin()">BAĞLAN</button>
-    </div>
-</div>
-
-<div id="panel-create" class="overlay">
-    <div class="window">
-        <h2>LOBİ KUR</h2>
-        <input type="text" id="lobby-name-in" placeholder="Lobi Adı...">
-        <button class="btn" onclick="confirmCreate()">YAYINLA</button>
-        <button class="btn" onclick="toggle('lobbies')">İPTAL</button>
-    </div>
-</div>
-
-<div id="panel-profile" class="overlay">
-    <div class="window">
-        <h2>PROFİL AYARLARI</h2>
-        <input type="file" accept="image/*" onchange="uploadPP(this)">
-        <input type="text" id="new-name" placeholder="Yeni Kullanıcı Adı">
-        <input type="password" id="new-pass" placeholder="Eski Şifre">
-        <input type="password" id="new-pass-confirm" placeholder="Yeni Şifre">
-        <button class="btn" onclick="saveProfile()">GÜNCELLE</button>
-        <button class="btn" style="color:gray; border:none" onclick="localStorage.clear(); location.reload();">ÇIKIŞ YAP</button>
-        <button class="btn" onclick="toggle()">KAPAT</button>
     </div>
 </div>
 
 <script>
     const ADMINS = ["syvex", "tanrımbenibaştanyaratsın"];
-    let localStream;
+    
+    // --- TEMEL FONKSİYONLAR ---
+    function openV(id) { closeV(); document.getElementById('v-'+id).style.display='flex'; if(id==='social') renderFriends(); if(id==='lobbies') renderLobbies();}
+    function closeV() { document.querySelectorAll('.overlay').forEach(e=>e.style.display='none'); }
 
-    function toggle(id) {
-        document.querySelectorAll('.overlay').forEach(e => e.style.display = 'none');
-        if(id) {
-            if(!localStorage.getItem('isLogged') && id !== 'login') return toggle('login');
-            document.getElementById('panel-' + id).style.display = 'flex';
-        }
-        if(id === 'lobbies') renderLobbies();
-    }
-
-    // --- SESLİ SOHBET SİMÜLASYONU (WebRTC Mantığı) ---
-    async function joinVoice(room) {
-        try {
-            localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            toggle('voice');
-            document.getElementById('room-name').innerText = room + " - SESLİ";
-            // Gerçek bir sunucu olmadan ses sadece simüle edilir, 
-            // ancak altyapı 'navigator.mediaDevices' ile hazırlandı.
-        } catch (err) {
-            alert("Mikrofon izni gerekli!");
+    // --- ARKADAŞLIK SİSTEMİ ---
+    function generateID() {
+        if(!localStorage.getItem('myID')) {
+            let id = "#" + Math.floor(1000 + Math.random() * 9000);
+            localStorage.setItem('myID', id);
         }
     }
 
-    function leaveVoice() {
-        if(localStream) localStream.getTracks().forEach(track => track.stop());
-        toggle('lobbies');
+    function addFriend() {
+        let val = document.getElementById('add-friend-in').value;
+        if(!val) return;
+        let friends = JSON.parse(localStorage.getItem('my_friends') || "[]");
+        if(friends.includes(val)) return alert("Zaten ekli!");
+        
+        friends.push(val);
+        localStorage.setItem('my_friends', JSON.stringify(friends));
+        renderFriends();
+        document.getElementById('add-friend-in').value = "";
     }
 
-    // --- LOBİ SİSTEMİ (Sync Fix) ---
-    function confirmCreate() {
-        let name = document.getElementById('lobby-name-in').value;
-        if(!name) return;
-        let lobbies = JSON.parse(localStorage.getItem('ONLINE_LOBBIES') || "[]");
-        lobbies.push({ name: name, host: localStorage.getItem('user'), id: Date.now() });
-        localStorage.setItem('ONLINE_LOBBIES', JSON.stringify(lobbies));
-        renderLobbies();
-        toggle('lobbies');
-    }
-
-    function renderLobbies() {
-        const list = document.getElementById('lobby-list');
-        list.innerHTML = "";
-        let lobbies = JSON.parse(localStorage.getItem('ONLINE_LOBBIES') || "[]");
-        let user = localStorage.getItem('user').toLowerCase();
-
-        lobbies.forEach((l, index) => {
-            let canDelete = (l.host.toLowerCase() === user || ADMINS.includes(user));
-            list.innerHTML += `
-                <div class="lobby-card">
-                    <span><b>${l.name}</b> <small>(${l.host})</small></span>
-                    <div>
-                        <button class="btn" style="width:auto; margin:0; padding:5px 10px; border-color:cyan" onclick="joinVoice('${l.name}')">KATIL & SESLİ</button>
-                        ${canDelete ? `<button class="btn" style="width:auto; margin:0; padding:5px 10px; border-color:orange" onclick="delLobby(${index})">SİL</button>` : ''}
-                    </div>
+    function renderFriends() {
+        const div = document.getElementById('friend-render');
+        div.innerHTML = "";
+        let friends = JSON.parse(localStorage.getItem('my_friends') || "[]");
+        
+        friends.forEach(f => {
+            div.innerHTML += `
+                <div class="f-item" onclick="viewUser('${f}')">
+                    <span>${f}</span>
+                    <span style="color:green; font-size:10px;">● Çevrimiçi</span>
                 </div>`;
         });
     }
 
-    function delLobby(i) {
-        let lobbies = JSON.parse(localStorage.getItem('ONLINE_LOBBIES'));
-        lobbies.splice(i, 1);
-        localStorage.setItem('ONLINE_LOBBIES', JSON.stringify(lobbies));
-        renderLobbies();
+    function viewUser(name) {
+        const side = document.getElementById('view-profile');
+        let pp = localStorage.getItem('pp_' + name) || "https://i.imgur.com/6VBx3io.png";
+        // Simüle kod: İsimden kod üretme (Gerçek sistemde DB'den gelir)
+        let fakeID = "#" + (name.length * 1234 % 9999); 
+        
+        side.innerHTML = `
+            <img src="${pp}" class="pp-big">
+            <h3 style="margin:0">${name}</h3>
+            <span class="id-badge">${name.includes('#') ? name : fakeID}</span>
+            <div style="margin-top:20px; width:100%;">
+                <button class="btn" style="width:100%; font-size:11px;" onclick="alert('Mesaj gönderildi')">MESAJ AT</button>
+                <button class="btn" style="width:100%; font-size:11px; border-color:orange; margin-top:5px;" onclick="removeFriend('${name}')">ARKADAŞLIKTAN ÇIKAR</button>
+            </div>
+        `;
     }
 
-    // --- PROFİL & AUTH ---
+    function removeFriend(name) {
+        let friends = JSON.parse(localStorage.getItem('my_friends'));
+        let filtered = friends.filter(f => f !== name);
+        localStorage.setItem('my_friends', JSON.stringify(filtered));
+        renderFriends();
+        document.getElementById('view-profile').innerHTML = '<p style="color:#444">Silindi.</p>';
+    }
+
+    // --- LOBİ SYNC (KESİN ÇÖZÜM) ---
+    function renderLobbies() {
+        const div = document.getElementById('lobby-render');
+        div.innerHTML = "";
+        // Global havuzdan çekiyoruz
+        let pool = JSON.parse(localStorage.getItem('RED_GLOBAL_POOL') || "[]");
+        pool.forEach(l => {
+            div.innerHTML += `
+                <div style="padding:12px; background:#111; margin:5px; display:flex; justify-content:space-between; border-left:2px solid var(--red);">
+                    <span><b>${l.name}</b> <small style="color:#666">(${l.host})</small></span>
+                    <button class="btn" style="padding:4px 10px" onclick="alert('Katılınıyor...')">KATIL</button>
+                </div>`;
+        });
+    }
+
+    // --- LOGIN ---
     function doLogin() {
-        let u = document.getElementById('user-in').value;
+        let u = document.getElementById('u-in').value;
         if(!u) return;
-        localStorage.setItem('isLogged', 'true');
         localStorage.setItem('user', u);
-        localStorage.setItem('pass', document.getElementById('pass-in').value);
-        location.reload();
-    }
-
-    function uploadPP(input) {
-        let reader = new FileReader();
-        reader.onload = (e) => localStorage.setItem('user_pp', e.target.result);
-        reader.readAsDataURL(input.files[0]);
-    }
-
-    function saveProfile() {
-        let n = document.getElementById('new-name').value;
-        if(n) localStorage.setItem('user', n);
-        alert("Profil güncellendi! Yenileniyor...");
+        localStorage.setItem('isLogged', 'true');
+        generateID();
         location.reload();
     }
 
     window.onload = () => {
         if(localStorage.getItem('isLogged')) {
-            let user = localStorage.getItem('user');
-            document.getElementById('login-nav').style.display = 'none';
-            document.getElementById('user-display').style.display = 'flex';
-            document.getElementById('nav-name').innerText = user;
-
-            if(ADMINS.includes(user.toLowerCase())) {
-                document.getElementById('adm-link').style.display = 'inline';
-                document.getElementById('nav-name').innerHTML += '<span class="admin-tag">KURUCU</span>';
-            }
-
-            let pp = localStorage.getItem('user_pp');
-            if(pp) {
-                let img = document.getElementById('nav-pp');
-                img.src = pp; img.style.display = 'inline';
-            }
+            let u = localStorage.getItem('user');
+            let id = localStorage.getItem('myID');
+            document.getElementById('nav-user').innerText = u + " " + id;
+        } else {
+            openV('login');
         }
     };
 
-    // Otomatik Yenileme (Arkadaşın kurarsa gözüksün diye)
+    // ARKADAŞININ LOBİSİNİ GÖRMEN İÇİN HER 1 SANİYEDE BİR HAVUZU KONTROL ET
     setInterval(() => {
-        if(document.getElementById('panel-lobbies').style.display === 'flex') renderLobbies();
-    }, 2000);
-</script>
+        if(document.getElementById('v-lobbies').style.display === 'flex') renderLobbies();
+    }, 1000);
 
+</script>
 </body>
 </html>
