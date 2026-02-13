@@ -2,31 +2,31 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>RED PRO | THE ORIGINAL HUB</title>
+    <title>RED PRO | ULTIMATE HUB</title>
     <style>
-        :root { --red: #ff0000; --bg: #050000; --gold: #ffd700; }
+        :root { --red: #ff0000; --bg: #050000; --gold: #ffd700; --dark: #080808; }
         body, html { margin: 0; padding: 0; background: var(--bg); color: white; font-family: 'Arial Black', sans-serif; overflow: hidden; }
 
         /* NAVBAR */
         nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--red); position: fixed; width: 90%; top:0; z-index: 1000; }
-        .nav-links span { margin: 0 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 14px; }
+        .nav-links span { margin: 0 15px; cursor: pointer; font-weight: bold; text-transform: uppercase; font-size: 13px; transition: 0.3s; }
         .nav-links span:hover { color: var(--red); text-shadow: 0 0 10px var(--red); }
 
-        /* MERKEZİ YAZI */
+        /* MERKEZİ TASARIM */
         .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .hero h1 { font-size: 9rem; margin: 0; color: white; letter-spacing: -5px; line-height: 0.8; }
+        .hero h1 { font-size: 8rem; margin: 0; letter-spacing: -5px; line-height: 0.8; }
         .hero h1 span { color: var(--red); text-shadow: 0 0 40px var(--red); }
-        .hero p { color: #444; letter-spacing: 12px; font-weight: bold; margin-top: 25px; font-size: 1.2rem; }
+        .hero p { color: #444; letter-spacing: 10px; font-weight: bold; margin-top: 20px; text-transform: uppercase; }
 
         /* MODALLAR */
         .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-        .window { width: 700px; padding: 30px; border: 1px solid var(--red); background: #080000; text-align: center; box-shadow: 0 0 50px rgba(255,0,0,0.2); }
+        .window { width: 750px; padding: 30px; border: 1px solid var(--red); background: var(--dark); text-align: center; box-shadow: 0 0 50px rgba(255,0,0,0.2); position: relative; }
 
-        /* LOBİ & CHAT */
-        .hub-split { display: flex; height: 400px; gap: 15px; margin-top: 15px; }
-        .sidebar { width: 220px; background: #000; border: 1px solid #222; overflow-y: auto; padding: 10px; text-align: left; }
-        .chat-main { flex: 1; display: flex; flex-direction: column; background: #000; border: 1px solid #222; }
-        #chat-msgs { flex: 1; overflow-y: auto; padding: 15px; text-align: left; border-bottom: 1px solid #222; }
+        /* SOSYAL & LOBİ PANELİ */
+        .split-box { display: flex; height: 400px; gap: 15px; margin-top: 15px; }
+        .side-list { width: 220px; background: #000; border: 1px solid #222; overflow-y: auto; padding: 10px; text-align: left; }
+        .main-content { flex: 1; display: flex; flex-direction: column; background: #000; border: 1px solid #222; }
+        #chat-msgs { flex: 1; overflow-y: auto; padding: 15px; text-align: left; border-bottom: 1px solid #222; font-family: sans-serif; font-size: 14px; }
 
         /* BUTONLAR */
         .btn { padding: 12px 25px; border: 1px solid var(--red); background: transparent; color: white; cursor: pointer; font-weight: bold; margin: 5px; transition: 0.2s; }
@@ -34,46 +34,53 @@
         .admin-btn { border-color: var(--gold); color: var(--gold); }
         input, select { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #333; color: white; box-sizing: border-box; }
 
-        /* SES AYARLARI */
-        .audio-bar { display: flex; gap: 10px; justify-content: center; padding: 15px; background: #111; margin-top: 10px; }
-        .icon-btn { background: #222; border: 1px solid #444; color: white; padding: 10px; cursor: pointer; border-radius: 4px; }
-        .icon-btn.active { background: var(--red); }
-        .admin-tag { color: var(--gold); border: 1px solid var(--gold); padding: 2px 6px; font-size: 11px; margin-left: 10px; font-family: sans-serif; }
+        /* SES KONTROL BAR */
+        .audio-controls { display: flex; gap: 10px; justify-content: center; padding: 15px; background: #111; border-top: 1px solid #222; }
+        .icon-btn { background: #222; border: 1px solid #444; color: white; padding: 10px; cursor: pointer; border-radius: 4px; font-size: 18px; }
+        .icon-btn.active { background: var(--red); border-color: white; }
+
+        .item-row { padding: 12px; background: #0a0a0a; margin-bottom: 8px; border-left: 4px solid var(--red); display: flex; justify-content: space-between; align-items: center; }
+        .admin-tag { color: var(--gold); border: 1px solid var(--gold); padding: 2px 6px; font-size: 10px; margin-left: 8px; vertical-align: middle; }
     </style>
 </head>
 <body>
 
 <nav>
-    <div style="font-size: 28px; font-weight: bold;">RED<span style="color:var(--red)">PRO</span></div>
+    <div style="font-size: 26px; font-weight: bold;">RED<span style="color:var(--red)">PRO</span></div>
     <div class="nav-links">
         <span onclick="openV('shop')">MAĞAZA</span>
+        <span onclick="openV('friends')">ARKADAŞLAR</span>
         <span onclick="openV('lobbies')">LOBİLER</span>
-        <span id="adm-link" style="display:none; color:var(--gold)" onclick="openV('admin')">YÖNETİCİ PANELİ</span>
-        <span id="u-display" style="cursor:pointer"></span>
-        <button id="login-nav" class="btn" style="padding: 5px 15px;" onclick="openV('login')">GİRİŞ</button>
+        <span id="adm-link" style="display:none; color:var(--gold)" onclick="openV('admin')">ADMIN</span>
+        <span id="u-display" style="color:var(--red)"></span>
+        <button id="login-nav" class="btn" style="padding: 5px 12px;" onclick="openV('login')">GİRİŞ</button>
     </div>
 </nav>
 
 <div class="hero">
     <h1>RED<span>PRO</span></h1>
-    <p>SYVEX & TANRIMBENİBAŞTANYARATSIN HUB</p>
+    <p>SYVEX & TANRIMBENİBAŞTANYARATSIN NETWORK</p>
     <div style="margin-top: 40px;">
-        <button class="btn" onclick="openV('lobbies')">LOBİLERİ LİSTELE</button>
-        <button class="btn" style="border-color:white" onclick="openV('shop')">HİLE MAĞAZASI</button>
+        <button class="btn" onclick="openV('lobbies')">LOBİ SİSTEMİ</button>
+        <button class="btn" style="border-color:white" onclick="openV('friends')">ARKADAŞ LİSTESİ</button>
     </div>
 </div>
 
 <div id="v-shop" class="overlay">
     <div class="window">
-        <h2 style="color:var(--red)">HİLE MAĞAZASI</h2>
-        <div style="padding:15px; background:#111; margin:10px; display:flex; justify-content:space-between; align-items:center;">
-            <span>ExLoader Premium (FREE)</span>
-            <button class="btn" onclick="window.location.href='https://data.exloader.net/ExLoader_Installer.exe'">İNDİR</button>
-        </div>
-        <div style="padding:15px; background:#111; margin:10px; display:flex; justify-content:space-between; align-items:center;">
-            <span>SharkHack Legit (FREE)</span>
-            <button class="btn" onclick="window.location.href='https://data.exloader.net/ExLoader_Installer.exe'">İNDİR</button>
-        </div>
+        <h2 style="color:var(--red)">PREMIUM HİLELER</h2>
+        <div class="item-row"><span>ExLoader Premium</span> <button class="btn" onclick="window.location.href='#'">İNDİR</button></div>
+        <div class="item-row"><span>SharkHack Legit</span> <button class="btn" onclick="window.location.href='#'">İNDİR</button></div>
+        <button class="btn" onclick="closeV()">KAPAT</button>
+    </div>
+</div>
+
+<div id="v-friends" class="overlay">
+    <div class="window">
+        <h2>ARKADAŞLARIM</h2>
+        <input type="text" id="friend-in" placeholder="Arkadaşının adını yaz...">
+        <button class="btn" onclick="addFriend()">ARKADAŞ EKLE</button>
+        <div id="friend-list" style="max-height: 250px; overflow-y: auto; margin-top: 15px;"></div>
         <button class="btn" onclick="closeV()">KAPAT</button>
     </div>
 </div>
@@ -82,17 +89,17 @@
     <div class="window">
         <h2 style="color:var(--red)">AKTİF LOBİLER</h2>
         <div id="lobby-list" style="max-height: 300px; overflow-y: auto; margin-bottom: 10px;"></div>
-        <button class="btn" onclick="openV('create')">+ LOBİ KUR</button>
+        <button class="btn" onclick="openV('create')">+ LOBİ OLUŞTUR</button>
         <button class="btn" onclick="closeV()">KAPAT</button>
     </div>
 </div>
 
 <div id="v-hub" class="overlay">
-    <div class="window" style="width: 800px;">
+    <div class="window" style="width: 850px;">
         <h3 id="cur-lobby-title" style="color:var(--red); margin:0;">LOBİ EKRANI</h3>
-        <div class="hub-split">
-            <div class="sidebar" id="player-list"></div>
-            <div class="chat-main">
+        <div class="split-box">
+            <div class="side-list" id="player-list"></div>
+            <div class="main-content">
                 <div id="chat-msgs"></div>
                 <div style="display:flex; padding:10px; gap:5px;">
                     <input type="text" id="chat-in" placeholder="Mesaj yaz..." onkeypress="if(event.key=='Enter') sendChat()">
@@ -100,10 +107,10 @@
                 </div>
             </div>
         </div>
-        <div class="audio-bar">
-            <select id="out-select" style="width:180px;" onchange="alert('Çıkış aygıtı değişti!')"><option>Hoparlör Seç...</option></select>
-            <button id="m-btn" class="icon-btn" onclick="this.classList.toggle('active')">🎤</button>
-            <button id="d-btn" class="icon-btn" onclick="this.classList.toggle('active')">🎧</button>
+        <div class="audio-controls">
+            <select id="out-dev" style="width:180px;"><option>Çıkış: Hoparlör</option><option>Çıkış: Kulaklık</option></select>
+            <button class="icon-btn" id="m-btn" onclick="this.classList.toggle('active')">🎤</button>
+            <button class="icon-btn" id="d-btn" onclick="this.classList.toggle('active')">🎧</button>
             <button class="btn" style="border-color:gray" onclick="closeV()">AYRIL</button>
         </div>
     </div>
@@ -111,46 +118,45 @@
 
 <div id="v-admin" class="overlay">
     <div class="window">
-        <h2 style="color:var(--gold)">YÖNETİCİ PANELİ</h2>
-        <button class="btn admin-btn" style="width:100%" onclick="clearLobbies()">TÜM LOBİLERİ SİL</button>
+        <h2 style="color:var(--gold)">KURUCU PANELİ</h2>
+        <button class="btn admin-btn" style="width:100%" onclick="clearLobbies()">LOBİLERİ SIFIRLA</button>
         <button class="btn" onclick="closeV()">KAPAT</button>
     </div>
 </div>
 
-<div id="v-login" class="overlay"><div class="window"><h2>GİRİŞ</h2><input id="u-in" placeholder="Kullanıcı Adı"><button class="btn" onclick="doLogin()">BAĞLAN</button></div></div>
-<div id="v-create" class="overlay"><div class="window"><h2>LOBİ KUR</h2><input id="l-in" placeholder="Lobi Adı..."><button class="btn" onclick="doCreate()">KUR</button></div></div>
+<div id="v-login" class="overlay"><div class="window"><h2>SİSTEME BAĞLAN</h2><input id="u-in" placeholder="Nick..."><button class="btn" onclick="doLogin()">GİRİŞ</button></div></div>
+<div id="v-create" class="overlay"><div class="window"><h2>LOBİ KUR</h2><input id="l-in" placeholder="Lobi İsmi..."><button class="btn" onclick="doCreate()">YAYINLA</button></div></div>
 
 <script>
     const ADMINS = ["syvex", "tanrımbenibaştanyaratsın"];
-    
+
     function openV(id) { 
         closeV(); 
         document.getElementById('v-'+id).style.display='flex'; 
         if(id==='lobbies') renderLobbies();
+        if(id==='friends') renderFriends();
     }
     function closeV() { document.querySelectorAll('.overlay').forEach(e=>e.style.display='none'); }
 
-    // LOBİ SYNC (Arkadaşın Görmesi İçin)
+    // LOBİ SYNC
     function doCreate() {
-        let n = document.getElementById('l-in').value;
-        if(!n) return;
-        let l = JSON.parse(localStorage.getItem('GLOBAL_POOL') || "[]");
+        let n = document.getElementById('l-in').value; if(!n) return;
+        let l = JSON.parse(localStorage.getItem('RED_LOBBIES') || "[]");
         l.push({ name: n, host: localStorage.getItem('user'), id: Date.now() });
-        localStorage.setItem('GLOBAL_POOL', JSON.stringify(l));
+        localStorage.setItem('RED_LOBBIES', JSON.stringify(l));
         openV('lobbies');
     }
 
     function renderLobbies() {
-        const div = document.getElementById('lobby-list');
-        div.innerHTML = "";
-        let l = JSON.parse(localStorage.getItem('GLOBAL_POOL') || "[]");
+        const div = document.getElementById('lobby-list'); div.innerHTML = "";
+        let l = JSON.parse(localStorage.getItem('RED_LOBBIES') || "[]");
         l.forEach((item, i) => {
-            let canDel = ADMINS.includes(localStorage.getItem('user').toLowerCase()) || item.host === localStorage.getItem('user');
-            div.innerHTML += `<div style="padding:15px; background:#111; margin:5px; display:flex; justify-content:space-between; border-left:4px solid var(--red);">
-                <span><b>${item.name}</b> (${item.host})</span>
+            let isAdmin = ADMINS.includes(localStorage.getItem('user').toLowerCase()) || item.host === localStorage.getItem('user');
+            div.innerHTML += `<div class="item-row">
+                <span><b>${item.name}</b> <small>(${item.host})</small></span>
                 <div>
                     <button class="btn" style="padding:4px 10px" onclick="joinLobby('${item.name}')">KATIL</button>
-                    ${canDel ? `<button class="btn admin-btn" style="padding:4px 10px" onclick="delLobby(${i})">SİL</button>` : ''}
+                    ${isAdmin ? `<button class="btn admin-btn" style="padding:4px 10px" onclick="delLobby(${i})">SİL</button>` : ''}
                 </div>
             </div>`;
         });
@@ -162,25 +168,40 @@
         document.getElementById('player-list').innerHTML = `<div style="padding:10px; border-bottom:1px solid #222">🟢 ${localStorage.getItem('user')} (Sen)</div>`;
     }
 
+    // ARKADAŞLIK SİSTEMİ
+    function addFriend() {
+        let n = document.getElementById('friend-in').value; if(!n) return;
+        let f = JSON.parse(localStorage.getItem('RED_FRIENDS') || "[]");
+        if(!f.includes(n)) f.push(n);
+        localStorage.setItem('RED_FRIENDS', JSON.stringify(f));
+        renderFriends();
+    }
+
+    function renderFriends() {
+        const div = document.getElementById('friend-list'); div.innerHTML = "";
+        let f = JSON.parse(localStorage.getItem('RED_FRIENDS') || "[]");
+        f.forEach(name => {
+            div.innerHTML += `<div class="item-row"><span>${name}</span> <span style="color:lime; font-size:10px;">ÇEVRİMİÇİ</span></div>`;
+        });
+    }
+
     function delLobby(i) {
-        let l = JSON.parse(localStorage.getItem('GLOBAL_POOL'));
+        let l = JSON.parse(localStorage.getItem('RED_LOBBIES'));
         l.splice(i, 1);
-        localStorage.setItem('GLOBAL_POOL', JSON.stringify(l));
+        localStorage.setItem('RED_LOBBIES', JSON.stringify(l));
         renderLobbies();
     }
 
-    function clearLobbies() { localStorage.setItem('GLOBAL_POOL', "[]"); renderLobbies(); }
+    function clearLobbies() { localStorage.setItem('RED_LOBBIES', "[]"); renderLobbies(); }
 
     function sendChat() {
-        let i = document.getElementById('chat-in');
-        if(!i.value) return;
+        let i = document.getElementById('chat-in'); if(!i.value) return;
         document.getElementById('chat-msgs').innerHTML += `<div><b style="color:var(--red)">${localStorage.getItem('user')}:</b> ${i.value}</div>`;
         i.value = "";
     }
 
     function doLogin() {
-        let u = document.getElementById('u-in').value;
-        if(!u) return;
+        let u = document.getElementById('u-in').value; if(!u) return;
         localStorage.setItem('user', u);
         localStorage.setItem('isLogged', 'true');
         location.reload();
@@ -198,7 +219,7 @@
         }
     };
 
-    // Arkadaşın lobisi anında (1 sn içinde) düşsün diye otomatik yenileme
+    // SYNC MOTORU: Lobi listesini her saniye arka planda tazeler
     setInterval(() => { if(document.getElementById('v-lobbies').style.display === 'flex') renderLobbies(); }, 1000);
 </script>
 </body>
