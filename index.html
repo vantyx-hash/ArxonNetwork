@@ -3,87 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lavendar HAZE Software| Ultimate Elite</title>
+    <title>CS PRO | Red Edition</title>
     <style>
+        :root { --main-red: #ff0000; --dark-red: #8b0000; --bg-black: #050000; }
+        
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #020205; color: white;
+            background-color: var(--bg-black); color: white;
             font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
         }
 
-        /* CANVASA ANIMASYONU (Arka Plan Parçacıkları) */
-        #bgCanvas {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; opacity: 0.6;
-        }
+        #bgCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.5; }
 
-        /* Mouse Işık Efekti (Daha Parlak ve Renkli) */
         .cursor-glow {
             position: fixed; width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(0, 255, 255, 0.15) 0%, rgba(0, 100, 255, 0.05) 40%, rgba(0, 0, 0, 0) 70%);
-            border-radius: 50%; pointer-events: none;
-            transform: translate(-50%, -50%); z-index: 0;
-            mix-blend-mode: screen;
+            background: radial-gradient(circle, rgba(255, 0, 0, 0.15) 0%, rgba(139, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%; pointer-events: none; transform: translate(-50%, -50%); z-index: 0;
         }
 
-        /* Navigasyon */
         nav {
             display: flex; justify-content: space-between; align-items: center;
             padding: 20px 8%; position: fixed; width: 84%; top: 0; z-index: 100;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(0,255,255,0.1);
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--main-red);
         }
+
         .logo { font-size: 24px; font-weight: bold; letter-spacing: 3px; }
-        .logo span { color: #00ffff; text-shadow: 0 0 15px #00ffff; }
-        .nav-links { list-style: none; display: flex; gap: 30px; }
-        .nav-links li { cursor: pointer; color: #fff; transition: 0.3s; font-size: 13px; font-weight: bold; letter-spacing: 1px; }
-        .nav-links li:hover { color: #00ffff; transform: translateY(-2px); }
-        .direct-link { text-decoration: none; color: inherit; }
+        .logo span { color: var(--main-red); text-shadow: 0 0 15px var(--main-red); }
 
-        /* Bölümler */
-        section {
-            height: 100vh; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            text-align: center; padding: 0 10%; position: relative;
-        }
-        h1 { font-size: 5rem; letter-spacing: 15px; margin-bottom: 10px; text-shadow: 0 0 30px rgba(0,255,255,0.3); }
-        .hero-p { color: #00ffff; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 30px; font-weight: 300; }
+        .nav-links { list-style: none; display: flex; gap: 20px; align-items: center; }
+        .nav-links li { cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s; color: #ccc; }
+        .nav-links li:hover { color: var(--main-red); }
 
-        /* Kaydırma Efektleri */
-        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        /* Auth Sistem Alanı */
+        #user-info { display: none; color: var(--main-red); font-size: 12px; }
 
-        /* Kartlar */
-        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
-        .feature-card {
-            background: rgba(0, 255, 255, 0.02); border: 1px solid rgba(0, 255, 255, 0.1);
-            padding: 30px; border-radius: 5px; backdrop-filter: blur(5px); transition: 0.4s;
-        }
-        .feature-card:hover { border-color: #00ffff; box-shadow: 0 0 20px rgba(0,255,255,0.2); }
-
-        /* Butonlar */
+        main { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        h1 { font-size: 5rem; letter-spacing: 15px; margin: 0; text-shadow: 0 0 30px rgba(255,0,0,0.5); }
+        
         .btn {
-            padding: 15px 40px; border: 1px solid #00ffff;
-            background: transparent; color: #00ffff;
-            font-weight: bold; cursor: pointer; transition: 0.4s;
-            text-transform: uppercase; letter-spacing: 2px;
+            padding: 15px 40px; border: 1px solid var(--main-red);
+            background: rgba(255, 0, 0, 0.05); color: var(--main-red);
+            font-weight: bold; cursor: pointer; transition: 0.4s; letter-spacing: 2px;
         }
-        .btn:hover { background: #00ffff; color: #000; box-shadow: 0 0 40px #00ffff; }
+        .btn:hover { background: var(--main-red); color: white; box-shadow: 0 0 30px var(--main-red); }
 
-        /* Modallar */
+        /* MODALLAR */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.95); display: none;
             justify-content: center; align-items: center; z-index: 1000;
         }
         .modal-content {
-            background: #050505; border: 1px solid #00ffff;
-            padding: 40px; width: 450px; text-align: left; position: relative;
+            background: #0a0000; border: 1px solid var(--main-red);
+            padding: 30px; width: 400px; position: relative; text-align: center;
         }
-        .error-modal { border-color: #ff4444; }
-        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #111; }
-        .buy-small-btn { background: #00ffff; border: none; padding: 5px 10px; cursor: pointer; font-weight: bold; }
-        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; font-size: 20px; }
+        .close-x { position: absolute; top: 10px; right: 15px; cursor: pointer; color: #555; }
+
+        input {
+            width: 90%; padding: 10px; margin: 10px 0;
+            background: #111; border: 1px solid #333; color: white;
+        }
+        input:focus { border-color: var(--main-red); outline: none; }
+
+        .item-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 15px 0; border-bottom: 1px solid #200; 
+        }
+        .price { color: #555; text-decoration: line-through; margin-right: 5px; font-size: 12px; }
+        .free { color: var(--main-red); font-weight: bold; }
+
+        .download-link { text-decoration: none; color: black; background: var(--main-red); padding: 5px 10px; font-weight: bold; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -92,138 +82,140 @@
     <div class="cursor-glow" id="glow"></div>
 
     <nav>
-        <div class="logo">Lavendar Haze<span>SOFTWARE</span></div>
+        <div class="logo">RED<span>PRO</span></div>
         <ul class="nav-links">
-            <li onclick="openModal('aboutModal')">HAKKIMIZDA</li>
-            <li onclick="openModal('shopModal')" style="color:#00ffff">MAĞAZA</li>
-            <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">TOPLULUK</a></li>
-            <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" class="direct-link">DESTEK</a></li>
+            <li id="nav-login" onclick="openModal('loginModal')">GİRİŞ YAP</li>
+            <li id="nav-register" onclick="openModal('registerModal')">KAYIT OL</li>
+            <li id="user-info">HOŞ GELDİN, <span id="username-display"></span> <span onclick="logout()" style="margin-left:10px; cursor:pointer; text-decoration:underline;">[ÇIKIŞ]</span></li>
+            <li><a href="https://discord.gg/WR4mznHQYf" target="_blank" style="color:inherit; text-decoration:none;">DISCORD</a></li>
         </ul>
     </nav>
 
-    <section>
-        <h1 class="reveal active">LAVENDAR HAZE SOFTWARE</h1>
-        <p class="hero-p reveal active">GELECEĞİN HİLE TEKNOLOJİSİ ŞİMDİ BURADA</p>
-        <button class="btn reveal active" onclick="openModal('listModal')">DETAYLARI GÖR</button>
-    </section>
+    <main>
+        <h1>ELITE ACCESS</h1>
+        <p style="color: #666; letter-spacing: 5px;">KIRMIZI ÇİZGİYİ GEÇİN</p>
+        <button class="btn" onclick="checkAuthAndOpen()">DETAYLARI GÖR</button>
+    </main>
 
-    <section>
-        <h2 class="reveal">SİSTEM ÖZELLİKLERİ</h2>
-        <div class="features-grid">
-            <div class="feature-card reveal">
-                <h3 style="color:#00ffff">KERNEL LEVEL</h3>
-                <p>Anti-cheat sistemlerinin erişemeyeceği en alt seviyede tam koruma.</p>
-            </div>
-            <div class="feature-card reveal">
-                <h3 style="color:#00ffff">AUTO-UPDATE</h3>
-                <p>Oyun güncellendiği an yazılımımız kendini otomatik olarak yeniler.</p>
-            </div>
-            <div class="feature-card reveal">
-                <h3 style="color:#00ffff">LEGIT MODE</h3>
-                <p>İzleyicilerin bile fark edemeyeceği kadar doğal bir oyun deneyimi.</p>
-            </div>
-        </div>
-    </section>
-
-    <div class="modal-overlay" id="aboutModal">
+    <div class="modal-overlay" id="registerModal">
         <div class="modal-content">
-            <span class="close-x" onclick="closeModal('aboutModal')">✕</span>
-            <h2 style="color:#00ffff">BİZ KİMİZ?</h2>
-            <p>Biz Counter Strike 2 için ve diğer oyunlar için hile geliştiren bir ekibiz. Yazılımlarımızda hız, gizlilik ve kullanıcı deneyimini ön planda tutuyoruz.</p>
+            <span class="close-x" onclick="closeModal('registerModal')">✕</span>
+            <h2 style="color:var(--main-red)">KAYIT OL</h2>
+            <input type="text" id="reg-user" placeholder="Kullanıcı Adı">
+            <input type="password" id="reg-pass" placeholder="Şifre">
+            <button class="btn" style="width:100%" onclick="handleRegister()">HESAP OLUŞTUR</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="modal-content">
+            <span class="close-x" onclick="closeModal('loginModal')">✕</span>
+            <h2 style="color:var(--main-red)">GİRİŞ YAP</h2>
+            <input type="text" id="login-user" placeholder="Kullanıcı Adı">
+            <input type="password" id="login-pass" placeholder="Şifre">
+            <button class="btn" style="width:100%" onclick="handleLogin()">GİRİŞ</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="listModal">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 500px;">
             <span class="close-x" onclick="closeModal('listModal')">✕</span>
-            <h2 style="color:#00ffff">FİYAT LİSTESİ</h2>
-            <div class="item-row"><span>ExHack</span> <div><b>140 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
-            <div class="item-row"><span>SharkHack</span> <div><b>200 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
-            <div class="item-row"><span>Enigma Legit</span> <div><b>235 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
-            <div class="item-row"><span>Enigma HVH</span> <div><b>210 TL</b> <button class="buy-small-btn" onclick="openModal('shopModal')">AL</button></div></div>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="shopModal">
-        <div class="modal-content error-modal" style="text-align: center;">
-            <span class="close-x" onclick="closeModal('shopModal')">✕</span>
-            <h2 style="color:#ff4444">UYARI</h2>
-            <p style="font-size: 1.2rem; font-weight: bold;">HENUZ SATIN ALIM MENUSU EKLENMEMIŞTIR :(</p>
-            <button class="btn" style="border-color:#ff4444; color:#ff4444" onclick="closeModal('shopModal')">KAPAT</button>
+            <h2 style="color:var(--main-red)">AKTİF YAZILIMLAR</h2>
+            
+            <div class="item-row">
+                <span>ExHack Premium</span>
+                <div><span class="price">140TL</span> <span class="free">0 TL</span> <a href="https://data.exloader.net/ExLoader_Installer.exe" class="download-link">İNDİR</a></div>
+            </div>
+            <div class="item-row">
+                <span>SharkHack Global</span>
+                <div><span class="price">200TL</span> <span class="free">0 TL</span> <a href="https://data.exloader.net/ExLoader_Installer.exe" class="download-link">İNDİR</a></div>
+            </div>
+            <div class="item-row">
+                <span>Enigma Legit</span>
+                <div><span class="price">235TL</span> <span class="free">0 TL</span> <a href="https://data.exloader.net/ExLoader_Installer.exe" class="download-link">İNDİR</a></div>
+            </div>
+            <div class="item-row">
+                <span>Enigma HVH</span>
+                <div><span class="price">210TL</span> <span class="free">0 TL</span> <a href="https://data.exloader.net/ExLoader_Installer.exe" class="download-link">İNDİR</a></div>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- MOUSE IŞIK TAKİBİ ---
+        // --- DATABASE SİMÜLASYONU (LocalStorage) ---
+        function handleRegister() {
+            const u = document.getElementById('reg-user').value;
+            const p = document.getElementById('reg-pass').value;
+            if(u && p) {
+                localStorage.setItem('db_user', u);
+                localStorage.setItem('db_pass', p);
+                alert('Kayıt başarılı! Şimdi giriş yapabilirsiniz.');
+                closeModal('registerModal');
+            }
+        }
+
+        function handleLogin() {
+            const u = document.getElementById('login-user').value;
+            const p = document.getElementById('login-pass').value;
+            if(u === localStorage.getItem('db_user') && p === localStorage.getItem('db_pass')) {
+                localStorage.setItem('isLoggedIn', 'true');
+                updateUI();
+                closeModal('loginModal');
+            } else {
+                alert('Hatalı kullanıcı adı veya şifre!');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            location.reload();
+        }
+
+        function updateUI() {
+            if(localStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('nav-login').style.display = 'none';
+                document.getElementById('nav-register').style.display = 'none';
+                document.getElementById('user-info').style.display = 'block';
+                document.getElementById('username-display').innerText = localStorage.getItem('db_user');
+            }
+        }
+        updateUI();
+
+        function checkAuthAndOpen() {
+            if(localStorage.getItem('isLoggedIn') === 'true') {
+                openModal('listModal');
+            } else {
+                alert('Lütfen önce Giriş Yapın!');
+                openModal('loginModal');
+            }
+        }
+
+        // --- GÖRSEL EFEKTLER ---
         const glow = document.getElementById('glow');
         window.addEventListener('mousemove', (e) => {
             glow.style.left = e.clientX + 'px';
             glow.style.top = e.clientY + 'px';
         });
 
-        // --- ARKA PLAN ANIMASYONU (Canvas Parçacıkları) ---
         const canvas = document.getElementById('bgCanvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 1 - 0.5;
-                this.speedY = Math.random() * 1 - 0.5;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+        class P {
+            constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*2; }
+            draw() { 
+                ctx.fillStyle = '#ff0000'; ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fill();
+                this.y += 0.5; if(this.y > canvas.height) this.y = 0;
             }
         }
-
-        function init() {
-            for (let i = 0; i < 100; i++) particles.push(new Particle());
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-        init();
+        for(let i=0; i<100; i++) particles.push(new P());
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p => p.draw()); requestAnimationFrame(animate); }
         animate();
 
-        // --- MODAL VE SCROLL KONTROLLERİ ---
-        function openModal(id) {
-            document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-            document.getElementById(id).style.display = 'flex';
-        }
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-
-        window.addEventListener('scroll', () => {
-            document.querySelectorAll('.reveal').forEach(el => {
-                if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
-            });
-        });
     </script>
 </body>
 </html>
