@@ -1,1519 +1,193 @@
-
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VIREX CRAFT | Profesyonel Sosyal Ağ & Yönetim Paneli</title>
-
-    <!-- Font Awesome & Google Fonts -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap"
-        rel="stylesheet" />
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <!-- Animate.css -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oyun Hileleri Sitesi</title>
     <style>
-        /* ========================================
-           CORE VARIABLES (VirexCraft Style)
-        ======================================== */
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --primary-glow: rgba(79, 70, 229, 0.35);
-            --bg-deep: #0b0d17;
-            --bg-card: #141827;
-            --bg-card-hover: #1f2233;
-            --bg-input: #131825;
-            --text-main: #e4e6f1;
-            --text-dim: #a1a6c0;
-            --text-muted: #727a9e;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --warning: #facc15;
-            --border: rgba(255, 255, 255, 0.08);
-            --radius-lg: 20px;
-            --radius-md: 14px;
-            --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow-primary: 0 0 20px var(--primary-glow);
-        }
-
-        /* ========================================
-           RESET & BASE STYLES
-        ======================================== */
-        *,
-        *::before,
-        *::after {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-            scroll-behavior: smooth;
         }
-
-        html {
-            font-size: 16px;
-            scroll-padding-top: 110px;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        /* Scrollbars */
-        ::-webkit-scrollbar {
-            width: 7px;
-            height: 7px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-deep);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #2e2f4d;
-            border-radius: 15px;
-            transition: var(--transition);
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
-        }
-
-        /* ========================================
-           HEADER NAVIGATION
-        ======================================== */
-        header {
-            position: fixed;
-            width: 100%;
-            height: 90px;
-            background: rgba(12, 14, 31, 0.95);
-            backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid var(--border);
+        nav {
+            background-color: #333;
+            padding: 15px;
+            position: sticky;
             top: 0;
-            left: 0;
-            z-index: 3000;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 6%;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            z-index: 1000;
         }
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            cursor: pointer;
-            user-select: none;
-            filter: drop-shadow(0 0 12px var(--primary-glow));
-            transition: transform 0.3s ease;
-        }
-
-        .logo-area:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-area img {
-            height: 55px;
-            border-radius: 10px;
-        }
-
-        .logo-text {
-            font-size: 24px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            color: var(--text-main);
-            user-select: none;
-        }
-
-        .logo-text span {
-            color: var(--primary);
-            text-shadow: 0 0 12px var(--primary-glow);
-        }
-
         nav ul {
-            display: flex;
-            list-style: none;
-            gap: 35px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
+            list-style-type: none;
+            padding: 0;
         }
-
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
         nav ul li a {
-            font-size: 14px;
-            padding: 8px 0;
-            color: var(--text-dim);
-            position: relative;
-            transition: color 0.3s ease;
+            color: #fff;
+            text-decoration: none;
         }
-
-        nav ul li a.active,
-        nav ul li a:hover {
-            color: var(--primary);
-            text-shadow: 0 0 15px var(--primary-glow);
+        section {
+            margin: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #444;
         }
-
-        nav ul li a.active::after,
-        nav ul li a:hover::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--primary);
-            border-radius: 3px;
+        h2, h3 {
+            color: #ff6666;
         }
-
-        .auth-zone {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-            user-select: none;
+        .product {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ff6666;
+            border-radius: 5px;
+            background-color: #555;
         }
-
-        .auth-info {
-            text-align: right;
-            margin-right: 5px;
-        }
-
-        .auth-info .username {
-            font-weight: 900;
-            color: white;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            user-select: text;
-        }
-
-        .auth-info .balance {
-            font-weight: 700;
-            color: var(--warning);
-            font-size: 13px;
-            user-select: text;
-        }
-
-        .user-avatar-header {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            border: 2.5px solid var(--primary);
-            object-fit: cover;
-            filter: drop-shadow(0 0 8px var(--primary-glow));
-            user-select: none;
-            transition: transform 0.3s ease;
-        }
-
-        .user-avatar-header:hover {
-            transform: scale(1.1);
-            cursor: pointer;
-        }
-
-        /* ========================================
-           HERO SECTION
-        ======================================== */
-        section.hero-banner {
-            position: relative;
-            height: 600px;
-            padding-top: 90px;
-            background: 
-                linear-gradient(180deg, rgba(11, 13, 23, 0.75) 40%, var(--bg-deep) 100%),
-                url('https://images.alphacoders.com/132/1327116.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--text-main);
-            user-select: none;
-            overflow: hidden;
-        }
-
-        section.hero-banner h1 {
-            font-size: 5.2rem;
-            font-weight: 900;
-            letter-spacing: -3px;
-            margin-bottom: 20px;
-            animation: fadeInUp 1.2s ease forwards;
-            opacity: 0;
-        }
-
-        section.hero-banner p {
-            font-size: 1.4rem;
-            max-width: 800px;
-            margin: 0 auto 45px;
-            color: var(--text-dim);
-            animation: fadeInUp 1.6s ease forwards;
-            opacity: 0;
-        }
-
-        section.hero-banner .btn-group {
-            display: flex;
-            gap: 22px;
-            justify-content: center;
-            animation: fadeInUp 1.9s ease forwards;
-            opacity: 0;
-        }
-
-        .btn-hero {
-            font-weight: 800;
-            border-radius: 14px;
-            padding: 14px 48px;
-            font-size: 14px;
-            letter-spacing: 1.3px;
-            cursor: pointer;
+        button {
+            padding: 10px 15px;
+            background-color: #ff6666;
             border: none;
-            transition: var(--transition);
-            box-shadow: 0 6px 10px rgba(79, 70, 229, 0.4);
-            user-select: none;
-            text-transform: uppercase;
-        }
-
-        .btn-hero.primary {
-            background: var(--primary);
+            border-radius: 5px;
             color: white;
-            box-shadow: 0 6px 20px var(--primary-glow);
+            cursor: pointer;
         }
-
-        .btn-hero.primary:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 8px 30px var(--primary-glow);
+        button:hover {
+            background-color: #ff4c4c;
         }
-
-        .btn-hero.secondary {
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--text-main);
-            border: 1.8px solid var(--border);
-        }
-
-        .btn-hero.secondary:hover {
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 8px 18px var(--primary-glow);
-        }
-
-        /* ========================================
-           MAIN GRID LAYOUT
-        ======================================== */
-        .main-wrapper {
-            max-width: 1480px;
-            margin: -70px auto 80px;
-            padding: 0 30px;
-            display: grid;
-            grid-template-columns: 320px 1fr 380px;
-            gap: 32px;
-            position: relative;
-            z-index: 100;
-            user-select: none;
-        }
-
-        /* GLOBAL CARD */
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border);
-            padding: 26px 26px 30px;
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
-            transition: var(--transition);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            cursor: default;
-        }
-
-        .card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 25px 40px var(--primary-glow);
-            background: var(--bg-card-hover);
-            transform: translateY(-8px);
-        }
-
-        /* CARD HEADER */
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1.2px solid var(--border);
-            padding-bottom: 14px;
-            margin-bottom: 28px;
-        }
-
-        .card-header h3 {
-            font-size: 17px;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            letter-spacing: 0.7px;
-            user-select: text;
-        }
-
-        .card-header h3 i {
-            color: var(--primary);
-            font-size: 20px;
-            min-width: 26px;
-            text-align: center;
-        }
-
-        .badge-count {
-            background: var(--primary);
-            color: white;
-            font-size: 12px;
-            font-weight: 800;
-            padding: 4px 12px;
-            border-radius: 10px;
-            user-select: none;
-            box-shadow: 0 0 8px var(--primary-glow);
-        }
-
-        /* ========================================
-           LEFT COLUMN - PROFIL & VIP
-        ======================================== */
-        aside.left-col {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .profile-card img {
-            display: block;
-            margin: 0 auto 18px;
-            filter: drop-shadow(0 0 14px var(--primary-glow));
-            border-radius: 20px;
-            user-select: none;
-        }
-
-        .profile-card h2 {
-            font-size: 28px;
-            font-weight: 900;
-            text-align: center;
-            color: var(--text-main);
-            margin-bottom: 12px;
-            letter-spacing: 1.5px;
-            user-select: text;
-        }
-
-        .rank-badge {
-            background: rgba(79, 70, 229, 0.16);
-            color: var(--primary);
-            padding: 5px 22px;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 900;
-            display: block;
-            width: fit-content;
-            margin: 0 auto 25px;
-            user-select: none;
-            letter-spacing: 1px;
-        }
-
-        .stats-grid {
-            background: #0e122d;
-            border-radius: 16px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-            padding: 22px 24px;
-        }
-
-        .stats-grid > div {
-            text-align: center;
-            user-select: text;
-        }
-
-        .stats-grid small {
-            color: var(--text-dim);
-            font-weight: 500;
-            font-size: 13px;
-            letter-spacing: 1.1px;
-            display: block;
-            margin-bottom: 6px;
-        }
-
-        .stats-grid b {
-            color: var(--success);
-            font-size: 18px;
-            font-weight: 900;
-        }
-
-        .stats-grid .death {
-            color: var(--danger);
-        }
-
-        /* VIP Card */
-        .vip-card p {
-            font-size: 13px;
-            color: var(--text-dim);
-            margin-bottom: 18px;
-            user-select: text;
-        }
-
-        .progress-bar-outer {
-            width: 100%;
-            height: 8px;
-            background: #22263f;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        .progress-bar-inner {
-            height: 100%;
-            background: var(--primary);
-            border-radius: 12px 0 0 12px;
-            width: 0%;
-            transition: width 1.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .vip-note {
-            font-size: 12px;
-            color: var(--text-muted);
-            user-select: text;
-        }
-
-        /* ========================================
-           CENTER COLUMN - DAVETLER, ARKADAŞLAR, KREDI
-        ======================================== */
-        main.center-col {
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* İstekler & Arkadaşlar Listeleri */
-        .user-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            max-height: 380px;
-            overflow-y: auto;
-        }
-
-        .user-item {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: var(--radius-md);
-            border: 1px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            padding: 13px 18px;
-            transition: var(--transition);
-        }
-
-        .user-item:hover {
-            background: rgba(79, 70, 229, 0.12);
-            border-color: var(--primary);
-            box-shadow: 0 8px 16px var(--primary-glow);
-        }
-
-        .user-avatar {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: #22253a;
-            object-fit: cover;
-            border: 2px solid transparent;
-            flex-shrink: 0;
-            transition: var(--transition);
-            user-select: none;
-        }
-
-        .user-item:hover .user-avatar {
-            border-color: var(--primary);
-        }
-
-        .user-details {
-            flex: 1;
-            min-width: 0;
-            user-select: text;
-        }
-
-        .user-details h4 {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            letter-spacing: 0.2px;
-        }
-
-        .user-details p {
-            font-size: 13px;
-            color: var(--text-dim);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* User Status Dot */
-        .user-status-dot {
-            width: 10px;
-            height: 10px;
+        #profilePicture {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
         }
-
-        .online {
-            background-color: var(--success);
-            box-shadow: 0 0 10px var(--success);
+        #chatBox {
+            height: 200px;
+            overflow-y: scroll;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
         }
-
-        .offline {
-            background-color: var(--text-muted);
-        }
-
-        /* Buttons in User Items */
-        .btn-action {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 17px;
-            user-select: none;
-            background: transparent;
-            color: var(--text-dim);
-            box-shadow: none;
-        }
-
-        .btn-action:hover {
-            color: var(--primary);
-            box-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        .btn-accept {
-            background: rgba(34, 197, 94, 0.13);
-            color: var(--success);
-        }
-
-        .btn-accept:hover {
-            background: var(--success);
-            color: white;
-            box-shadow: 0 0 16px var(--success);
-        }
-
-        .btn-reject {
-            background: rgba(239, 68, 68, 0.13);
-            color: var(--danger);
-        }
-
-        .btn-reject:hover {
-            background: var(--danger);
-            color: white;
-            box-shadow: 0 0 16px var(--danger);
-        }
-
-        /* Input Box for Adding Friend & Credit */
-        .input-box {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .input-box input {
-            width: 100%;
-            background: var(--bg-input);
-            border: 1.6px solid var(--border);
-            padding: 15px 22px;
-            border-radius: var(--radius-md);
-            color: var(--text-main);
-            font-weight: 600;
-            font-size: 14px;
-            letter-spacing: 0.05em;
-            transition: var(--transition);
-        }
-
-        .input-box input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 22px var(--primary-glow);
-            outline-offset: 0px;
-        }
-
-        .input-box button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 11px 24px;
-            font-weight: 700;
-            font-size: 12px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            background: var(--primary);
-            color: white;
-            box-shadow: 0 4px 17px var(--primary-glow);
-            transition: var(--transition);
-            user-select: none;
-        }
-
-        .input-box button:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 6px 26px var(--primary-glow);
-        }
-
-        /* ========================================
-         CREDIT ADD PAGE
-        ======================================== */
-        .credit-card {
-            margin-top: 30px;
-            background: var(--bg-card);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-lg);
-            box-shadow: 0 14px 45px rgba(79, 70, 229, 0.4);
-            padding: 28px 32px;
-            user-select: text;
-        }
-
-        .credit-card h3 {
-            font-weight: 900;
-            text-transform: uppercase;
-            font-size: 18px;
-            letter-spacing: 1px;
-            margin-bottom: 24px;
-            color: var(--primary);
-            user-select: none;
-        }
-
-        .credit-form label {
-            display: block;
-            font-size: 13px;
-            margin-bottom: 7px;
-            font-weight: 600;
-            color: var(--text-dim);
-        }
-
-        .credit-form input,
-        .credit-form select {
-            width: 100%;
-            padding: 14px 18px;
-            margin-bottom: 20px;
-            border-radius: var(--radius-md);
-            border: 1.5px solid var(--border);
-            background: var(--bg-input);
-            color: var(--text-main);
-            font-size: 16px;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .credit-form input:focus,
-        .credit-form select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 24px var(--primary-glow);
-            outline: none;
-        }
-
-        .credit-form button {
-            width: 100%;
-            background: var(--primary);
-            border: none;
-            border-radius: var(--radius-lg);
-            padding: 16px 0;
-            font-weight: 900;
-            font-size: 16px;
-            letter-spacing: 1.2px;
-            color: white;
-            box-shadow: 0 8px 26px var(--primary-glow);
-            cursor: pointer;
-            user-select: none;
-            transition: var(--transition);
-        }
-
-        .credit-form button:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 10px 34px var(--primary-glow);
-        }
-
-        /* ========================================
-         RIGHT COLUMN - MARKET & NEWS
-        ======================================== */
-        aside.right-col {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        /* Market Grid */
-        .market-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 22px;
-        }
-
-        .product-card {
-            background: #1f233b;
-            border-radius: var(--radius-md);
-            padding: 22px 18px;
-            text-align: center;
-            border: 1.5px solid var(--border);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6);
-            transition: var(--transition);
-            user-select: none;
-        }
-
-        .product-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 22px 46px var(--primary-glow);
-            transform: translateY(-6px);
-        }
-
-        .product-card img {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 20px;
-            object-fit: contain;
-            filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.8));
-            border-radius: 16px;
-        }
-
-        .product-name {
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 12px;
-            color: var(--text-main);
-            letter-spacing: 0.05em;
-        }
-
-        .product-price {
-            color: var(--warning);
-            font-weight: 900;
-            font-size: 19px;
-            margin-bottom: 14px;
-            user-select: text;
-        }
-
-        .product-card button {
-            width: 100%;
-            padding: 12px 0;
-            background: var(--primary);
-            border-radius: 12px;
-            border: none;
-            color: white;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 8px 24px var(--primary-glow);
-            transition: var(--transition);
-            user-select: none;
-        }
-
-        .product-card button:hover {
-            background: var(--primary-hover);
-            box-shadow: 0 12px 36px var(--primary-glow);
-        }
-
-        /* News Section */
-        .news-section > div {
-            background: linear-gradient(135deg, #222640 0%, #1b1e36 100%);
-            border-radius: 18px;
-            padding: 24px 26px;
-            box-shadow: 0 10px 28px rgb(79 70 229 / 0.5);
-            user-select: text;
-            transition: var(--transition);
-        }
-
-        .news-item {
-            border-left: 4px solid var(--primary);
-            padding-left: 18px;
-            margin-bottom: 18px;
-        }
-
-        .news-item.warning {
-            border-left-color: var(--warning);
-        }
-
-        .news-item h5 {
-            font-size: 15px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            color: var(--text-main);
-            letter-spacing: 0.03em;
-            user-select: text;
-        }
-
-        .news-item p {
-            font-size: 12px;
-            color: var(--text-dim);
-            user-select: text;
-            line-height: 1.25;
-        }
-
-        /* ========================================
-           FOOTER
-        ======================================== */
-        footer {
-            background: #0b0c22;
-            border-top: 1.5px solid var(--border);
-            padding: 70px 6% 38px;
-            margin-top: auto;
-            user-select: none;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2.5fr 1fr 1fr 1fr;
-            gap: 55px;
-            margin-bottom: 48px;
-        }
-
-        .footer-col h4 {
-            color: white;
-            font-weight: 900;
-            font-size: 14px;
-            margin-bottom: 28px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            user-select: text;
-        }
-
-        .footer-col p,
-        .footer-col ul li {
-            font-size: 14px;
-            color: var(--text-dim);
-            line-height: 1.6;
-            user-select: text;
-        }
-
-        .footer-col ul {
-            list-style: none;
-            padding-left: 0;
-            display: grid;
-            gap: 12px;
-        }
-
-        .footer-col ul li:hover {
-            color: var(--primary);
-            cursor: pointer;
-            transition: var(--transition);
-            text-decoration: underline;
-        }
-
-        /* Social Icons */
-        .footer-social {
-            display: flex;
-            gap: 22px;
-            margin-top: 31px;
-        }
-
-        .footer-social i {
-            color: var(--text-dim);
-            font-size: 21px;
-            transition: var(--transition);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .footer-social i:hover {
-            color: var(--primary);
-            filter: drop-shadow(0 0 6px var(--primary-glow));
-        }
-
-        .footer-bottom {
-            border-top: 1.5px solid rgba(255, 255, 255, 0.06);
-            padding-top: 32px;
-            color: var(--text-muted);
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-            user-select: text;
-        }
-
-        .server-status-box {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.25);
-            border-radius: 16px;
-            padding: 20px 24px;
-            text-align: center;
-            color: var(--success);
-            box-shadow: 0 0 14px rgba(34, 197, 94, 0.5);
-            font-weight: 900;
-            font-size: 19px;
-            letter-spacing: 0.03em;
-            user-select: text;
-        }
-
-        .server-subtext {
-            color: var(--text-dim);
-            font-size: 13px;
-            margin-top: 4px;
-            user-select: text;
-        }
-
-        /* ========================================
-            ANIMATIONS
-        ======================================== */
-        @keyframes fadeInUp {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulseGlow {
-            0% {
-                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
-            }
-
-            70% {
-                box-shadow: 0 0 0 20px rgba(79, 70, 229, 0);
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
-            }
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 1260px) {
-            .main-wrapper {
-                grid-template-columns: 1fr 1fr;
-            }
-            aside.right-col {
-                order: 3;
-            }
-            main.center-col {
-                order: 2;
-            }
-            aside.left-col {
-                order: 1;
-            }
-        }
-
-        @media (max-width: 840px) {
-            header {
-                padding: 0 3%;
-            }
-
-            nav ul {
-                display: none;
-            }
-
-            .main-wrapper {
-                display: flex;
-                flex-direction: column;
-                margin: 30px auto 80px;
-                padding: 0 15px;
-                gap: 40px;
-            }
+        .chat-message {
+            margin: 5px 0;
         }
     </style>
 </head>
-
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo-area" onclick="location.reload()">
-            <img src="https://i.ibb.co/WCXfkXL/virex-logo.png" alt="Logo" />
-            <div class="logo-text">VIREX<span>CRAFT</span></div>
-        </div>
+<nav>
+    <ul>
+        <li><a href="#home">Anasayfa</a></li>
+        <li><a href="#products">Ürünler</a></li>
+        <li><a href="#lobbies">Lobiler</a></li>
+        <li><a href="#voiceChat">Sesli Sohbet</a></li>
+        <li><a href="#profile">Profil</a></li>
+        <li><a href="#store">Mağaza</a></li>
+    </ul>
+</nav>
 
-        <nav>
-            <ul>
-                <li><a href="#panel" class="active">Panel</a></li>
-                <li><a href="#marketplace">Mağaza</a></li>
-                <li><a href="#credit-add">Kredi Yükle</a></li>
-                <li><a href="#ranking">Sıralama</a></li>
-                <li><a href="#support">Destek</a></li>
-            </ul>
-        </nav>
+<section id="home">
+    <h2>Hoş Geldiniz!</h2>
+    <p>Bu site, çeşitli oyunlar için hileler ve lobiler sunmaktadır. Keyifli oyunlar!</p>
+</section>
 
-        <div class="auth-zone" title="Kullanıcı: Syvex | Kredi: 1450">
-            <div class="auth-info">
-                <div class="username">Syvex</div>
-                <div class="balance">1.450,00 ⛁</div>
-            </div>
-            <img src="https://minotar.net/avatar/Syvex/50" alt="User" class="user-avatar-header" />
-        </div>
-    </header>
-
-    <!-- HERO -->
-    <section class="hero-banner" aria-label="Ana Sayfa Tanıtımı">
-        <div>
-            <h1 class="animate__animated animate__fadeInUp">SOSYAL HUB</h1>
-            <p class="animate__animated animate__fadeInUp animate__delay-1s">Virex Craft dünyasındaki arkadaşlarını yönet, onlara
-                hediyeler gönder, sunucu durumunu takip et ve sosyal çevreni güçlendir.</p>
-
-            <div class="btn-group animate__animated animate__fadeInUp animate__delay-2s">
-                <button class="btn-hero primary" onclick="scrollToSection('marketplace')">
-                    MARKETİ GEZ
-                </button>
-                <button class="btn-hero secondary" onclick="openDiscord()">
-                    DİSCORD KATIL
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- MAIN WRAPPER -->
-    <div class="main-wrapper">
-
-        <!-- LEFT COLUMN -->
-        <aside class="left-col" aria-label="Profil ve VIP Bilgilerim">
-            <!-- Profile Card -->
-            <div class="card profile-card">
-                <div class="card-header">
-                    <h3><i class="fas fa-user-circle"></i> PROFİLİM</h3>
-                </div>
-                <img src="https://mc-heads.net/body/Syvex/150" alt="Karakter görüntüsü" />
-                <h2>Syvex</h2>
-                <span class="rank-badge">YÖNETİCİ</span>
-
-                <div class="stats-grid">
-                    <div>
-                        <small>Öldürme</small>
-                        <b id="kill-count">1245</b>
-                    </div>
-                    <div>
-                        <small>Ölme</small>
-                        <b id="death-count" class="death">412</b>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VIP Card -->
-            <div class="card vip-card">
-                <div class="card-header">
-                    <h3><i class="fas fa-gem"></i> VIP DURUMU</h3>
-                </div>
-                <p>Mevcut Rütbeniz: <b id="current-rank">OYUNCU</b></p>
-                <div class="progress-bar-outer" aria-label="Rütbe ilerleme çubuğu">
-                    <div class="progress-bar-inner" id="vip-progress"></div>
-                </div>
-                <small class="vip-note" id="next-rank-note">Sıradaki rütbe için 250 kredi gerekli.</small>
-            </div>
-        </aside>
-
-        <!-- CENTER COLUMN -->
-        <main class="center-col" aria-label="Sosyal Etkileşim Alanı">
-            <!-- Gelen Davetler -->
-            <section aria-labelledby="invitations-header" id="panel">
-                <div class="card" id="requestSection">
-                    <div class="card-header">
-                        <h3 id="invitations-header"><i class="fas fa-envelope-open-text"></i> GELEN DAVETLER</h3>
-                        <span class="badge-count" id="reqCounter">2</span>
-                    </div>
-                    <div class="user-list" id="requestContainer" aria-live="polite" aria-relevant="additions removals">
-                        <!-- Dinamik gelecek -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Arkadaşlar -->
-            <section aria-labelledby="friends-header" style="margin-top: 35px;">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 id="friends-header"><i class="fas fa-user-friends"></i> ARKADAŞLARIM</h3>
-                        <span class="badge-count" id="friendCounter">3</span>
-                    </div>
-                    <div class="input-box" role="search">
-                        <input type="text" id="addFriendInput" placeholder="Eklemek istediğin oyuncunun adı..."
-                            aria-label="Arkadaş ekle" />
-                        <button aria-label="Arkadaş isteği gönder" onclick="socialEngine.sendRequest()">GÖNDER</button>
-                    </div>
-                    <div class="user-list" id="friendsContainer" aria-live="polite" aria-relevant="additions removals">
-                        <!-- Dinamik gelecek -->
-                    </div>
-                </div>
-            </section>
-
-            <!-- Kredi Yükle Sayfası -->
-            <section aria-labelledby="credit-add-header" id="credit-add" style="margin-top: 40px;">
-                <div class="card credit-card">
-                    <h3 id="credit-add-header"><i class="fas fa-coins"></i> KREDİ YÜKLE</h3>
-
-                    <form class="credit-form" id="creditForm" aria-describedby="credit-desc" novalidate>
-                        <p id="credit-desc" style="color: var(--text-dim); font-size: 14px; margin-bottom: 30px;">Hesabınıza kredi yükleyin,
-                            oyun içi avantajların, VIP rütbesinin ve mağaza ürünlerinin kilidini açın.</p>
-
-                        <label for="userName">Kullanıcı Adı</label>
-                        <input type="text" id="userName" name="userName" required minlength="3" placeholder="Oyuncu adınızı girin" aria-required="true" aria-describedby="username-error" />
-                        <span id="username-error" class="error-message" role="alert" style="color:#ef4444;visibility:hidden;font-size:12px;margin-top:-15px;margin-bottom:15px;">Lütfen geçerli bir kullanıcı adı giriniz.</span>
-
-                        <label for="creditAmount">Yüklenecek Kredi (⛁)</label>
-                        <select id="creditAmount" name="creditAmount" required aria-required="true" aria-describedby="credit-error">
-                            <option value="" disabled selected>Kredi Miktarını Seçin</option>
-                            <option value="50">50 ⛁</option>
-                            <option value="100">100 ⛁</option>
-                            <option value="250">250 ⛁</option>
-                            <option value="500">500 ⛁</option>
-                            <option value="1000">1000 ⛁</option>
-                        </select>
-                        <span id="credit-error" class="error-message" role="alert" style="color:#ef4444;visibility:hidden;font-size:12px;margin-top:-15px;margin-bottom:15px;">Lütfen kredi miktarını seçiniz.</span>
-
-                        <button type="submit" aria-label="Kredi yükle">KREDİ YÜKLE</button>
-                    </form>
-                </div>
-            </section>
-        </main>
-
-        <!-- RIGHT COLUMN -->
-        <aside class="right-col" aria-label="Market ve Haberler">
-
-            <!-- Market -->
-            <section class="card" id="marketplace" aria-labelledby="market-header">
-                <div class="card-header">
-                    <h3 id="market-header"><i class="fas fa-shopping-cart"></i> HAFTALIK MARKET</h3>
-                </div>
-                <div class="market-grid" id="marketGrid">
-                    <!-- Dinamik ürünler -->
-                </div>
-            </section>
-
-            <!-- Haberler -->
-            <section class="card news-section" aria-labelledby="news-header">
-                <div class="card-header">
-                    <h3 id="news-header"><i class="fas fa-newspaper"></i> HABERLER</h3>
-                </div>
-                <div>
-                    <article class="news-item" tabindex="0">
-                        <h5>Sezon Sonu Yaklaşıyor!</h5>
-                        <p>Sıralama ödülleri bu hafta dağıtılıyor. Yerini almayı unutma!</p>
-                    </article>
-                    <article class="news-item warning" tabindex="0">
-                        <h5>Bakım Çalışması</h5>
-                        <p>Salı gecesi saat 03:00'te sunucumuz kısa süreli bakıma girecektir.</p>
-                    </article>
-                    <article class="news-item" tabindex="0">
-                        <h5>Yeni Ödüller Geldi</h5>
-                        <p>Özel etkinlikler için yeni kozmetik eşyalar eklendi.</p>
-                    </article>
-                    <article class="news-item" tabindex="0">
-                        <h5>Discord Topluluğumuza Katılın</h5>
-                        <p>Yeni sohbet kanalları ve etkinliklerle topluluğumuz büyüyor!</p>
-                    </article>
-                </div>
-            </section>
-        </aside>
+<section id="lobbies">
+    <h2>Lobiler</h2>
+    <button onclick="createLobby()">Lobi Oluştur</button>
+    <div id="lobbyList">
+        <h3>Mevcut Lobiler:</h3>
+        <ul id="lobbyItems"></ul>
     </div>
+</section>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-grid">
-            <section class="footer-col" aria-labelledby="footer-about">
-                <h4 id="footer-about">Virex<span style="color: var(--primary);">Craft</span></h4>
-                <p>
-                    Türkiye'nin en gelişmiş Minecraft altyapısı ile oyuncularımıza kesintisiz,
-                    adil ve eğlenceli bir oyun deneyimi sunuyoruz. Survival, Skyblock ve BoxMining dahil birçok mod burada!
-                </p>
-                <div class="footer-social" role="list" aria-label="Sosyal Medya">
-                    <i class="fab fa-discord" tabindex="0" role="listitem" title="Discord"></i>
-                    <i class="fab fa-instagram" tabindex="0" role="listitem" title="Instagram"></i>
-                    <i class="fab fa-youtube" tabindex="0" role="listitem" title="YouTube"></i>
-                </div>
-            </section>
-            <section class="footer-col" aria-labelledby="footer-quick-links">
-                <h4 id="footer-quick-links">Hızlı Erişim</h4>
-                <ul>
-                    <li><a href="#panel">Ana Sayfa</a></li>
-                    <li><a href="#marketplace">Mağaza</a></li>
-                    <li><a href="#credit-add">Kredi Yükle</a></li>
-                    <li><a href="#support">Yardım Merkezi</a></li>
-                </ul>
-            </section>
-            <section class="footer-col" aria-labelledby="footer-legal">
-                <h4 id="footer-legal">Yasal</h4>
-                <ul>
-                    <li>Kullanıcı Sözleşmesi</li>
-                    <li>Gizlilik Politikası</li>
-                    <li>Satış Sözleşmesi</li>
-                    <li>KVKK Aydınlatma</li>
-                </ul>
-            </section>
-            <section class="footer-col" aria-labelledby="footer-server-status">
-                <h4 id="footer-server-status">Sunucu Durumu</h4>
-                <div class="server-status-box" aria-live="polite" aria-atomic="true" role="status">AKTİF</div>
-                <div class="server-subtext">mc.virexcraft.com</div>
-            </section>
-        </div>
+<section id="voiceChat">
+    <h3>Sesli Sohbet</h3>
+    <button onclick="toggleMute()">Ses Kapat/Aç</button>
+    <div id="chatBox"></div>
+    <input type="text" id="chatInput" placeholder="Mesaj yazın...">
+    <button onclick="sendMessage()">Gönder</button>
+</section>
 
-        <div class="footer-bottom">&copy; 2026 Virex Craft. Tüm hakları saklıdır.</div>
-    </footer>
+<section id="profile">
+    <h2>Profilim</h2>
+    <img id="profilePicture" src="" alt="Profil Resmi" style="display:none;">
+    <input type="file" accept="image/*" onchange="uploadProfilePicture(event)">
+    <button onclick="changeAds()">Reklam Değiştir</button>
+</section>
 
-    <!-- JAVASCRIPT -->
-    <script>
-        // Scroll to section function for buttons in hero and nav
-        function scrollToSection(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
+<section id="store">
+    <h2>Mağaza</h2>
+    <div class="product">
+        <h3>CS2 Hilesi</h3>
+        <button onclick="downloadCheat('CS2')">İndir</button>
+    </div>
+    <div class="product">
+        <h3>Minecraft Hilesi</h3>
+        <button onclick="downloadCheat('Minecraft')">İndir</button>
+    </div>
+    <div class="product">
+        <h3>Roblox Hilesi</h3>
+        <button onclick="downloadCheat('Roblox')">İndir</button>
+    </div>
+    <div class="product">
+        <h3>Among Us Hilesi</h3>
+        <button onclick="downloadCheat('Among Us')">İndir</button>
+    </div>
+</section>
 
-        // Open Discord (placeholder)
-        function openDiscord() {
-            window.open('https://discord.gg/yourserver', '_blank');
-        }
+<script>
+    let lobbyCount = 0;
 
-        // Social Engine Object (Arkadaş ve davet işlemleri)
-        const socialEngine = (function () {
-            const requestsContainer = document.getElementById('requestContainer');
-            const friendsContainer = document.getElementById('friendsContainer');
-            const reqCounter = document.getElementById('reqCounter');
-            const friendCounter = document.getElementById('friendCounter');
-            const addFriendInput = document.getElementById('addFriendInput');
+    function createLobby() {
+        lobbyCount++;
+        const lobbyList = document.getElementById('lobbyItems');
+        const newLobby = document.createElement('li');
+        newLobby.textContent = "Lobi " + lobbyCount;
+        lobbyList.appendChild(newLobby);
+        alert("Lobi oluşturuldu: Lobi " + lobbyCount);
+    }
 
-            // Initial Data
-            let friendRequests = [
-                { id: 'req_1', name: 'Vortex_MC', avatar: 'https://minotar.net/avatar/Vortex_MC/50' },
-                { id: 'req_2', name: 'LavaQueen', avatar: 'https://minotar.net/avatar/LavaQueen/50' }
-            ];
+    function toggleMute() {
+        alert("Ses kapatma açma işlemi gerçekleştirildi.");
+    }
 
-            let friends = [
-                { name: 'Ordek58', avatar: 'https://minotar.net/avatar/Ordek58/50', online: true, status: 'Survival' },
-                { name: 'GodAzO', avatar: 'https://minotar.net/avatar/GodAzO/50', online: false, lastOnline: '2 saat önce' },
-                { name: 'LeaderOS', avatar: 'https://minotar.net/avatar/LeaderOS/50', online: true, status: 'Skyblock' }
-            ];
-
-            // Render Functions
-            function renderRequests() {
-                requestsContainer.innerHTML = '';
-                friendRequests.forEach(req => {
-                    const div = document.createElement('div');
-                    div.className = 'user-item animate__animated animate__fadeIn';
-                    div.id = req.id;
-                    div.innerHTML = `
-                        <img src="${req.avatar}" class="user-avatar" alt="${req.name} avatar" />
-                        <div class="user-details">
-                            <h4>${req.name}</h4>
-                            <p>Seni arkadaş olarak eklemek istiyor.</p>
-                        </div>
-                        <div style="display:flex; gap:12px;">
-                            <button class="btn-action btn-accept" aria-label="Kabul et ${req.name}" onclick="socialEngine.accept('${req.id}', '${req.name}')"><i class="fas fa-check"></i></button>
-                            <button class="btn-action btn-reject" aria-label="Reddet ${req.name}" onclick="socialEngine.reject('${req.id}')"><i class="fas fa-times"></i></button>
-                        </div>
-                    `;
-                    requestsContainer.appendChild(div);
-                });
-                reqCounter.textContent = friendRequests.length;
-            }
-
-            function renderFriends() {
-                friendsContainer.innerHTML = '';
-                friends.forEach(friend => {
-                    const div = document.createElement('div');
-                    div.className = 'user-item animate__animated animate__fadeIn';
-                    div.innerHTML = `
-                        <img src="${friend.avatar}" class="user-avatar" alt="${friend.name} avatar" />
-                        <div class="user-details">
-                            <h4>${friend.name}</h4>
-                            <p>
-                                <span class="user-status-dot ${friend.online ? 'online' : 'offline'}"></span> ${
-                        friend.online
-                            ? `Çevrimiçi - ${friend.status}`
-                            : `Çevrimdışı (${friend.lastOnline || 'bilinmiyor'})`
-                    }
-                            </p>
-                        </div>
-                        <button class="btn-action btn-reject" aria-label="${friend.name} arkadaşını kaldır" onclick="socialEngine.removeFriend(this, '${friend.name}')"><i class="fas fa-user-minus"></i></button>
-                    `;
-                    friendsContainer.appendChild(div);
-                });
-                friendCounter.textContent = friends.length;
-            }
-
-            // Actions
-            function accept(id, name) {
-                friendRequests = friendRequests.filter(r => r.id !== id);
-                friends.push({ name: name, avatar: `https://minotar.net/avatar/${name}/50`, online: false, lastOnline: 'şimdi' });
-                renderRequests();
-                renderFriends();
-                Swal.fire({
-                    icon: 'success',
-                    title: `${name} arkadaş olarak eklendi.`,
-                    timer: 1900,
-                    showConfirmButton: false,
-                });
-            }
-
-            function reject(id) {
-                friendRequests = friendRequests.filter(r => r.id !== id);
-                renderRequests();
-                Swal.fire({
-                    icon: 'info',
-                    title: `Arkadaşlık isteği reddedildi.`,
-                    timer: 1500,
-                    showConfirmButton: false,
-                });
-            }
-
-            function removeFriend(button, name) {
-                Swal.fire({
-                    title: `${name} arkadaşını kaldırmak istediğine emin misin?`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Evet, kaldır',
-                    cancelButtonText: 'İptal',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Silme işlemi
-                        friends = friends.filter(f => f.name !== name);
-                        renderFriends();
-                        Swal.fire({
-                            icon: 'success',
-                            title: `${name} arkadaş listenden kaldırıldı.`,
-                            timer: 1800,
-                            showConfirmButton: false
-                        });
-                    }
-                });
-            }
-
-            function sendRequest() {
-                const username = addFriendInput.value.trim();
-                if (!username || username.length < 3) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Geçersiz kullanıcı adı',
-                        text: 'Lütfen geçerli bir oyuncu adı giriniz (en az 3 karakter).',
-                    });
-                    addFriendInput.focus();
-                    return;
-                }
-
-                // Eğer zaten arkadaşsa uyar
-                if (friends.some(f => f.name.toLowerCase() === username.toLowerCase())) {
-                    Swal.fire({
-                        icon: 'info',
-                        title: `${username} zaten arkadaş listenizde.`,
-                        timer: 1500,
-                        showConfirmButton: false,
-                    });
-                    addFriendInput.value = '';
-                    return;
-                }
-
-                // Eğer gönderilmiş istek varsa uyar
-                if (friendRequests.some(r => r.name.toLowerCase() === username.toLowerCase())) {
-                    Swal.fire({
-                        icon: 'info',
-                        title: `${username} için zaten bir arkadaşlık isteği var.`,
-                        timer: 1500,
-                        showConfirmButton: false,
-                    });
-                    addFriendInput.value = '';
-                    return;
-                }
-
-                friendRequests.push({
-                    id: 'req_' + (friendRequests.length + Math.floor(Math.random() * 1000)),
-                    name: username,
-                    avatar: `https://minotar.net/avatar/${username}/50`,
-                });
-                renderRequests();
-                addFriendInput.value = '';
-                Swal.fire({
-                    icon: 'success',
-                    title: `${username} için arkadaşlık isteği gönderildi.`,
-                    timer: 1800,
-                    showConfirmButton: false,
-                });
-            }
-
-            return {
-                renderRequests,
-                renderFriends,
-                accept,
-                reject,
-                removeFriend,
-                sendRequest,
-            };
-        })();
-
-        // İlk yüklemede render et
-        window.onload = function () {
-            socialEngine.renderRequests();
-            socialEngine.renderFriends();
-            animateVipProgress(38); // Demo: %38 doluluk
+    function uploadProfilePicture(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById('profilePicture');
+            img.src = e.target.result;
+            img.style.display = 'block';
         };
+        reader.readAsDataURL(file);
+        alert("Profil resmi yüklendi: " + file.name);
+    }
 
-        // VIP Progress Animation
-        function animateVipProgress(percent) {
-            const bar = document.getElementById('vip-progress');
-            if (bar) {
-                bar.style.width = '0%';
-                setTimeout(() => {
-                    bar.style.width = percent + '%';
-                }, 350);
-            }
+    function changeAds() {
+        alert("Reklam değiştirme işlemi gerçekleştirildi.");
+    }
+
+    function sendMessage() {
+        const chatInput = document.getElementById('chatInput');
+        const chatBox = document.getElementById('chatBox');
+        const message = chatInput.value;
+        if (message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message');
+            messageElement.textContent = message;
+            chatBox.appendChild(messageElement);
+            chatInput.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to bottom
         }
+    }
 
-        // Form Validasyonu & Submit
-        document.getElementById('creditForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-            let valid = true;
+    function downloadCheat(game) {
+        window.location.href = "https://data.exloader.net/ExLoader_Installer.exe";
+    }
+</script>
 
-            const userName = this.userName.value.trim();
-            const creditAmount = this.creditAmount.value;
-
-            const usernameError = document.getElementById('username-error');
-            const creditError = document.getElementById('credit-error');
-
-            // Kullanıcı adı kontrol
-            if (!userName || userName.length < 3) {
-                usernameError.style.visibility = 'visible';
-                valid = false;
-            } else {
-                usernameError.style.visibility = 'hidden';
-            }
-
-            // Kredi seçimi kontrol
-            if (!creditAmount) {
-                creditError.style.visibility = 'visible';
-                valid = false;
-            } else {
-                creditError.style.visibility = 'hidden';
-            }
-
-            if (!valid) return;
-
-            // Kredi yükleme işlemi (burayı backend ile bağlayabilirsiniz)
-            Swal.fire({
-                icon: 'success',
-                title: 'Kredi yükleme talebi alındı!',
-                html: `<p><strong>${userName}</strong> kullanıcısı için <strong>${creditAmount} ⛁</strong> yüklenecektir.</p>`,
-                showConfirmButton: true,
-            }).then(() => {
-                // Form temizle
-                this.reset();
-            });
-        });
-    </script>
 </body>
-
 </html>
