@@ -1,170 +1,309 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VirexCraft - Kalitenin Adresi</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RED PRO | Arkadaşlık Dünyası</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* TEMEL DEĞİŞKENLER VE SIFIRLAMA */
+        :root {
+            --color-indigo-500: 249 115 22; /* Turuncu-Indigo Karışımı */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --bg-dark: #0a0a0a;
+            --card-bg: #141414;
+            --text-main: #e2e8f0;
+            --text-dim: #94a3b8;
+        }
 
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#121212;
-    color:white;
-}
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-header{
-    background:#0d0d0d;
-    padding:20px 60px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    border-bottom:2px solid #22c55e;
-}
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
 
-.logo{
-    font-size:26px;
-    font-weight:bold;
-    color:#22c55e;
-}
+        /* HEADER */
+        header {
+            background: rgba(10, 10, 10, 0.9);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
 
-nav a{
-    color:white;
-    margin-left:25px;
-    text-decoration:none;
-    font-weight:bold;
-}
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
 
-nav a:hover{
-    color:#22c55e;
-}
+        .logo span { color: var(--primary); }
 
-.hero{
-    padding:120px 60px;
-    background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-    url('https://images.alphacoders.com/108/1088362.jpg');
-    background-size:cover;
-    background-position:center;
-}
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
 
-.hero h1{
-    font-size:48px;
-    margin:0;
-}
+        nav a:hover, nav a.active { color: #fff; }
 
-.hero p{
-    color:#cccccc;
-    margin-top:15px;
-}
+        /* HERO SECTION */
+        .hero {
+            padding: 180px 5% 100px;
+            background: linear-gradient(to bottom, rgba(99, 102, 241, 0.1), transparent), 
+                        url('https://wallpaperaccess.com/full/337145.jpg');
+            background-size: cover;
+            background-position: center;
+            text-align: center;
+            position: relative;
+        }
 
-.btn{
-    display:inline-block;
-    margin-top:25px;
-    padding:12px 25px;
-    background:#22c55e;
-    color:black;
-    font-weight:bold;
-    text-decoration:none;
-    border-radius:8px;
-}
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
 
-.section{
-    padding:60px;
-}
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
 
-.card{
-    background:#1a1a1a;
-    padding:25px;
-    border-radius:12px;
-    margin-bottom:25px;
-}
+        .btn {
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:20px;
-}
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
 
-th,td{
-    padding:12px;
-    border-bottom:1px solid #333;
-    text-align:left;
-}
+        /* ANA İÇERİK - ARKADAŞ EKLEME PANELİ */
+        .container {
+            max-width: 1200px;
+            margin: -50px auto 100px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
 
-th{
-    background:#22c55e;
-    color:black;
-}
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
 
-footer{
-    background:#0d0d0d;
-    padding:30px 60px;
-    margin-top:40px;
-    color:#aaa;
-}
-</style>
+        .card h2 { margin-bottom: 20px; font-size: 1.5rem; }
+
+        /* ARKADAŞ EKLEME FORMU */
+        .add-friend-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            flex: 1;
+            background: #0a0a0a;
+            border: 1px solid #222;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus { border-color: var(--primary); }
+
+        /* ARKADAŞ LİSTESİ */
+        .friend-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: 0.3s;
+        }
+
+        .friend-item:hover { background: rgba(255,255,255,0.05); }
+
+        .friend-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            margin-right: 15px;
+            background: #222;
+        }
+
+        .friend-info { flex: 1; }
+        .friend-name { font-weight: 600; display: block; }
+        .friend-status { font-size: 0.8rem; color: #10b981; } /* Online Rengi */
+
+        .remove-btn {
+            color: #ef4444;
+            cursor: pointer;
+            padding: 10px;
+            transition: 0.3s;
+        }
+
+        /* SIDEBAR - TOP PLAYERS */
+        .sidebar-section { margin-bottom: 30px; }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
 </head>
-
 <body>
 
 <header>
-    <div class="logo">⛏️ VirexCraft</div>
+    <div class="logo">RED<span>PRO</span></div>
     <nav>
-        <a href="#">Ana Sayfa</a>
+        <a href="#" class="active">Ana Sayfa</a>
         <a href="#">Mağaza</a>
-        <a href="#">Yardım</a>
-        <a href="#">Kredi Yükle</a>
-        <a href="#">Giriş Yap</a>
+        <a href="#">Sıralama</a>
+        <a href="#" style="background: var(--primary); color: white; padding: 8px 15px; border-radius: 8px;">Giriş Yap</a>
     </nav>
 </header>
 
 <section class="hero">
-    <h1>1 Numaralı Minecraft Sunucusuna Katıl!</h1>
-    <p>BoxMining • Survival • Etkinlikler • Lag yok</p>
-    <a href="#" class="btn">Şimdi Oyna</a>
+    <h1>Arkadaşlarınla <span>Daha Eğlenceli!</span></h1>
+    <p>Avenor Craft sosyal panelinde arkadaşlarını ekleyebilir, istatistiklerini görebilir ve onlara hediye krediler gönderebilirsin.</p>
+    <a href="#friends" class="btn"><i class="fas fa-users"></i> Keşfetmeye Başla</a>
 </section>
 
-<section class="section">
-
+<div class="container" id="friends">
     <div class="card">
-        <h2>Sunucuya Katıl</h2>
-        <p><strong>IP:</strong> play.virexcraft.net</p>
-        <p><strong>Aktif Oyuncu:</strong> 245 / 500</p>
+        <h2><i class="fas fa-user-plus" style="color: var(--primary);"></i> Arkadaş Ekle</h2>
+        <div class="add-friend-box">
+            <input type="text" id="friendName" placeholder="Oyuncu adını yazın... (Örn: Ordek58)">
+            <button class="btn" onclick="addFriend()">Ekle</button>
+        </div>
+
+        <h2><i class="fas fa-list" style="color: var(--primary);"></i> Arkadaş Listesi</h2>
+        <div id="friendList">
+            <div class="friend-item">
+                <img src="https://minotar.net/avatar/Ordek58/50" class="friend-avatar" alt="">
+                <div class="friend-info">
+                    <span class="friend-name">Ordek58</span>
+                    <span class="friend-status">🟢 Çevrimiçi - Survival 1</span>
+                </div>
+                <div class="remove-btn"><i class="fas fa-trash"></i></div>
+            </div>
+
+            <div class="friend-item">
+                <img src="https://minotar.net/avatar/GodAzO/50" class="friend-avatar" alt="">
+                <div class="friend-info">
+                    <span class="friend-name">GodAzO</span>
+                    <span class="friend-status" style="color: #666;">🔴 Çevrimdışı</span>
+                </div>
+                <div class="remove-btn"><i class="fas fa-trash"></i></div>
+            </div>
+        </div>
     </div>
 
     <div class="card">
-        <h2>Haber</h2>
-        <p><strong>VirexCraft Açılıyor!</strong></p>
-        <p>Çok yakında büyük ödüllü açılış etkinliği başlıyor. Discord'dan takipte kal!</p>
+        <div class="sidebar-section">
+            <h3 style="margin-bottom: 15px;">Profil Özetim</h3>
+            <div class="stats-row">
+                <span>Kredi</span>
+                <strong style="color: #fbbf24;">1,250 ⛁</strong>
+            </div>
+            <div class="stats-row">
+                <span>Arkadaş Sayısı</span>
+                <strong>2 / 50</strong>
+            </div>
+        </div>
+
+        <div class="sidebar-section" style="margin-top: 40px;">
+            <h3 style="margin-bottom: 15px;">En Popülerler</h3>
+            <div class="friend-item" style="padding: 10px; background: none; border-bottom: 1px solid #222; border-radius: 0;">
+                <img src="https://minotar.net/avatar/met05/30" style="width: 30px; height: 30px; border-radius: 5px; margin-right: 10px;">
+                <span style="font-size: 0.9rem;">met05</span>
+                <span style="margin-left: auto; color: var(--primary); font-size: 0.8rem;">9.2k Kredi</span>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="card">
-        <h2>Son Kredi Yükleyenler</h2>
-        <table>
-            <tr>
-                <th>Kullanıcı</th>
-                <th>Miktar</th>
-            </tr>
-            <tr>
-                <td>VirexPlayer</td>
-                <td>200 Kredi</td>
-            </tr>
-            <tr>
-                <td>MineKing</td>
-                <td>120 Kredi</td>
-            </tr>
-            <tr>
-                <td>BoxMaster</td>
-                <td>80 Kredi</td>
-            </tr>
-        </table>
-    </div>
+<script>
+    function addFriend() {
+        const nameInput = document.getElementById('friendName');
+        const name = nameInput.value.trim();
+        
+        if (name === "") {
+            alert("Lütfen bir isim girin!");
+            return;
+        }
 
-</section>
+        const friendList = document.getElementById('friendList');
+        
+        // Yeni arkadaş elementi oluşturma
+        const div = document.createElement('div');
+        div.className = 'friend-item';
+        div.innerHTML = `
+            <img src="https://minotar.net/avatar/${name}/50" class="friend-avatar" onerror="this.src='https://minotar.net/avatar/Steve/50'">
+            <div class="friend-info">
+                <span class="friend-name">${name}</span>
+                <span class="friend-status">🟡 Yeni Eklendi</span>
+            </div>
+            <div class="remove-btn" onclick="this.parentElement.remove()"><i class="fas fa-trash"></i></div>
+        `;
 
-<footer>
-    © 2026 VirexCraft - Tüm Hakları Saklıdır.
-</footer>
+        friendList.prepend(div);
+        nameInput.value = "";
+        
+        // Başarı mesajı (SweetAlert yerine basit alert)
+        console.log(name + " eklendi!");
+    }
+</script>
 
 </body>
 </html>
