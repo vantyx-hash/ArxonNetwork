@@ -3,183 +3,214 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>VIREX ELITE | Authorized Access Only</title>
+    <title>VIREX ELITE | The Blood Database</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Poppins:wght@300;400;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Orbitron:wght@400;900&family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         :root {
             --blood: #ff0000;
-            --blood-glow: rgba(255, 0, 0, 0.6);
-            --dark: #050505;
-            --card-bg: #0d0d0d;
-            --text: #ffffff;
-            --discord: #5865F2;
+            --blood-dark: #660000;
+            --dark: #020202;
+            --panel: #0a0a0a;
+            --neon-glow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        /* --- ANİMASYONLU ARKA PLAN --- */
+        @keyframes bgMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--dark);
-            color: var(--text);
+            background: linear-gradient(-45deg, #050505, #1a0000, #000000, #2a0000);
+            background-size: 400% 400%;
+            animation: bgMove 15s ease infinite;
+            color: #fff;
             overflow-x: hidden;
         }
 
-        /* --- LOGIN OVERLAY (WALL) --- */
-        #login-gate {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, #200000 0%, #050505 100%);
-            z-index: 9999; display: flex; align-items: center; justify-content: center;
+        /* --- AUTH SYSTEM (LOGIN/REGISTER) --- */
+        #auth-wall {
+            position: fixed; inset: 0; z-index: 10000;
+            background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center;
         }
 
-        .login-box {
-            background: var(--card-bg); padding: 40px; border-radius: 20px;
-            border: 2px solid var(--blood); box-shadow: 0 0 50px var(--blood-glow);
-            text-align: center; width: 400px; animation: glow 2s infinite alternate;
+        .auth-card {
+            background: var(--panel); padding: 40px; border-radius: 25px;
+            border: 2px solid var(--blood); box-shadow: var(--neon-glow);
+            width: 450px; position: relative; overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes glow { from { box-shadow: 0 0 20px var(--blood-glow); } to { box-shadow: 0 0 40px var(--blood); } }
-
-        .login-box input {
-            width: 100%; padding: 12px; margin: 10px 0; background: #1a1a1a;
-            border: 1px solid #333; color: white; border-radius: 8px;
+        .auth-card::before {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--blood));
+            animation: rotate 4s linear infinite; z-index: -1;
         }
+        @keyframes rotate { 100% { transform: rotate(360deg); } }
 
-        /* --- NAVBAR --- */
+        .auth-inner { background: var(--panel); border-radius: 20px; padding: 20px; }
+
+        input {
+            width: 100%; padding: 15px; margin: 10px 0; background: #000;
+            border: 1px solid #333; color: #fff; border-radius: 10px;
+            transition: 0.3s;
+        }
+        input:focus { border-color: var(--blood); box-shadow: 0 0 10px var(--blood-dark); }
+
+        .file-label {
+            display: block; padding: 20px; border: 2px dashed var(--blood-dark);
+            margin: 15px 0; cursor: pointer; border-radius: 15px; transition: 0.3s;
+        }
+        .file-label:hover { background: rgba(255,0,0,0.05); border-color: var(--blood); }
+
+        /* --- APP INTERFACE --- */
         nav {
-            position: fixed; top: 0; width: 100%; height: 80px;
-            background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--blood);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; z-index: 1000; display: none; /* Login sonrası açılır */
+            height: 80px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--blood);
+            display: none; align-items: center; justify-content: space-between; padding: 0 50px;
+            position: fixed; top: 0; width: 100%; z-index: 1000;
         }
 
-        .logo { font-family: 'Black Ops One'; font-size: 30px; color: var(--blood); }
+        #app-container { display: none; margin-top: 80px; height: calc(100vh - 80px); }
+        .grid-layout { display: grid; grid-template-columns: 320px 1fr 320px; height: 100%; }
 
-        /* --- LOBBY SYSTEM --- */
-        #lobby-container { display: none; padding-top: 80px; height: 100vh; }
-
-        .lobby-layout { display: grid; grid-template-columns: 320px 1fr 320px; height: calc(100vh - 80px); }
-
-        .sidebar { background: #080808; border-right: 1px solid #1a1a1a; padding: 20px; overflow-y: auto; }
-        .main-stage { background: #000; position: relative; display: flex; flex-direction: column; }
-        
-        /* VIDEO GRID */
-        .video-grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 15px; padding: 20px; }
-        .user-slot { 
-            background: #111; border-radius: 15px; border: 2px solid #222; 
-            position: relative; overflow: hidden; height: 100%; min-height: 250px;
+        /* LOBBY SIDEBAR */
+        .sidebar { background: #050505; padding: 25px; border-right: 1px solid #1a1a1a; overflow-y: auto; }
+        .lobby-item {
+            background: #111; padding: 15px; border-radius: 12px; margin-bottom: 15px;
+            border: 1px solid #222; transition: 0.3s; cursor: pointer;
+            position: relative; overflow: hidden;
         }
-        .user-slot video { width: 100%; height: 100%; object-fit: cover; }
+        .lobby-item:hover { transform: scale(1.05); border-color: var(--blood); box-shadow: var(--neon-glow); }
 
-        /* MİKROFON İKONU (KONUŞMA EFEKTİ) */
-        .voice-indicator {
-            position: absolute; top: 15px; right: 15px; background: var(--blood);
-            width: 35px; height: 35px; border-radius: 50%; display: none;
-            align-items: center; justify-content: center; box-shadow: 0 0 15px var(--blood);
-            animation: pulse 0.5s infinite alternate;
+        /* STREAM AREA */
+        .stage { background: #000; display: flex; flex-direction: column; }
+        .video-grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; padding: 30px; }
+        .user-box { 
+            background: #0d0d0d; border-radius: 20px; border: 2px solid #222; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden;
         }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+        video { width: 100%; height: 100%; object-fit: cover; }
 
-        /* PROFILE SECTION */
-        .profile-area { background: #18191c; border-radius: 12px; overflow: hidden; position: relative; }
-        .banner { height: 80px; background: var(--blood); }
-        .avatar-wrap { margin-top: -45px; padding: 0 20px; position: relative; }
-        .main-pp { 
-            width: 90px; height: 90px; border-radius: 50%; border: 5px solid #18191c;
-            background: #000; object-fit: cover;
+        /* KONUŞMA ANİMASYONU */
+        .mic-active {
+            position: absolute; top: 20px; right: 20px; width: 45px; height: 45px;
+            background: var(--blood); border-radius: 50%; display: none;
+            align-items: center; justify-content: center; box-shadow: 0 0 20px var(--blood);
+            animation: pulse 0.6s infinite alternate; z-index: 10;
         }
-        .decoration-frame {
-            position: absolute; top: -10px; left: 10px; width: 110px; 
-            pointer-events: none; transition: transform 0.3s;
-        }
+        @keyframes pulse { from { transform: scale(1); opacity: 0.6; } to { transform: scale(1.3); opacity: 1; } }
 
-        /* MODAL ANIMATION */
-        .modal-body { text-align: center; background: #111; padding: 20px; border-radius: 15px; }
-        .frame-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
-        .frame-item { border: 2px solid #333; padding: 5px; cursor: pointer; border-radius: 10px; }
-        .frame-item:hover { border-color: var(--blood); transform: scale(1.1); }
+        /* DISCORD PROFILE CARD */
+        .dc-card {
+            background: #18191c; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .dc-banner { height: 100px; background: linear-gradient(to right, #660000, #ff0000); }
+        .dc-avatar-wrap { margin-top: -50px; padding: 0 20px; position: relative; display: inline-block; }
+        .dc-avatar { 
+            width: 100px; height: 100px; border-radius: 50%; border: 6px solid #18191c;
+            background: #000; object-fit: cover; transition: 0.5s;
+        }
+        .dc-frame { position: absolute; top: -14px; left: 6px; width: 128px; pointer-events: none; }
 
-        .store-item {
-            background: #151515; padding: 20px; border-radius: 15px; border: 1px solid #222;
-            text-align: center; margin-bottom: 20px; transition: 0.3s;
+        /* BUTTONS */
+        .btn {
+            padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Orbitron';
+            font-weight: 900; cursor: pointer; transition: 0.3s; text-transform: uppercase;
         }
-        .store-item:hover { border-color: var(--blood); }
-        .btn-blood {
-            background: var(--blood); color: white; border: none; padding: 12px 25px;
-            border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s;
-        }
-        .btn-blood:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .btn-blood { background: var(--blood); color: #fff; box-shadow: var(--neon-glow); }
+        .btn-blood:hover { transform: translateY(-5px); box-shadow: 0 0 30px var(--blood); }
 
     </style>
 </head>
 <body>
 
-    <div id="login-gate">
-        <div class="login-box">
-            <h1 style="font-family: 'Black Ops One'; color: var(--blood); margin-bottom: 20px;">VIREX ACCESS</h1>
-            <p style="font-size: 13px; color: #888; margin-bottom: 20px;">Lobilere erişmek için giriş yapmalısınız.</p>
-            <input type="text" id="username" placeholder="Kullanıcı Adı">
-            <input type="password" id="password" placeholder="Şifre">
-            <button class="btn-blood" style="width: 100%; margin-top: 10px;" onclick="doLogin()">GİRİŞ YAP</button>
+    <div id="auth-wall">
+        <div class="auth-card" id="auth-box">
+            <div class="auth-inner">
+                <h1 style="font-family: 'Black Ops One'; color: var(--blood); font-size: 40px; text-align: center;">VIREX</h1>
+                
+                <div style="display: flex; gap: 10px; margin: 20px 0;">
+                    <button class="btn" onclick="toggleAuth('login')" style="flex:1; font-size: 10px; background: #222; color: #fff;">GİRİŞ</button>
+                    <button class="btn" onclick="toggleAuth('reg')" style="flex:1; font-size: 10px; background: #222; color: #fff;">KAYIT OL</button>
+                </div>
+
+                <div id="login-form">
+                    <input type="text" id="l-user" placeholder="Kullanıcı Adı">
+                    <input type="password" id="l-pass" placeholder="Şifre">
+                    <button class="btn btn-blood" style="width: 100%;" onclick="handleAuth('login')">SİSTEME SIZ</button>
+                </div>
+
+                <div id="reg-form" style="display: none;">
+                    <input type="text" id="r-user" placeholder="Yeni Kullanıcı Adı">
+                    <input type="password" id="r-pass" placeholder="Şifre">
+                    <label class="file-label">
+                        <input type="file" id="r-pp" hidden onchange="processFile(this)">
+                        <i class="fas fa-cloud-upload-alt"></i> PP YÜKLE (GIF/PNG)
+                    </label>
+                    <button class="btn btn-blood" style="width: 100%;" onclick="handleAuth('reg')">VERİTABANINA KAYDOL</button>
+                </div>
+            </div>
         </div>
     </div>
 
-    <nav id="top-nav">
-        <div class="logo">VIREX<span>ELITE</span></div>
-        <div style="display:flex; gap:30px; font-weight: 600;">
-            <span style="color:var(--blood); cursor:pointer;">LOBİLER</span>
-            <span style="color:#666; cursor:pointer;" onclick="Swal.fire('Mağaza','Yakında aktif!','info')">MAĞAZA</span>
+    <nav id="navbar">
+        <div class="logo" style="font-family: 'Black Ops One'; font-size: 30px; color: var(--blood);">VIREX</div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <span id="nav-name" style="font-weight: 900; color: var(--blood);">GİRİŞ YAPILMADI</span>
+            <img id="nav-pp" src="" style="width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--blood); display: none;">
         </div>
-        <div id="user-tag" style="font-weight: 800; color: #fff;"></div>
     </nav>
 
-    <div id="lobby-container">
-        <div class="lobby-layout">
+    <div id="app-container">
+        <div class="grid-layout">
             <aside class="sidebar">
-                <button class="btn-blood" style="width: 100%; margin-bottom: 20px;" onclick="createNewLobby()">+ LOBİ OLUŞTUR</button>
-                <div id="lobby-list">
-                    <div class="store-item" style="padding: 10px; text-align: left; cursor: pointer;" onclick="joinLobby('Virex Official CS2')">
-                        <h4 style="color:var(--blood)">Virex Official CS2</h4>
-                        <small>8 Oyuncu Bağlı</small>
+                <button class="btn btn-blood" style="width: 100%; margin-bottom: 30px;" onclick="createLobby()">LOBİ OLUŞTUR</button>
+                <div id="lobby-stream">
+                    <div class="lobby-item">
+                        <h3 style="color: var(--blood);">CYBER SQUAD CS2</h3>
+                        <p style="font-size: 12px; color: #555;">Bağlı: 42 Kullanıcı</p>
                     </div>
                 </div>
             </aside>
 
-            <main class="main-stage">
+            <main class="stage">
                 <div class="video-grid" id="videoGrid">
-                    <div class="user-slot">
-                        <video id="localVideo" autoplay playsinline muted></video>
-                        <div class="voice-indicator" id="voiceIndicator">
-                            <i class="fas fa-microphone"></i>
-                        </div>
-                        <div style="position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,0.7); padding:5px 12px; border-radius:5px; font-size:12px;">
-                            SİZ (Canlı)
+                    <div class="user-box">
+                        <video id="localCam" autoplay playsinline muted></video>
+                        <div class="mic-active" id="micGlow"><i class="fas fa-microphone"></i></div>
+                        <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(0,0,0,0.8); padding: 8px 20px; border-radius: 10px; border-left: 4px solid var(--blood);">
+                            <span id="tag-name" style="font-weight: 900; letter-spacing: 2px;">USER</span>
                         </div>
                     </div>
                 </div>
-
-                <div style="height: 100px; background: #080808; display: flex; align-items: center; justify-content: center; gap: 20px; border-top: 1px solid #222;">
-                    <button class="btn-blood" style="background:#222;" id="micToggle" onclick="toggleMic()"><i class="fas fa-microphone"></i></button>
-                    <button class="btn-blood" style="background:#222;" id="camToggle" onclick="toggleCam()"><i class="fas fa-video"></i></button>
-                    <button class="btn-blood" onclick="startShare()"><i class="fas fa-desktop"></i> EKRAN PAYLAŞ</button>
-                    <button class="btn-blood" style="background:var(--blood);" onclick="location.reload()">AYRIL</button>
+                
+                <div style="height: 120px; background: #050505; border-top: 2px solid #111; display: flex; align-items: center; justify-content: center; gap: 30px;">
+                    <button class="btn btn-blood" style="border-radius: 50%; width: 70px; height: 70px;" onclick="toggleAudio()"><i id="m-ic" class="fas fa-microphone"></i></button>
+                    <button class="btn btn-blood" style="border-radius: 50%; width: 70px; height: 70px;" onclick="toggleVideo()"><i id="c-ic" class="fas fa-video"></i></button>
+                    <button class="btn btn-blood" onclick="shareScreen()">EKRAN PAYLAŞ</button>
                 </div>
             </main>
 
-            <aside class="sidebar" style="border-right:none; border-left:1px solid #1a1a1a;">
-                <div class="profile-area">
-                    <div class="banner"></div>
-                    <div class="avatar-wrap">
-                        <img src="https://media.tenor.com/y_S_m7T36m8AAAAM/anime-aesthetic.gif" class="main-pp" id="userPP">
-                        <img src="https://cdn.discordapp.com/avatar-decoration-presets/v2/a_550220979667c31d17d096c466488344.png" class="decoration-frame" id="currentFrame">
+            <aside class="sidebar" style="border-left: 1px solid #1a1a1a;">
+                <div class="dc-card">
+                    <div class="dc-banner"></div>
+                    <div class="dc-avatar-wrap">
+                        <img id="profile-pp" class="dc-avatar" src="">
+                        <img id="profile-frame" class="dc-frame" src="https://cdn.discordapp.com/avatar-decoration-presets/v2/a_550220979667c31d17d096c466488344.png">
                     </div>
-                    <div style="padding: 20px;">
-                        <h3 id="displayUsername" style="font-weight: 900;">Syvex#0001</h3>
-                        <p style="font-size: 12px; color: #888; margin-top: 5px;">Virex Admin Access</p>
-                        <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-                        <button class="btn-blood" style="width:100%; font-size: 11px;" onclick="openProfileSettings()">PROFİLİ DÜZENLE</button>
+                    <div style="padding: 25px;">
+                        <h2 id="profile-name" style="font-family: 'Orbitron'; font-weight: 900;">USER</h2>
+                        <p style="color: var(--blood); font-size: 12px; font-weight: 900; margin-top: 5px;">VERIFIED CHEATER</p>
+                        <hr style="border: 0; border-top: 1px solid #222; margin: 20px 0;">
+                        <button class="btn" style="width: 100%; background: #222; font-size: 10px; color: #fff;" onclick="openFrameShop()">ÇERÇEVE DEĞİŞTİR</button>
                     </div>
                 </div>
             </aside>
@@ -187,141 +218,153 @@
     </div>
 
     <script>
-        let localStream;
-        let audioContext;
-        let analyser;
-        let microphone;
+        let currentUser = null;
+        let localStream = null;
 
-        // 1. GİRİŞ SİSTEMİ
-        function doLogin() {
-            const user = document.getElementById('username').value;
-            if(user.length < 3) return Swal.fire('Hata','Geçerli bir isim gir koçum!','error');
+        // --- DATABASE SİS (LocalStorage) ---
+        function handleAuth(type) {
+            if(type === 'reg') {
+                const user = document.getElementById('r-user').value;
+                const pass = document.getElementById('r-pass').value;
+                const pp = localStorage.getItem('temp_pp') || "";
 
-            // Kamera ve Ses İzni İste
-            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-            .then(stream => {
-                localStream = stream;
-                document.getElementById('localVideo').srcObject = stream;
+                if(user.length < 3 || pass.length < 3) return Swal.fire('Hata','Veriler çok kısa!','error');
                 
-                // Login Başarılı
-                document.getElementById('login-gate').style.display = 'none';
-                document.getElementById('top-nav').style.display = 'flex';
-                document.getElementById('lobby-container').style.display = 'block';
-                document.getElementById('displayUsername').innerText = user + "#0001";
-                document.getElementById('user-tag').innerText = user;
+                const db = JSON.parse(localStorage.getItem('virex_db') || '{}');
+                db[user] = { pass, pp };
+                localStorage.setItem('virex_db', JSON.stringify(db));
+                
+                Swal.fire('Başarılı','Veritabanına eklendin. Giriş yap!','success');
+                toggleAuth('login');
+            } else {
+                const user = document.getElementById('l-user').value;
+                const pass = document.getElementById('l-pass').value;
+                const db = JSON.parse(localStorage.getItem('virex_db') || '{}');
 
-                // Ses Analizi Başlat (Mikrofon İkonu İçin)
-                setupVoiceDetection(stream);
-            })
-            .catch(err => {
-                Swal.fire('Erişim Reddedildi','Lobiye girmek için kamera ve mikrofon izni şart!','error');
-            });
-        }
-
-        // 2. SES ALGILAMA (Mikrofon İkonu Animasyonu)
-        function setupVoiceDetection(stream) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            analyser = audioContext.createAnalyser();
-            microphone = audioContext.createMediaStreamSource(stream);
-            analyser.fftSize = 512;
-            microphone.connect(analyser);
-
-            const dataArray = new Uint8Array(analyser.frequencyBinCount);
-            function checkVoice() {
-                analyser.getByteFrequencyData(dataArray);
-                let volume = 0;
-                for(let i=0; i<dataArray.length; i++) { volume += dataArray[i]; }
-                let average = volume / dataArray.length;
-
-                // Eğer ses belli bir seviyenin üstündeyse ikon çıksın
-                document.getElementById('voiceIndicator').style.display = (average > 30) ? 'flex' : 'none';
-                requestAnimationFrame(checkVoice);
-            }
-            checkVoice();
-        }
-
-        // 3. PROFİL VE ÇERÇEVE DÜZENLEME (ANIMASYONLU)
-        function openProfileSettings() {
-            Swal.fire({
-                title: 'Profilini Özelleştir',
-                html: `
-                    <div class="modal-body">
-                        <input id="new-pp" class="swal2-input" placeholder="GIF / Resim URL" style="background:#222; color:#fff">
-                        <h4 style="margin-top:20px; color:var(--blood)">Çerçeve Seç</h4>
-                        <div class="frame-selector">
-                            <div class="frame-item" onclick="setFrame('v2/a_550220979667c31d17d096c466488344.png')">
-                                <img src="https://cdn.discordapp.com/avatar-decoration-presets/v2/a_550220979667c31d17d096c466488344.png" width="50">
-                            </div>
-                            <div class="frame-item" onclick="setFrame('v2/a_8656113ccf3e24b7a66164f9f7403164.png')">
-                                <img src="https://cdn.discordapp.com/avatar-decoration-presets/v2/a_8656113ccf3e24b7a66164f9f7403164.png" width="50">
-                            </div>
-                            <div class="frame-item" onclick="setFrame('v2/a_2069539369324151325.png')">
-                                <img src="https://cdn.discordapp.com/avatar-decoration-presets/v2/a_2069539369324151325.png" width="50">
-                            </div>
-                        </div>
-                    </div>
-                `,
-                showCancelButton: true,
-                confirmButtonText: 'Kaydet',
-                background: '#0d0d0d',
-                color: '#fff'
-            }).then((result) => {
-                const newPP = document.getElementById('new-pp').value;
-                if(newPP) document.getElementById('userPP').src = newPP;
-            });
-        }
-
-        function setFrame(path) {
-            document.getElementById('currentFrame').src = "https://cdn.discordapp.com/avatar-decoration-presets/" + path;
-            Swal.showValidationMessage('Çerçeve Seçildi!');
-        }
-
-        // 4. LOBİ İŞLEMLERİ
-        function createNewLobby() {
-            Swal.fire({
-                title: 'Lobi Adı',
-                input: 'text',
-                background: '#111',
-                color: '#fff',
-                confirmButtonColor: '#ff0000'
-            }).then(res => {
-                if(res.value) {
-                    const div = document.createElement('div');
-                    div.className = 'store-item';
-                    div.style = 'padding:10px; text-align:left; cursor:pointer;';
-                    div.innerHTML = `<h4 style="color:var(--blood)">${res.value}</h4><small>1 Oyuncu Bağlı</small>`;
-                    document.getElementById('lobby-list').prepend(div);
+                if(db[user] && db[user].pass === pass) {
+                    currentUser = { name: user, pp: db[user].pp };
+                    initApp();
+                } else {
+                    Swal.fire('Erişim Reddedildi','Kullanıcı bulunamadı veya şifre yanlış!','error');
                 }
-            });
+            }
         }
 
-        async function startShare() {
+        // --- DOSYA İŞLEME ---
+        function processFile(input) {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                localStorage.setItem('temp_pp', e.target.result);
+                Swal.fire('Hazır','PP Veritabanına yüklendi!','success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function toggleAuth(mode) {
+            document.getElementById('login-form').style.display = (mode === 'login') ? 'block' : 'none';
+            document.getElementById('reg-form').style.display = (mode === 'reg') ? 'block' : 'none';
+        }
+
+        // --- UYGULAMA BAŞLAT ---
+        async function initApp() {
             try {
-                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-                const box = document.createElement('div');
-                box.className = 'user-slot';
-                box.innerHTML = `<video id="screenVideo" autoplay playsinline></video><div style="position:absolute; top:10px; right:10px; background:var(--blood); padding:5px; border-radius:5px; font-size:10px;">EKRAN PAYLAŞILIYOR</div>`;
-                document.getElementById('videoGrid').appendChild(box);
-                document.getElementById('screenVideo').srcObject = screenStream;
+                localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                document.getElementById('localCam').srcObject = localStream;
+                
+                document.getElementById('auth-wall').style.display = 'none';
+                document.getElementById('navbar').style.display = 'flex';
+                document.getElementById('app-container').style.display = 'block';
+
+                document.getElementById('nav-name').innerText = currentUser.name;
+                document.getElementById('profile-name').innerText = currentUser.name.toUpperCase();
+                document.getElementById('tag-name').innerText = currentUser.name.toUpperCase();
+                
+                if(currentUser.pp) {
+                    document.getElementById('nav-pp').src = currentUser.pp;
+                    document.getElementById('nav-pp').style.display = 'block';
+                    document.getElementById('profile-pp').src = currentUser.pp;
+                }
+
+                detectVoice(localStream);
+            } catch(e) {
+                Swal.fire('Kritik Hata','Kamera ve Mikrofon izni olmadan sisteme sızamazsın!','error');
+            }
+        }
+
+        // --- SES ALGILAMA (MİKROFON PARLAMASI) ---
+        function detectVoice(stream) {
+            const audioCtx = new AudioContext();
+            const analyser = audioCtx.createAnalyser();
+            const source = audioCtx.createMediaStreamSource(stream);
+            analyser.fftSize = 256;
+            source.connect(analyser);
+
+            const data = new Uint8Array(analyser.frequencyBinCount);
+            function update() {
+                analyser.getByteFrequencyData(data);
+                let volume = data.reduce((a, b) => a + b) / data.length;
+                document.getElementById('micGlow').style.display = (volume > 40) ? 'flex' : 'none';
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        // --- ÇERÇEVE MAĞAZASI ---
+        function openFrameShop() {
+            Swal.fire({
+                title: 'Çerçeve Veritabanı',
+                background: '#0a0a0a',
+                color: '#fff',
+                html: `
+                    <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <img src="https://cdn.discordapp.com/avatar-decoration-presets/v2/a_550220979667c31d17d096c466488344.png" width="80" onclick="setF(1)" style="cursor:pointer">
+                        <img src="https://cdn.discordapp.com/avatar-decoration-presets/v2/a_8656113ccf3e24b7a66164f9f7403164.png" width="80" onclick="setF(2)" style="cursor:pointer">
+                    </div>
+                `
+            });
+        }
+        function setF(id) {
+            const urls = [
+                "https://cdn.discordapp.com/avatar-decoration-presets/v2/a_550220979667c31d17d096c466488344.png",
+                "https://cdn.discordapp.com/avatar-decoration-presets/v2/a_8656113ccf3e24b7a66164f9f7403164.png"
+            ];
+            document.getElementById('profile-frame').src = urls[id-1];
+        }
+
+        // MEDYA KONTROLLERİ
+        function toggleAudio() {
+            const track = localStream.getAudioTracks()[0];
+            track.enabled = !track.enabled;
+            document.getElementById('m-ic').className = track.enabled ? 'fas fa-microphone' : 'fas fa-microphone-slash';
+        }
+        function toggleVideo() {
+            const track = localStream.getVideoTracks()[0];
+            track.enabled = !track.enabled;
+            document.getElementById('c-ic').className = track.enabled ? 'fas fa-video' : 'fas fa-video-slash';
+        }
+
+        async function shareScreen() {
+            try {
+                const sStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                const slot = document.createElement('div');
+                slot.className = 'user-box';
+                slot.innerHTML = `<video id="ss" autoplay playsinline></video>`;
+                document.getElementById('videoGrid').appendChild(slot);
+                document.getElementById('ss').srcObject = sStream;
             } catch(e) {}
         }
 
-        let isMuted = false;
-        function toggleMic() {
-            isMuted = !isMuted;
-            localStream.getAudioTracks()[0].enabled = !isMuted;
-            document.getElementById('micToggle').innerHTML = isMuted ? '<i class="fas fa-microphone-slash"></i>' : '<i class="fas fa-microphone"></i>';
-            document.getElementById('micToggle').style.color = isMuted ? 'red' : 'white';
+        function createLobby() {
+            Swal.fire({ title: 'Lobi Adı', input: 'text', background: '#111', color: '#fff' }).then(res => {
+                if(res.value) {
+                    const d = document.createElement('div');
+                    d.className = 'lobby-item';
+                    d.innerHTML = `<h3 style="color:var(--blood)">${res.value.toUpperCase()}</h3><p style="font-size:10px;">Bağlı: 1 Kullanıcı</p>`;
+                    document.getElementById('lobby-stream').prepend(d);
+                }
+            });
         }
-
-        let isVidOff = false;
-        function toggleCam() {
-            isVidOff = !isVidOff;
-            localStream.getVideoTracks()[0].enabled = !isVidOff;
-            document.getElementById('camToggle').innerHTML = isVidOff ? '<i class="fas fa-video-slash"></i>' : '<i class="fas fa-video"></i>';
-            document.getElementById('camToggle').style.color = isVidOff ? 'red' : 'white';
-        }
-
     </script>
 </body>
 </html>
