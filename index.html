@@ -2,285 +2,928 @@
 <html lang="tr">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ARXON NETWORK | Elite System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIREX CRAFT | Ultimate Animated Portal</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Orbitron:wght@400;900&family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
 
     <style>
+        /* ========================================
+        BÖLÜM 1: ÇEKİRDEK DEĞİŞKENLER & RESET
+        ========================================
+        */
         :root {
-            --blood: #ff0000;
-            --dark: #020202;
-            --panel: #0a0a0a;
-            --neon: 0 0 20px rgba(255, 0, 0, 0.5);
+            /* Renk Paleti - Neon Cyberpunk Minecraft */
+            --virex-purple: #9d00ff;
+            --virex-pink: #ff00d4;
+            --virex-blue: #00e5ff;
+            --virex-green: #39ff14;
+            --virex-gold: #ffd700;
+            --bg-dark: #050509;
+            --bg-panel: rgba(10, 10, 16, 0.95);
+            --text-light: #ffffff;
+            --text-dim: #a0a0b0;
+
+            /* Efekt Değişkenleri */
+            --neon-glow-purple: 0 0 15px rgba(157, 0, 255, 0.6), 0 0 30px rgba(157, 0, 255, 0.3);
+            --neon-glow-blue: 0 0 15px rgba(0, 229, 255, 0.6), 0 0 30px rgba(0, 229, 255, 0.3);
+            --neon-border: 2px solid rgba(157, 0, 255, 0.5);
+            
+            /* Geçişler */
+            --transition-fast: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-slow: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            user-select: none; /* Oyun hissi için seçimi kapat */
+        }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #000;
-            color: #fff;
-            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             height: 100vh;
+            overflow: hidden; /* Scroll yok, tam ekran uygulama hissi */
+            perspective: 1000px;
         }
 
-        /* --- SAYFA YAPILARI --- */
-        .page { display: none; height: 100vh; width: 100%; position: fixed; inset: 0; z-index: 10; }
-        .active-page { display: flex !important; align-items: center; justify-content: center; flex-direction: column; }
-
-        /* --- AUTH CARDS --- */
-        .auth-card {
-            background: var(--panel); padding: 40px; border-radius: 20px;
-            border: 2px solid var(--blood); box-shadow: var(--neon);
-            width: 400px; text-align: center; animation: fadeIn 0.5s ease;
+        /* Arka Plan Parçacık Efekti (CSS ile Simüle Edilmiş) */
+        .bg-particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(157, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 229, 255, 0.1) 0%, transparent 50%);
+            z-index: -2;
+            animation: backgroundPulse 10s ease-in-out infinite alternate;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        input {
-            width: 100%; padding: 12px; margin: 10px 0; background: #000;
-            border: 1px solid #333; color: #fff; border-radius: 8px; transition: 0.3s;
-        }
-        input:focus { border-color: var(--blood); box-shadow: 0 0 10px var(--blood); }
-
-        .btn { cursor: pointer; border: none; font-family: 'Orbitron'; font-weight: 700; transition: 0.3s; }
-        .btn-blood { background: var(--blood); color: #fff; padding: 12px; border-radius: 8px; width: 100%; margin-top: 10px; }
-        .btn-blood:hover { transform: scale(1.02); filter: brightness(1.2); }
-
-        /* --- LOBBY (#l) INTERFACE --- */
-        #lobby-page { display: none; flex-direction: column; }
-        nav { height: 70px; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--blood); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; width: 100%; }
-        .app-grid { display: grid; grid-template-columns: 300px 1fr 320px; height: calc(100vh - 70px); width: 100%; }
         
-        .sidebar { background: #050505; border-right: 1px solid #1a1a1a; padding: 20px; }
-        .stage { background: #000; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(rgba(157, 0, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 0, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            transform: rotateX(45deg) translateZ(-500px);
+            animation: gridMove 20s linear infinite;
+            z-index: -1;
+            opacity: 0.3;
+        }
 
-        /* VIDEO AREA */
-        .video-grid { flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 15px; padding: 20px; }
-        .video-box { background: #0d0d0d; border-radius: 15px; border: 2px solid #222; position: relative; overflow: hidden; }
-        video { width: 100%; height: 100%; object-fit: cover; }
+        /* Özel Cursor */
+        body {
+            cursor: crosshair;
+        }
 
-        /* TALKING EFFECT */
-        .mic-on { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: var(--blood); border-radius: 50%; display: none; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--blood); animation: pulse 0.5s infinite alternate; }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+        /* ========================================
+        BÖLÜM 2: ANİMASYON ANAHTARLARI (KEYFRAMES)
+        ========================================
+        Burada sitenin "boğulduğu" animasyonlar tanımlı.
+        */
 
-        /* PROFILE CARD */
-        .profile-wrap { background: #18191c; border-radius: 12px; overflow: hidden; }
-        .banner { height: 80px; background: var(--blood); }
-        .avatar-box { margin-top: -45px; padding: 0 20px; position: relative; display: inline-block; }
-        .p-img { width: 90px; height: 90px; border-radius: 50%; border: 5px solid #18191c; object-fit: cover; }
-        .p-frame { position: absolute; top: -12px; left: 8px; width: 114px; pointer-events: none; }
+        /* Arka plan hareketi */
+        @keyframes backgroundPulse {
+            0% { background-position: 0% 0%; opacity: 0.8; }
+            100% { background-position: 100% 100%; opacity: 1; }
+        }
+        @keyframes gridMove {
+            0% { transform: rotateX(45deg) translateZ(-500px) translateY(0); }
+            100% { transform: rotateX(45deg) translateZ(-500px) translateY(500px); }
+        }
 
-        /* SHOP GRID */
-        .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .shop-item { cursor: pointer; background: #111; padding: 10px; border-radius: 8px; border: 1px solid transparent; text-align: center; }
-        .shop-item:hover { border-color: var(--blood); transform: scale(1.05); }
+        /* Giriş Efektleri */
+        @keyframes fadeUpIn {
+            from { opacity: 0; transform: translateY(50px) scale(0.9); filter: blur(10px); }
+            to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Karakter Efektleri */
+        @keyframes characterBreath {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.02); }
+        }
+        @keyframes characterEntranceSpin {
+            0% { opacity: 0; transform: translateY(200px) rotateY(180deg) scale(0.5); filter: brightness(0); }
+            60% { transform: translateY(-20px) rotateY(0deg) scale(1.1); filter: brightness(2); }
+            100% { opacity: 1; transform: translateY(0) rotateY(0deg) scale(1); filter: brightness(1); }
+        }
+        @keyframes headFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(2deg); }
+            75% { transform: translateY(5px) rotate(-2deg); }
+        }
+
+        /* UI Efektleri */
+        @keyframes neonPulsePurple {
+            0%, 100% { box-shadow: var(--neon-glow-purple); border-color: var(--virex-purple); }
+            50% { box-shadow: 0 0 30px rgba(157, 0, 255, 0.8), 0 0 60px rgba(157, 0, 255, 0.4); border-color: var(--virex-pink); }
+        }
+        @keyframes textGlitch {
+            0% { text-shadow: 2px 2px var(--virex-pink), -2px -2px var(--virex-blue); }
+            25% { text-shadow: -2px 2px var(--virex-pink), 2px -2px var(--virex-blue); transform: translateX(2px); }
+            50% { text-shadow: 2px -2px var(--virex-pink), -2px 2px var(--virex-blue); }
+            75% { text-shadow: -2px -2px var(--virex-pink), 2px 2px var(--virex-blue); transform: translateX(-2px); }
+            100% { text-shadow: 2px 2px var(--virex-pink), -2px -2px var(--virex-blue); }
+        }
+        @keyframes floatBubble {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ========================================
+        BÖLÜM 3: GENEL UI BİLEŞENLERİ
+        ========================================
+        */
+        
+        /* Sayfa Kapsayıcıları */
+        .view-section {
+            display: none; /* Varsayılan olarak gizli, JS ile açacağız */
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            padding: 20px;
+            /* Flex merkezleme */
+            align-items: center;
+            justify-content: center;
+        }
+        .view-section.active {
+            display: flex;
+            animation: fadeUpIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Neon Paneller */
+        .neon-panel {
+            background: var(--bg-panel);
+            border: var(--neon-border);
+            box-shadow: var(--neon-glow-purple);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            animation: neonPulsePurple 4s infinite alternate;
+        }
+        .neon-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, var(--virex-purple), transparent 30%);
+            animation: rotateNeon 10s linear infinite;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+        @keyframes rotateNeon { 100% { transform: rotate(360deg); } }
+
+        /* Başlıklar */
+        h1.main-title {
+            font-family: 'Black Ops One', cursive;
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--virex-blue);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+        }
+        h1.main-title span { color: var(--virex-purple); }
+        h1.main-title:hover { animation: textGlitch 0.3s infinite; }
+
+        /* Form Inputları */
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--virex-purple);
+            font-size: 1.2rem;
+            transition: var(--transition-fast);
+        }
+        .neon-input {
+            width: 100%;
+            padding: 15px 15px 15px 50px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(157, 0, 255, 0.3);
+            border-radius: 10px;
+            color: var(--text-light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: var(--transition-fast);
+        }
+        .neon-input:focus {
+            border-color: var(--virex-blue);
+            box-shadow: var(--neon-glow-blue);
+            background: rgba(0, 229, 255, 0.1);
+        }
+        .neon-input:focus + i { color: var(--virex-blue); transform: translateY(-50%) scale(1.2); }
+
+        /* Butonlar */
+        .neon-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--virex-purple), var(--virex-pink));
+            border: none;
+            border-radius: 10px;
+            color: var(--text-light);
+            font-family: 'Black Ops One', cursive;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition-fast);
+            box-shadow: 0 5px 15px rgba(157, 0, 255, 0.4);
+        }
+        .neon-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -60%; width: 50%; height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(25deg);
+            transition: var(--transition-slow);
+        }
+        .neon-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(157, 0, 255, 0.6);
+        }
+        .neon-btn:hover::after { left: 130%; }
+        .neon-btn:active { transform: translateY(2px); }
+
+        /* Linkler */
+        .switch-link {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        .switch-link span {
+            color: var(--virex-blue);
+            cursor: pointer;
+            font-weight: 700;
+            text-decoration: underline;
+            transition: var(--transition-fast);
+        }
+        .switch-link span:hover { color: var(--virex-pink); text-shadow: 0 0 10px var(--virex-pink); }
+
+        /* ========================================
+        BÖLÜM 4: AUTH (GİRİŞ/KAYIT) EKRANLARI
+        ========================================
+        */
+        #auth-wrapper {
+            width: 100%; max-width: 450px;
+            perspective: 2000px;
+        }
+        .auth-container {
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Efsanevi bir takla efekti için */
+        }
+        /* JS ile bu class eklenince kart dönecek */
+        .auth-container.flipped { transform: rotateY(180deg); }
+
+        .auth-face {
+            position: absolute; top: 0; left: 0; width: 100%;
+            backface-visibility: hidden; -webkit-backface-visibility: hidden;
+        }
+        .auth-back { transform: rotateY(180deg); }
+
+        /* Giriş Başarılı Karakter Karşılama Ekranı */
+        #welcome-stage {
+            position: fixed; inset: 0; z-index: 2000;
+            background: rgba(5, 5, 9, 0.95);
+            display: none; /* JS ile flex yapılacak */
+            flex-direction: column; align-items: center; justify-content: center;
+        }
+        #welcome-stage.active { display: flex; animation: fadeUpIn 0.5s forwards; }
+
+        .character-stage {
+            position: relative;
+            width: 300px; height: 400px;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        
+        /* MC Karakter Parçaları */
+        .mc-body-render {
+            width: 200px; height: auto;
+            filter: drop-shadow(0 0 20px var(--virex-purple));
+            /* Karakter girişte efsanevi bir şekilde belirir */
+            animation: characterEntranceSpin 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                       characterBreath 3s ease-in-out 1.5s infinite; /* Girişten sonra nefes almaya başlar */
+            opacity: 0; /* Başlangıçta gizli */
+        }
+        
+        .mc-head-float {
+            width: 80px; height: 80px;
+            border-radius: 10px;
+            border: 3px solid var(--virex-blue);
+            box-shadow: 0 0 25px var(--virex-blue);
+            position: absolute; top: -40px; right: 20px;
+            animation: headFloat 4s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        .welcome-text {
+            font-family: 'Black Ops One';
+            font-size: 2.5rem; color: var(--virex-blue);
+            margin-top: 20px; text-align: center;
+            text-shadow: 0 0 20px var(--virex-blue);
+            opacity: 0; animation: fadeUpIn 1s 1s forwards;
+        }
+        .welcome-subtext {
+            font-size: 1.2rem; color: var(--text-dim);
+            text-align: center;
+            opacity: 0; animation: fadeUpIn 1s 1.3s forwards;
+        }
+
+        /* ========================================
+        BÖLÜM 5: LOBİ EKRANI
+        ========================================
+        */
+        #lobby-view {
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 50px 20px;
+        }
+        
+        .lobby-header {
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; max-width: 1200px;
+            margin-bottom: 30px;
+            padding: 20px; background: rgba(157, 0, 255, 0.1); border-radius: 15px;
+            border: 1px solid var(--virex-purple);
+            animation: slideInLeft 1s forwards;
+        }
+        .user-profile-chip {
+            display: flex; align-items: center; gap: 15px;
+        }
+        .chip-head {
+            width: 50px; height: 50px; border-radius: 8px;
+            border: 2px solid var(--virex-green); box-shadow: 0 0 15px var(--virex-green);
+        }
+        .chip-info h3 { color: var(--virex-green); font-family: 'Black Ops One'; letter-spacing: 1px; }
+        .chip-info p { color: var(--text-dim); font-size: 0.9rem; }
+
+        .lobby-actions .neon-btn {
+            width: auto; padding: 10px 25px; font-size: 1rem;
+            margin-left: 15px; background: linear-gradient(45deg, var(--virex-blue), #0051ff);
+        }
+
+        .camera-frame-container {
+            width: 100%; max-width: 1000px;
+            height: 600px;
+            position: relative;
+            padding: 5px;
+            background: linear-gradient(45deg, var(--virex-purple), var(--virex-blue), var(--virex-pink));
+            border-radius: 25px;
+            /* Dönen RGB çerçeve efekti */
+            animation: borderRotate 5s linear infinite;
+            box-shadow: var(--neon-glow-purple);
+        }
+        @keyframes borderRotate {
+            0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); }
+        }
+        
+        .camera-viewport {
+            width: 100%; height: 100%;
+            background: #000;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+        video#user-camera {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1); /* Ayna efekti */
+        }
+
+        .camera-overlay {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(0,0,0,0.7); color: var(--virex-green);
+            padding: 5px 15px; border-radius: 5px; font-weight: bold;
+            display: flex; align-items: center; gap: 10px;
+            border: 1px solid var(--virex-green);
+        }
+        .rec-dot {
+            width: 10px; height: 10px; background: var(--blood); border-radius: 50%;
+            animation: neonPulsePurple 1s infinite; background: var(--virex-green);
+        }
+
+        /* ========================================
+        BÖLÜM 6: MAĞAZA (STORE) EKRANI
+        ========================================
+        */
+        #store-view {
+            align-items: flex-start; overflow-y: auto; /* Mağaza uzun olabilir */
+        }
+
+        .store-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 40px;
+            width: 100%; max-width: 1400px;
+            margin-top: 50px;
+        }
+
+        /* Sol Taraf: Karakter ve Konuşma Balonu */
+        .character-assistant {
+            position: sticky; top: 50px;
+            display: flex; flex-direction: column; align-items: center;
+            animation: slideInLeft 1s forwards;
+        }
+        .assistant-body {
+            width: 250px; filter: drop-shadow(0 0 30px var(--virex-gold));
+            animation: characterBreath 4s ease-in-out infinite;
+        }
+        
+        .speech-bubble {
+            position: relative;
+            background: linear-gradient(135deg, #fff, #e0e0ff);
+            color: var(--bg-dark);
+            padding: 25px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            max-width: 300px;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+            border: 3px solid var(--virex-gold);
+            animation: floatBubble 3s ease-in-out infinite;
+        }
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px; left: 50%;
+            border-width: 15px 15px 0;
+            border-style: solid;
+            border-color: var(--virex-gold) transparent;
+            transform: translateX(-50%);
+        }
+        /* Typewriter efekti için imleç */
+        .Typewriter__cursor { color: var(--virex-purple); }
+
+        /* Sağ Taraf: VIP Kartları */
+        .vip-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            animation: slideInRight 1s forwards;
+        }
+
+        .vip-card {
+            background: rgba(20, 20, 30, 0.8);
+            border-radius: 15px; overflow: hidden;
+            transition: var(--transition-fast);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; flex-direction: column;
+        }
+        /* Her VIP Rütbesi için Özel Renkler ve Efektler */
+        .vip-card.vip { --rank-color: #00e5ff; }
+        .vip-card.vipplus { --rank-color: #39ff14; }
+        .vip-card.virexvip { --rank-color: #ff00d4; }
+        .vip-card.virexvipplus { --rank-color: #ffd700; --rank-glow: 0 0 40px var(--virex-gold); }
+
+        .vip-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            border-color: var(--rank-color);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 20px var(--rank-color);
+        }
+
+        .card-header {
+            padding: 20px;
+            background: linear-gradient(45deg, rgba(0,0,0,0.8), var(--rank-color));
+            text-align: center; font-family: 'Black Ops One';
+            font-size: 1.8rem; text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden;
+        }
+        .card-header::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s; transform: skewX(-25deg);
+        }
+        .vip-card:hover .card-header::before { left: 100%; }
+
+        .card-body { padding: 25px; flex-grow: 1; }
+        .card-body ul { list-style: none; }
+        .card-body li {
+            margin-bottom: 12px; display: flex; align-items: center; gap: 10px;
+            color: var(--text-dim); font-weight: 600;
+        }
+        .card-body li i { color: var(--rank-color); }
+
+        .card-footer { padding: 20px; text-align: center; }
+        .buy-btn {
+            width: 100%; padding: 12px; border: none; border-radius: 8px;
+            background: transparent; border: 2px solid var(--rank-color);
+            color: var(--rank-color); font-family: 'Black Ops One'; font-size: 1.1rem;
+            cursor: pointer; transition: var(--transition-fast);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        .buy-btn:hover {
+            background: var(--rank-color); color: #000;
+            box-shadow: 0 0 20px var(--rank-color);
+        }
 
     </style>
 </head>
-<body onhashchange="route()">
+<body>
 
-    <div id="register" class="page">
-        <div class="auth-card">
-            <h1 style="font-family: 'Black Ops One'; color: var(--blood); font-size: 32px;">ARXON REGISTER</h1>
-            <p style="font-size: 11px; color: #555; margin-bottom: 20px;">Yeni bir hesap oluştur ve ağa katıl.</p>
-            <input type="text" id="r-user" placeholder="Kullanıcı Adı">
-            <input type="password" id="r-pass" placeholder="Şifre">
-            <label style="display:block; margin: 10px 0; font-size:12px; color:var(--blood); cursor:pointer;">
-                <input type="file" id="r-pp" hidden onchange="handlePP(this)">
-                <i class="fas fa-image"></i> Profil Resmi Yükle
-            </label>
-            <button class="btn btn-blood" onclick="doRegister()">KAYIT OL</button>
-            <p style="margin-top: 15px; font-size: 12px;">Zaten üye misin? <a href="#login" style="color:var(--blood)">Giriş Yap</a></p>
-        </div>
-    </div>
+    <div class="bg-particles"></div>
+    <div class="bg-grid"></div>
 
-    <div id="login" class="page">
-        <div class="auth-card">
-            <h1 style="font-family: 'Black Ops One'; color: var(--blood); font-size: 32px;">ARXON LOGIN</h1>
-            <input type="text" id="l-user" placeholder="Kullanıcı Adı">
-            <input type="password" id="l-pass" placeholder="Şifre">
-            <button class="btn btn-blood" onclick="doLogin()">SİSTEME GİRİŞ YAP</button>
-            <p style="margin-top: 15px; font-size: 12px;">Hesabın yok mu? <a href="#register" style="color:var(--blood)">Kayıt Ol</a></p>
-        </div>
-    </div>
-
-    <div id="l" class="page" style="display: none; flex-direction: column;">
-        <nav>
-            <div class="logo" style="font-family:'Black Ops One'; font-size:24px; color:var(--blood);">ARXON NETWORK</div>
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span id="n-name" style="font-weight:900;">GİRİŞ YAPILDI</span>
-                <img id="n-pp" src="" style="width:35px; height:35px; border-radius:50%; border:1px solid var(--blood); object-fit:cover;">
-            </div>
-        </nav>
-        <div class="app-grid">
-            <aside class="sidebar">
-                <button class="btn btn-blood" style="margin-bottom:20px;">+ LOBİ OLUŞTUR</button>
-                <div style="background:#111; padding:15px; border-radius:10px; border-left:4px solid var(--blood);">
-                    <h4 style="color:var(--blood)">Arxon Global #1</h4>
-                    <p style="font-size:10px; color:#555;">Status: Online</p>
-                </div>
-            </aside>
-            <main class="stage">
-                <div class="video-grid" id="v-grid">
-                    <div class="video-box">
-                        <video id="myCam" autoplay playsinline muted></video>
-                        <div class="mic-on" id="micInd"><i class="fas fa-microphone"></i></div>
-                        <div style="position:absolute; bottom:15px; left:15px; background:rgba(0,0,0,0.8); padding:5px 12px; border-radius:5px;">
-                            <span id="v-name" style="font-weight:900; font-size:12px;">OYUNCU</span>
+    <section id="auth-view" class="view-section active">
+        <div id="auth-wrapper">
+            <div class="auth-container" id="auth-card-container">
+                
+                <div class="auth-face auth-front neon-panel">
+                    <h1 class="main-title">VIREX <span>CRAFT</span></h1>
+                    <h2 style="text-align: center; margin-bottom: 25px; color: var(--virex-blue);">SİSTEME GİRİŞ</h2>
+                    
+                    <form id="login-form">
+                        <div class="input-group">
+                            <input type="text" id="login-username" class="neon-input" placeholder="Minecraft Kullanıcı Adı" required autocomplete="off">
+                            <i class="fas fa-user-astronaut"></i>
                         </div>
-                    </div>
+                        <div class="input-group">
+                            <input type="password" id="login-password" class="neon-input" placeholder="Gizli Şifre" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <button type="submit" class="neon-btn">PORTALA BAĞLAN</button>
+                    </form>
+
+                    <p class="switch-link">
+                        Hesabın yok mu? <span onclick="toggleAuthCard('register')">KAYIT OL</span>
+                    </label>
                 </div>
-                <div style="height:80px; background:#080808; display:flex; align-items:center; justify-content:center; gap:20px; border-top:1px solid #111;">
-                    <button class="btn-blood" style="width:50px; height:50px; border-radius:50%;" onclick="toggleMute()"><i class="fas fa-microphone"></i></button>
-                    <button class="btn-blood" style="width:50px; height:50px; border-radius:50%;" onclick="toggleCam()"><i class="fas fa-video"></i></button>
-                    <button class="btn-blood" style="width:auto; padding:0 20px;" onclick="location.hash='#login'">ÇIKIŞ YAP</button>
+
+                <div class="auth-face auth-back neon-panel" style="border-color: var(--virex-pink); box-shadow: var(--neon-glow-blue);">
+                    <h1 class="main-title" style="font-size: 3rem;">YENİ <span>ÜYE</span></h1>
+                    <h2 style="text-align: center; margin-bottom: 25px; color: var(--virex-pink);">ARAMIZA KATIL</h2>
+                    
+                    <form id="register-form">
+                        <div class="input-group">
+                            <input type="text" id="reg-username" class="neon-input" placeholder="Minecraft Kullanıcı Adı" required autocomplete="off">
+                            <i class="fas fa-hat-wizard"></i>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="reg-email" class="neon-input" placeholder="E-posta Adresi" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="reg-password" class="neon-input" placeholder="Güçlü Şifre Belirle" required>
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <button type="submit" class="neon-btn" style="background: linear-gradient(45deg, var(--virex-blue), var(--virex-pink));">KAYDI TAMAMLA</button>
+                    </form>
+
+                    <p class="switch-link">
+                        Zaten üye misin? <span onclick="toggleAuthCard('login')" style="color: var(--virex-pink);">GİRİŞ YAP</span>
+                    </p>
                 </div>
-            </main>
-            <aside class="sidebar" style="border-right:none; border-left:1px solid #1a1a1a;">
-                <div class="profile-wrap">
-                    <div class="banner"></div>
-                    <div class="avatar-box">
-                        <img id="c-pp" class="p-img" src="https://i.imgur.com/6VBx3io.png">
-                        <img id="c-frame" class="p-frame" src="">
-                    </div>
-                    <div style="padding:20px;">
-                        <h3 id="c-name" style="font-family:'Orbitron';">KULLANICI</h3>
-                        <p style="color:var(--blood); font-size:10px; font-weight:900;">ARXON ELITE</p>
-                        <hr style="border:0; border-top:1px solid #222; margin:15px 0;">
-                        <button class="btn btn-blood" style="font-size:10px;" onclick="openShop()">AVATAR SHOP</button>
-                    </div>
-                </div>
-            </aside>
+
+            </div>
         </div>
+    </section>
+
+    <div id="welcome-stage">
+        <div class="character-stage">
+            <img src="" alt="MC Head" id="welcome-head" class="mc-head-float">
+            <img src="" alt="MC Body" id="welcome-body" class="mc-body-render">
+        </div>
+        <h1 class="welcome-text">HOŞ GELDİN, <span id="welcome-username">OYUNCU</span>!</h1>
+        <p class="welcome-subtext">Virex Craft Evrenine Giriş Yapılıyor...</p>
     </div>
+
+    <section id="lobby-view" class="view-section">
+        <div class="lobby-header neon-panel" style="padding: 15px 30px;">
+            <div class="user-profile-chip">
+                <img src="" alt="Profile" id="lobby-profile-head" class="chip-head">
+                <div class="chip-info">
+                    <h3 id="lobby-username">Kullanıcı</h3>
+                    <p><i class="fas fa-circle" style="color: var(--virex-green); font-size: 0.6rem;"></i> Çevrimiçi & Güvenli Bağlantı</p>
+                </div>
+            </div>
+            <div class="lobby-actions">
+                <button class="neon-btn" onclick="navigate('store-view')"><i class="fas fa-shopping-cart"></i> MAĞAZAYA GİT</button>
+                <button class="neon-btn" style="background: #333; color: #ff5555;" onclick="logout()"><i class="fas fa-sign-out-alt"></i> ÇIKIŞ</button>
+            </div>
+        </div>
+
+        <div class="camera-frame-container">
+            <div class="camera-viewport">
+                <video id="user-camera" autoplay playsinline muted></video>
+                <div class="camera-overlay">
+                    <div class="rec-dot"></div>
+                    CANLI GÜVENLİK AKIŞI
+                </div>
+            </div>
+        </div>
+        <h2 style="margin-top: 20px; color: var(--virex-blue); text-align: center; font-family: 'Black Ops One';">LOBİYE GİRİŞ İÇİN KAMERA İZNİ ŞARTTIR</h2>
+    </section>
+
+    <section id="store-view" class="view-section">
+         <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+             <h1 class="main-title" style="font-size: 3rem; margin:0; text-align: left;">VİREX <span style="color: var(--virex-gold);">MAĞAZA</span></h1>
+             <button class="neon-btn" style="width: auto; padding: 10px 30px;" onclick="navigate('lobby-view')"><i class="fas fa-arrow-left"></i> LOBİYE DÖN</button>
+         </div>
+
+         <div class="store-layout">
+             <div class="character-assistant">
+                 <div class="speech-bubble" id="store-speech"></div>
+                 <img src="" alt="My Character" id="store-character-body" class="assistant-body">
+             </div>
+
+             <div class="vip-grid">
+                 <div class="vip-card vip">
+                     <div class="card-header">VIP</div>
+                     <div class="card-body">
+                         <ul>
+                             <li><i class="fas fa-bolt"></i> Uçuş Modu (/fly)</li>
+                             <li><i class="fas fa-hat-cowboy"></i> Özel Şapka Komutları</li>
+                             <li><i class="fas fa-coins"></i> 5.000 Oyun Parası</li>
+                             <li><i class="fas fa-user-tag"></i> Sohbette [VIP] Tagı</li>
+                         </ul>
+                     </div>
+                     <div class="card-footer"><button class="buy-btn">SATIN AL - 50₺</button></div>
+                 </div>
+
+                 <div class="vip-card vipplus">
+                     <div class="card-header">VIP+</div>
+                     <div class="card-body">
+                        <ul>
+                            <li><i class="fas fa-bolt"></i> Tüm VIP Özellikleri</li>
+                            <li><i class="fas fa-paw"></i> Özel Pet Sistemi</li>
+                            <li><i class="fas fa-palette"></i> Renkli Yazı Yazma</li>
+                            <li><i class="fas fa-coins"></i> 15.000 Oyun Parası</li>
+                        </ul>
+                    </div>
+                     <div class="card-footer"><button class="buy-btn">SATIN AL - 100₺</button></div>
+                 </div>
+
+                  <div class="vip-card virexvip">
+                     <div class="card-header">VIREX VIP</div>
+                     <div class="card-body">
+                        <ul>
+                            <li><i class="fas fa-bolt"></i> Tüm VIP+ Özellikleri</li>
+                            <li><i class="fas fa-dungeon"></i> Özel Zindanlara Giriş</li>
+                            <li><i class="fas fa-shirt"></i> Anlık Skin Değiştirme</li>
+                            <li><i class="fas fa-coins"></i> 35.000 Oyun Parası</li>
+                            <li><i class="fas fa-crown"></i> Sohbette [VirexVIP] Tagı</li>
+                        </ul>
+                    </div>
+                     <div class="card-footer"><button class="buy-btn">SATIN AL - 200₺</button></div>
+                 </div>
+
+                 <div class="vip-card virexvipplus" style="grid-column: span 3 / auto; border-width: 3px; box-shadow: var(--rank-glow);">
+                    <div class="card-header" style="font-size: 2.5rem; background: linear-gradient(45deg, var(--virex-purple), var(--virex-gold)); color: #000;">
+                        <i class="fas fa-star" style="color: #fff;"></i> VIREX VIP+ <i class="fas fa-star" style="color: #fff;"></i>
+                    </div>
+                    <div class="card-body" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                       <ul>
+                           <h3 style="color: var(--virex-gold); margin-bottom: 15px;">EFSANEVİ AYRICALIKLAR</h3>
+                           <li><i class="fas fa-infinity" style="color: var(--virex-gold);"></i> Alt Özelliklerin TAMAMI</li>
+                           <li><i class="fas fa-globe-americas" style="color: var(--virex-gold);"></i> Sunucu Doluyken Girebilme</li>
+                           <li><i class="fas fa-tools" style="color: var(--virex-gold);"></i> Özel Eşya Tamir Komutu</li>
+                       </ul>
+                       <ul>
+                           <h3 style="color: var(--virex-gold); margin-bottom: 15px;">EKSTRA BONUSLAR</h3>
+                            <li><i class="fas fa-coins" style="color: var(--virex-gold);"></i> 100.000 Oyun Parası</li>
+                            <li><i class="fas fa-dragon" style="color: var(--virex-gold);"></i> Efsanevi Binek Hakkı</li>
+                            <li><i class="fas fa-chess-king" style="color: var(--virex-gold);"></i> Lobi Heykeli Hakkı</li>
+                       </ul>
+                   </div>
+                    <div class="card-footer">
+                        <button class="buy-btn" style="font-size: 1.5rem; background: var(--virex-gold); color: #000; font-weight: 900;">
+                            EFSANEYE DÖNÜŞ - 400₺
+                        </button>
+                    </div>
+                </div>
+
+             </div>
+         </div>
+    </section>
+
 
     <script>
-        let userData = { pp: "https://i.imgur.com/6VBx3io.png", stream: null };
+        // --- Durum Yönetimi ---
+        const state = {
+            currentUser: null,
+            currentView: 'auth-view',
+            cameraStream: null
+        };
 
-        // --- YÖNLENDİRME MOTORU ---
-        function route() {
-            const hash = window.location.hash || '#login';
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+        // --- DOM Elementleri ---
+        const views = document.querySelectorAll('.view-section');
+        const authCardContainer = document.getElementById('auth-card-container');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const welcomeStage = document.getElementById('welcome-stage');
+        const videoElement = document.getElementById('user-camera');
+
+        // --- Yardımcı Fonksiyonlar (MC API) ---
+        // Minotar API kullanarak kafa ve vücut görüntülerini alıyoruz
+        const getMCHead = (username) => `https://minotar.net/helm/${username}/100.png`;
+        const getMCBody = (username) => `https://minotar.net/armor/body/${username}/300.png`;
+
+        // --- Navigasyon Sistemi ---
+        function navigate(targetViewId) {
+            // Kamera açıksa ve lobi dışına çıkılıyorsa kapat
+            if (state.currentView === 'lobby-view' && targetViewId !== 'lobby-view') {
+                stopCamera();
+            }
+
+            // Tüm görünümleri gizle
+            views.forEach(view => view.classList.remove('active'));
             
-            const targetPage = document.querySelector(hash);
-            if(targetPage) {
-                targetPage.classList.add('active-page');
+            // Hedef görünümü göster
+            const targetView = document.getElementById(targetViewId);
+            targetView.classList.add('active');
+            state.currentView = targetViewId;
+
+            // Görünüme özel başlatıcılar
+            if (targetViewId === 'lobby-view') {
+                initLobby();
+            } else if (targetViewId === 'store-view') {
+                initStore();
             }
-
-            // Lobiye girişte kamera başlat
-            if(hash === '#l') {
-                startMedia();
-            } else if(userData.stream) {
-                userData.stream.getTracks().forEach(t => t.stop());
-            }
         }
 
-        // --- PP YÜKLEME ---
-        function handlePP(input) {
-            const reader = new FileReader();
-            reader.onload = (e) => { userData.pp = e.target.result; Swal.fire('Hazır','Resim sisteme işlendi!','success'); }
-            reader.readAsDataURL(input.files[0]);
-        }
-
-        // --- KAYIT İŞLEMİ ---
-        function doRegister() {
-            const u = document.getElementById('r-user').value;
-            const p = document.getElementById('r-pass').value;
-            if(!u || !p) return Swal.fire('Hata','Tüm alanları doldur!','error');
-
-            const db = JSON.parse(localStorage.getItem('arxon_users') || '{}');
-            db[u] = { pass: p, pp: userData.pp };
-            localStorage.setItem('arxon_users', JSON.stringify(db));
-
-            Swal.fire('Başarılı','Kayıt tamamlandı, şimdi giriş yap!','success').then(() => {
-                window.location.hash = '#login';
-            });
-        }
-
-        // --- GİRİŞ İŞLEMİ ---
-        function doLogin() {
-            const u = document.getElementById('l-user').value;
-            const p = document.getElementById('l-pass').value;
-            const db = JSON.parse(localStorage.getItem('arxon_users') || '{}');
-
-            if(db[u] && db[u].pass === p) {
-                userData.name = u;
-                userData.pp = db[u].pp;
-                window.location.hash = '#l';
+        // --- Auth (Giriş/Kayıt) İşlemleri ---
+        function toggleAuthCard(mode) {
+            // Kartı döndür (CSS 3D transform)
+            if (mode === 'register') {
+                authCardContainer.classList.add('flipped');
             } else {
-                Swal.fire('Erişim Engellendi','Bilgiler hatalı!','error');
+                authCardContainer.classList.remove('flipped');
             }
+            // Formları temizle
+            loginForm.reset();
+            registerForm.reset();
         }
 
-        // --- MEDYA BAŞLATMA ---
-        async function startMedia() {
-            try {
-                userData.stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                document.getElementById('myCam').srcObject = userData.stream;
-                
-                // UI Update
-                document.getElementById('n-name').innerText = userData.name + "#2026";
-                document.getElementById('c-name').innerText = userData.name.toUpperCase();
-                document.getElementById('v-name').innerText = userData.name.toUpperCase();
-                document.getElementById('n-pp').src = userData.pp;
-                document.getElementById('c-pp').src = userData.pp;
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value;
+            const password = document.getElementById('reg-password').value;
 
-                detectVoice(userData.stream);
-            } catch(e) {
-                Swal.fire('İzin Şart','Kamera izni olmadan lobiye giremezsin!','warning').then(() => {
-                    window.location.hash = '#login';
+            // Basit doğrulama
+            if (username.length < 3 || password.length < 4) {
+                Swal.fire({ icon: 'error', title: 'Hata', text: 'Kullanıcı adı en az 3, şifre en az 4 karakter olmalı!', background: '#1a1a2e', color: '#fff' });
+                return;
+            }
+
+            // LocalStorage'a kaydet (Basit DB simülasyonu)
+            if (localStorage.getItem(`user_${username}`)) {
+                Swal.fire({ icon: 'warning', title: 'Mevcut', text: 'Bu kullanıcı adı zaten alınmış.', background: '#1a1a2e', color: '#fff' });
+            } else {
+                localStorage.setItem(`user_${username}`, JSON.stringify({ username, password }));
+                Swal.fire({ icon: 'success', title: 'Başarılı!', text: 'Kayıt tamamlandı. Şimdi giriş yap!', background: '#1a1a2e', color: '#fff', confirmButtonColor: '#9d00ff' });
+                toggleAuthCard('login');
+            }
+        });
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            // LocalStorage'dan kontrol et
+            const storedUserStr = localStorage.getItem(`user_${username}`);
+            
+            if (storedUserStr) {
+                const storedUser = JSON.parse(storedUserStr);
+                if (storedUser.password === password) {
+                    // Giriş Başarılı!
+                    state.currentUser = storedUser.username;
+                    triggerWelcomeSequence(state.currentUser);
+                } else {
+                    Swal.fire({ icon: 'error', title: 'Hata', text: 'Şifre yanlış!', background: '#1a1a2e', color: '#fff' });
+                }
+            } else {
+                Swal.fire({ icon: 'error', title: 'Hata', text: 'Böyle bir kullanıcı bulunamadı.', background: '#1a1a2e', color: '#fff' });
+            }
+        });
+
+        // --- Efsanevi Karşılama Sekansı ---
+        function triggerWelcomeSequence(username) {
+            // Auth ekranını gizle
+            document.getElementById('auth-view').classList.remove('active');
+            
+            // Karakter görsellerini API'den çek ve yerleştir
+            document.getElementById('welcome-head').src = getMCHead(username);
+            document.getElementById('welcome-body').src = getMCBody(username);
+            document.getElementById('welcome-username').innerText = username.toUpperCase();
+
+            // Karşılama sahnesini aktif et (Animasyonlar CSS'de tanımlı)
+            welcomeStage.classList.add('active');
+
+            // 4.5 saniye sonra lobiye geç (Animasyonların bitiş süresi)
+            setTimeout(() => {
+                welcomeStage.classList.remove('active');
+                navigate('lobby-view');
+            }, 4500);
+        }
+
+        // --- Lobi Sistemi (Kamera Erişimi) ---
+        async function initLobby() {
+            if (!state.currentUser) { logout(); return; }
+
+            // Profil bilgilerini güncelle
+            document.getElementById('lobby-username').innerText = state.currentUser;
+            document.getElementById('lobby-profile-head').src = getMCHead(state.currentUser);
+
+            try {
+                // Kamera ve Mikrofon izni iste
+                state.cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                videoElement.srcObject = state.cameraStream;
+            } catch (err) {
+                console.error("Kamera hatası:", err);
+                // İzin verilmezse sert bir uyarı göster ve çıkış yap
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ERİŞİM REDDEDİLDİ',
+                    text: 'Virex Craft Lobisi için kamera ve mikrofon izni ZORUNLUDUR. Güvenlik protokolü gereği çıkış yapılıyor.',
+                    background: '#050509',
+                    color: '#ff00d4',
+                    confirmButtonColor: '#ff0000',
+                    allowOutsideClick: false
+                }).then(() => {
+                    logout();
                 });
             }
         }
 
-        // --- SES ANALİZİ ---
-        function detectVoice(s) {
-            const actx = new AudioContext();
-            const ana = actx.createAnalyser();
-            const src = actx.createMediaStreamSource(s);
-            ana.fftSize = 256;
-            src.connect(ana);
-            const data = new Uint8Array(ana.frequencyBinCount);
-
-            function loop() {
-                ana.getByteFrequencyData(data);
-                let vol = data.reduce((a, b) => a + b) / data.length;
-                document.getElementById('micInd').style.display = (vol > 40) ? 'flex' : 'none';
-                requestAnimationFrame(loop);
+        function stopCamera() {
+            if (state.cameraStream) {
+                state.cameraStream.getTracks().forEach(track => track.stop());
+                videoElement.srcObject = null;
+                state.cameraStream = null;
             }
-            loop();
         }
 
-        // --- DISCORD SHOP ---
-        const frames = [
-            { n: "Cyber", id: "a_8656113ccf3e24b7a66164f9f7403164" },
-            { n: "Magic", id: "a_550220979667c31d17d096c466488344" },
-            { n: "Fire", id: "a_b5104d498114c000df837c7682f6e520" },
-            { n: "Ghost", id: "a_2069539369324151325" },
-            { n: "Sakura", id: "a_6c4767142468305f884a0d9b4b96b467" }
-        ];
+        // --- Mağaza Sistemi ---
+        function initStore() {
+            if (!state.currentUser) { logout(); return; }
 
-        function openShop() {
-            let h = `<div class="shop-grid">`;
-            frames.forEach(f => {
-                h += `<div class="shop-item" onclick="setF('${f.id}')"><img src="https://cdn.discordapp.com/avatar-decoration-presets/v2/${f.id}.png" width="60"><p style="font-size:9px;">${f.n}</p></div>`;
-            });
-            h += `</div>`;
-            Swal.fire({ title: 'Arxon Avatar Shop', background: '#0a0a0a', color: '#fff', html: h, showConfirmButton: false });
+            // Mağazadaki karakter görselini güncelle
+            document.getElementById('store-character-body').src = getMCBody(state.currentUser);
+
+            // Konuşma balonunu Typewriter efekti ile doldur
+            const speechElement = document.getElementById('store-speech');
+            speechElement.innerHTML = ''; // Temizle
+
+            new Typewriter(speechElement, {
+                loop: false,
+                delay: 50,
+                cursor: '█'
+            })
+            .typeString(`Selam ${state.currentUser}! <br>`)
+            .pauseFor(500)
+            .typeString('Virex Craft dünyasında efsane olmak ister misin? <br>')
+            .pauseFor(300)
+            .typeString('<span style="color: var(--virex-gold);">Yan taraftaki VIP paketlerine bir göz at!</span> Hepsini senin için hazırladım.')
+            .start();
         }
 
-        function setF(id) {
-            document.getElementById('c-frame').src = `https://cdn.discordapp.com/avatar-decoration-presets/v2/${id}.png`;
-            Swal.close();
+        // --- Çıkış Yap ---
+        function logout() {
+            stopCamera();
+            state.currentUser = null;
+            navigate('auth-view');
+            // Formu sıfırla ve ön yüze dön
+            loginForm.reset();
+            if (authCardContainer.classList.contains('flipped')) {
+                toggleAuthCard('login');
+            }
+            Swal.fire({ icon: 'success', title: 'Çıkış Yapıldı', toast: true, position: 'top-end', showConfirmButton: false, timer: 2000, background: '#1a1a2e', color: '#fff' });
         }
 
-        function toggleMute() { userData.stream.getAudioTracks()[0].enabled = !userData.stream.getAudioTracks()[0].enabled; }
-        function toggleCam() { userData.stream.getVideoTracks()[0].enabled = !userData.stream.getVideoTracks()[0].enabled; }
+        // --- Başlangıç ---
+        // Sayfa yüklendiğinde auth görünümünü aktif et
+        window.addEventListener('DOMContentLoaded', () => {
+            navigate('auth-view');
+        });
 
-        // İlk açılışta route kontrol et
-        route();
     </script>
 </body>
 </html>
