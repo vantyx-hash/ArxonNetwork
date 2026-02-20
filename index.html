@@ -2,271 +2,177 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vantyx Client | Premium Experience</title>
+    <title>Vantyx Client | Secure System</title>
     <style>
-        :root {
-            --primary-green: #00ff41;
-            --dark-bg: #050505;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-        }
+        :root { --p-green: #00ff41; --bg: #050505; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; cursor: none; }
+        body { background: var(--bg); color: white; overflow: hidden; }
+        
+        /* Arka Plan ve Mouse */
+        #canvas { position: fixed; z-index: -1; }
+        #cursor { width: 8px; height: 8px; background: var(--p-green); border-radius: 50%; position: fixed; pointer-events: none; z-index: 999; }
+        #glow { width: 150px; height: 150px; background: radial-gradient(circle, rgba(0,255,65,0.15) 0%, transparent 70%); position: fixed; pointer-events: none; transform: translate(-50%, -50%); }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            cursor: none; /* Standart mouse gizlendi */
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: white;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* --- ARKA PLAN ANİMASYONU --- */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        /* --- ÖZEL MOUSE VE IŞIK --- */
-        #custom-cursor {
-            width: 8px;
-            height: 8px;
-            background: var(--primary-green);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.1s ease;
-        }
-
-        #cursor-glow {
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(0, 255, 65, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-        }
-
-        /* --- NAVIGATION & DİL --- */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: rgba(0, 0, 0, 0.8);
-            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
-        }
-
-        .logo {
-            font-size: 32px;
-            font-weight: bold;
-            color: var(--primary-green);
-            text-shadow: 0 0 10px var(--primary-green);
-        }
-
-        .lang-switcher select {
-            background: black;
-            color: var(--primary-green);
-            border: 1px solid var(--primary-green);
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        /* --- ANA PANEL / LOGIN --- */
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: calc(100vh - 80px);
-            text-align: center;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            padding: 40px;
-            border-radius: 15px;
-            border: 1px solid rgba(0, 255, 65, 0.1);
-            backdrop-filter: blur(10px);
-            width: 350px;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(0, 255, 65, 0.3);
-            color: white;
-            border-radius: 5px;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary-green);
-            border: none;
-            color: black;
-            font-weight: bold;
-            border-radius: 5px;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            box-shadow: 0 0 20px var(--primary-green);
-            transform: scale(1.02);
-        }
-
-        /* --- DOWNLOAD SECTION (GİZLİ) --- */
-        #download-section {
-            display: none;
-        }
-
-        .download-box {
-            padding: 50px;
-            border: 2px dashed var(--primary-green);
-            border-radius: 20px;
-            margin-top: 20px;
-        }
-
-        /* RTL Desteği (Arapça için) */
-        [dir="rtl"] { text-align: right; }
-        [dir="rtl"] nav { flex-direction: row-reverse; }
+        /* UI Elemanları */
+        nav { display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(0,255,65,0.2); background: rgba(0,0,0,0.8); }
+        .container { display: flex; height: 90vh; align-items: center; justify-content: center; flex-direction: column; }
+        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 10px; border: 1px solid var(--p-green); width: 350px; backdrop-filter: blur(10px); }
+        
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #333; color: var(--p-green); border-radius: 4px; }
+        button { width: 100%; padding: 10px; background: var(--p-green); border: none; font-weight: bold; transition: 0.3s; margin-top: 10px; }
+        button:hover { box-shadow: 0 0 15px var(--p-green); }
+        
+        .hidden { display: none; }
+        .admin-box { margin-top: 20px; width: 80%; max-height: 200px; overflow-y: auto; background: #111; padding: 10px; border: 1px solid red; }
+        .user-item { display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #222; font-size: 12px; }
     </style>
 </head>
 <body>
 
-    <div id="custom-cursor"></div>
-    <div id="cursor-glow"></div>
-    <canvas id="bg-canvas"></canvas>
+<div id="cursor"></div>
+<div id="glow"></div>
+<canvas id="canvas"></canvas>
 
-    <nav>
-        <div class="logo">V</div>
-        <div class="lang-switcher">
-            <select id="langSelect" onchange="updateLanguage()">
-                <option value="tr">TR</option>
-                <option value="en">EN</option>
-                <option value="ru">RU</option>
-                <option value="ar">AR</option>
-            </select>
-        </div>
-    </nav>
+<nav>
+    <div style="color:var(--p-green); font-size:24px; font-weight:bold;">V</div>
+    <select id="lang" onchange="changeLang()" style="background:#000; color:var(--p-green); border:1px solid var(--p-green);">
+        <option value="tr">TR</option><option value="en">EN</option>
+        <option value="ru">RU</option><option value="ar">AR</option>
+    </select>
+</nav>
 
-    <div class="container" id="login-section">
-        <div class="card">
-            <h2 id="txt-title">Vantyx Giriş</h2>
-            <input type="text" id="username" placeholder="Kullanıcı Adı">
-            <input type="password" id="password" placeholder="Şifre">
-            <button onclick="handleLogin()" id="txt-btn">Giriş Yap</button>
-            <p id="login-msg" style="margin-top: 15px; font-size: 12px; color: #ff4444;"></p>
-        </div>
+<div class="container" id="auth-screen">
+    <div class="card">
+        <h2 id="form-title">Vantyx Client</h2>
+        <input type="text" id="user" placeholder="Kullanıcı Adı">
+        <input type="password" id="pass" placeholder="Şifre">
+        <button onclick="login()">Giriş</button>
+        <button onclick="register()" style="background:transparent; color:white; border:1px solid white;">Kayıt Ol</button>
+        <p id="msg" style="color:red; font-size:12px; margin-top:10px;"></p>
+    </div>
+</div>
+
+<div class="container hidden" id="download-screen">
+    <h1 id="welcome-msg">Hoş geldin!</h1>
+    <div class="card" style="text-align:center;">
+        <p>Vantyx v1.0.4</p>
+        <button onclick="alert('İndiriliyor...')">DOWNLOAD</button>
+        <button onclick="logout()" style="background:gray; margin-top:20px;">Çıkış Yap</button>
     </div>
 
-    <div class="container" id="download-section">
-        <h1 id="txt-welcome">Hoş geldin!</h1>
-        <div class="download-box">
-            <p id="txt-ready">Vantyx Client İndirilmeye Hazır</p>
-            <button onclick="alert('İndirme Başladı!')" style="font-size: 20px;">DOWNLOAD NOW</button>
-        </div>
-        <p id="admin-panel" style="margin-top: 20px; color: var(--primary-green); display: none;">
-            Yönetici Paneli Aktif: Hoş geldin Syvex!
-        </p>
+    <div id="admin-panel" class="hidden admin-box">
+        <h4 style="color:red;">SYVEX PANEL (Kullanıcı Listesi & Ban)</h4>
+        <div id="user-list"></div>
     </div>
+</div>
 
-    <script>
-        // 1. DİL DESTEĞİ VERİLERİ
-        const translations = {
-            tr: { title: "Vantyx Giriş", btn: "Giriş Yap", welcome: "Hoş geldin!", ready: "Vantyx Client İndirilmeye Hazır", dir: "ltr" },
-            en: { title: "Vantyx Login", btn: "Login", welcome: "Welcome!", ready: "Vantyx Client Ready to Download", dir: "ltr" },
-            ru: { title: "Вход Vantyx", btn: "Войти", welcome: "Добро пожаловать!", ready: "Vantyx Client готов к загрузке", dir: "ltr" },
-            ar: { title: "تسجيل الدخول", btn: "دخول", welcome: "أهلاً بك!", ready: "Vantyx Client جاهز للتحميل", dir: "rtl" }
-        };
+<script>
+    // --- DATABASE SİSTEMİ (LocalStorage) ---
+    if(!localStorage.getItem('vantyx_users')) {
+        localStorage.setItem('vantyx_users', JSON.stringify([{u: "syvex", p: "123", banned: false, banUntil: 0}]));
+    }
 
-        function updateLanguage() {
-            const lang = document.getElementById('langSelect').value;
-            const data = translations[lang];
-            
-            document.getElementById('txt-title').innerText = data.title;
-            document.getElementById('txt-btn').innerText = data.btn;
-            document.getElementById('txt-welcome').innerText = data.welcome;
-            document.getElementById('txt-ready').innerText = data.ready;
-            document.documentElement.dir = data.dir;
+    function getUsers() { return JSON.parse(localStorage.getItem('vantyx_users')); }
+    function saveUsers(users) { localStorage.setItem('vantyx_users', JSON.stringify(users)); }
+
+    // --- AUTH SİSTEMİ ---
+    function register() {
+        let u = document.getElementById('user').value;
+        let p = document.getElementById('pass').value;
+        let users = getUsers();
+
+        if(u.length < 3) return alert("Kullanıcı adı çok kısa!");
+        if(users.find(x => x.u === u)) return alert("Bu kullanıcı zaten var!");
+
+        users.push({u: u, p: p, banned: false, banUntil: 0});
+        saveUsers(users);
+        alert("Kayıt başarılı! Giriş yapabilirsiniz.");
+    }
+
+    function login() {
+        let u = document.getElementById('user').value;
+        let p = document.getElementById('pass').value;
+        let users = getUsers();
+        let user = users.find(x => x.u === u && x.p === p);
+
+        if(!user) return document.getElementById('msg').innerText = "Hatalı giriş!";
+        
+        // Ban Kontrolü
+        let now = Date.now();
+        if(user.banned && (user.banUntil === -1 || user.banUntil > now)) {
+            let remain = user.banUntil === -1 ? "Sınırsız" : Math.round((user.banUntil - now)/1000) + " saniye";
+            return document.getElementById('msg').innerText = "BANLANDINIZ! Kalan: " + remain;
         }
 
-        // 2. MOUSE TAKİBİ
-        const cursor = document.getElementById('custom-cursor');
-        const glow = document.getElementById('cursor-glow');
+        // Giriş Başarılı
+        document.getElementById('auth-screen').classList.add('hidden');
+        document.getElementById('download-screen').classList.remove('hidden');
+        document.getElementById('welcome-msg').innerText = "Selam, " + u;
 
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            glow.style.left = e.clientX + 'px';
-            glow.style.top = e.clientY + 'px';
+        if(u === "syvex") {
+            document.getElementById('admin-panel').classList.remove('hidden');
+            renderAdmin();
+        }
+    }
+
+    // --- BAN SİSTEMİ (Admin) ---
+    function renderAdmin() {
+        let list = document.getElementById('user-list');
+        list.innerHTML = "";
+        getUsers().forEach(user => {
+            if(user.u === "syvex") return;
+            list.innerHTML += `
+                <div class="user-item">
+                    ${user.u} [${user.banned ? 'BANLI' : 'AKTİF'}]
+                    <div>
+                        <button onclick="banUser('${user.u}', 60)" style="width:60px; font-size:10px; background:orange;">1dk Ban</button>
+                        <button onclick="banUser('${user.u}', -1)" style="width:60px; font-size:10px; background:red;">Sınırsız</button>
+                        <button onclick="unbanUser('${user.u}')" style="width:60px; font-size:10px; background:green;">Unban</button>
+                    </div>
+                </div>`;
         });
+    }
 
-        // 3. LOGIN KONTROLÜ (DATABASE SİMÜLASYONU)
-        function handleLogin() {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            const msg = document.getElementById('login-msg');
+    function banUser(username, seconds) {
+        let users = getUsers();
+        let u = users.find(x => x.u === username);
+        u.banned = true;
+        u.banUntil = seconds === -1 ? -1 : Date.now() + (seconds * 1000);
+        saveUsers(users);
+        renderAdmin();
+    }
 
-            if (user === "" || pass === "") {
-                msg.innerText = "Lütfen alanları doldurun!";
-                return;
-            }
+    function unbanUser(username) {
+        let users = getUsers();
+        let u = users.find(x => x.u === username);
+        u.banned = false;
+        u.banUntil = 0;
+        saveUsers(users);
+        renderAdmin();
+    }
 
-            // Başarılı giriş
-            document.getElementById('login-section').style.display = 'none';
-            document.getElementById('download-section').style.display = 'flex';
+    function logout() { location.reload(); }
 
-            // Syvex Kontrolü
-            if (user.toLowerCase() === "syvex") {
-                document.getElementById('admin-panel').style.display = 'block';
-            }
-        }
+    // --- GÖRSEL EFEKTLER (Mouse & Canvas) ---
+    const c = document.getElementById('canvas');
+    const ctx = c.getContext('2d');
+    c.width = window.innerWidth; c.height = window.innerHeight;
+    
+    document.addEventListener('mousemove', (e) => {
+        document.getElementById('cursor').style.left = e.clientX + 'px';
+        document.getElementById('cursor').style.top = e.clientY + 'px';
+        document.getElementById('glow').style.left = e.clientX + 'px';
+        document.getElementById('glow').style.top = e.clientY + 'px';
+    });
 
-        // 4. ARKA PLAN ANİMASYONU (Matrix/Yeşil Akış)
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const particles = [];
-        for(let i = 0; i < 100; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                speed: Math.random() * 2 + 0.5,
-                opacity: Math.random()
-            });
-        }
-
-        function animate() {
-            ctx.fillStyle = 'rgba(5, 5, 5, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.fillStyle = '#00ff41';
-            particles.forEach(p => {
-                p.y += p.speed;
-                if(p.y > canvas.height) p.y = 0;
-                ctx.globalAlpha = p.opacity;
-                ctx.fillRect(p.x, p.y, 2, 2);
-            });
-            
-            requestAnimationFrame(animate);
-        }
-        animate();
-    </script>
+    function draw() {
+        ctx.fillStyle = 'rgba(5,5,5,0.1)';
+        ctx.fillRect(0,0,c.width,c.height);
+        ctx.fillStyle = '#00ff41';
+        for(let i=0; i<30; i++) ctx.fillRect(Math.random()*c.width, Math.random()*c.height, 2, 2);
+        requestAnimationFrame(draw);
+    }
+    draw();
+</script>
 </body>
 </html>
