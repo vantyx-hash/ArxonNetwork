@@ -1,178 +1,327 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>Vantyx Client | Secure System</title>
-    <style>
-        :root { --p-green: #00ff41; --bg: #050505; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; cursor: none; }
-        body { background: var(--bg); color: white; overflow: hidden; }
-        
-        /* Arka Plan ve Mouse */
-        #canvas { position: fixed; z-index: -1; }
-        #cursor { width: 8px; height: 8px; background: var(--p-green); border-radius: 50%; position: fixed; pointer-events: none; z-index: 999; }
-        #glow { width: 150px; height: 150px; background: radial-gradient(circle, rgba(0,255,65,0.15) 0%, transparent 70%); position: fixed; pointer-events: none; transform: translate(-50%, -50%); }
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="LeaderOS">
+	<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?cache=1771704300">
+	
+	<title>Bakım - KurtNW</title>
+	<meta name="description" content="KurtNetwork, 2025den beri oyuncularına en iyi deneyimi sunmak amacıyla kurulmuş bir Minecraft sunucusudur. Ana hedefi oyuncu geri bildirimlerini önemseyerek güçlü bir topluluk oluşturmaktır." />
+	<link rel="canonical" href="https://kurtnetwork.com/" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Bakım - KurtNW" />
+	<meta property="og:description" content="KurtNetwork, 2025den beri oyuncularına en iyi deneyimi sunmak amacıyla kurulmuş bir Minecraft sunucusudur. Ana hedefi oyuncu geri bildirimlerini önemseyerek güçlü bir topluluk oluşturmaktır." />
+	<meta property="og:url" content="http://kurtnetwork.com/" />
+	<meta property="og:site_name" content="KurtNW" />
+		
+	<!-- EXTRAS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.4.0/dist/select2-bootstrap4.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+	
+	<!-- FONTS -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css">
+	
+	<!-- THEMES -->
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/assets/cloud/css/extra.1770990226.css">
+	
+	<link rel="stylesheet" type="text/css" href="/assets/cloud/css/plugins/ckeditor/content-styles.1770990226.css">
+	
 
-        /* UI Elemanları */
-        nav { display: flex; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(0,255,65,0.2); background: rgba(0,0,0,0.8); }
-        .container { display: flex; height: 90vh; align-items: center; justify-content: center; flex-direction: column; }
-        .card { background: rgba(255,255,255,0.05); padding: 30px; border-radius: 10px; border: 1px solid var(--p-green); width: 350px; backdrop-filter: blur(10px); }
-        
-        input { width: 100%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #333; color: var(--p-green); border-radius: 4px; }
-        button { width: 100%; padding: 10px; background: var(--p-green); border: none; font-weight: bold; transition: 0.3s; margin-top: 10px; }
-        button:hover { box-shadow: 0 0 15px var(--p-green); }
-        
-        .hidden { display: none; }
-        .admin-box { margin-top: 20px; width: 80%; max-height: 200px; overflow-y: auto; background: #111; padding: 10px; border: 1px solid red; }
-        .user-item { display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #222; font-size: 12px; }
-    </style>
-</head>
-<body>
-
-<div id="cursor"></div>
-<div id="glow"></div>
-<canvas id="canvas"></canvas>
-
-<nav>
-    <div style="color:var(--p-green); font-size:24px; font-weight:bold;">V</div>
-    <select id="lang" onchange="changeLang()" style="background:#000; color:var(--p-green); border:1px solid var(--p-green);">
-        <option value="tr">TR</option><option value="en">EN</option>
-        <option value="ru">RU</option><option value="ar">AR</option>
-    </select>
-</nav>
-
-<div class="container" id="auth-screen">
-    <div class="card">
-        <h2 id="form-title">Vantyx Client</h2>
-        <input type="text" id="user" placeholder="Kullanıcı Adı">
-        <input type="password" id="pass" placeholder="Şifre">
-        <button onclick="login()">Giriş</button>
-        <button onclick="register()" style="background:transparent; color:white; border:1px solid white;">Kayıt Ol</button>
-        <p id="msg" style="color:red; font-size:12px; margin-top:10px;"></p>
-    </div>
-</div>
-
-<div class="container hidden" id="download-screen">
-    <h1 id="welcome-msg">Hoş geldin!</h1>
-    <div class="card" style="text-align:center;">
-        <p>Vantyx v1.0.4</p>
-        <button onclick="alert('İndiriliyor...')">DOWNLOAD</button>
-        <button onclick="logout()" style="background:gray; margin-top:20px;">Çıkış Yap</button>
-    </div>
-
-    <div id="admin-panel" class="hidden admin-box">
-        <h4 style="color:red;">SYVEX PANEL (Kullanıcı Listesi & Ban)</h4>
-        <div id="user-list"></div>
-    </div>
-</div>
-
-<script>
-    // --- DATABASE SİSTEMİ (LocalStorage) ---
-    if(!localStorage.getItem('vantyx_users')) {
-        localStorage.setItem('vantyx_users', JSON.stringify([{u: "syvex", p: "123", banned: false, banUntil: 0}]));
-    }
-
-    function getUsers() { return JSON.parse(localStorage.getItem('vantyx_users')); }
-    function saveUsers(users) { localStorage.setItem('vantyx_users', JSON.stringify(users)); }
-
-    // --- AUTH SİSTEMİ ---
-    function register() {
-        let u = document.getElementById('user').value;
-        let p = document.getElementById('pass').value;
-        let users = getUsers();
-
-        if(u.length < 3) return alert("Kullanıcı adı çok kısa!");
-        if(users.find(x => x.u === u)) return alert("Bu kullanıcı zaten var!");
-
-        users.push({u: u, p: p, banned: false, banUntil: 0});
-        saveUsers(users);
-        alert("Kayıt başarılı! Giriş yapabilirsiniz.");
-    }
-
-    function login() {
-        let u = document.getElementById('user').value;
-        let p = document.getElementById('pass').value;
-        let users = getUsers();
-        let user = users.find(x => x.u === u && x.p === p);
-
-        if(!user) return document.getElementById('msg').innerText = "Hatalı giriş!";
-        
-        // Ban Kontrolü
-        let now = Date.now();
-        if(user.banned && (user.banUntil === -1 || user.banUntil > now)) {
-            let remain = user.banUntil === -1 ? "Sınırsız" : Math.round((user.banUntil - now)/1000) + " saniye";
-            return document.getElementById('msg').innerText = "BANLANDINIZ! Kalan: " + remain;
-        }
-
-        // Giriş Başarılı
-        document.getElementById('auth-screen').classList.add('hidden');
-        document.getElementById('download-screen').classList.remove('hidden');
-        document.getElementById('welcome-msg').innerText = "Selam, " + u;
-
-        if(u === "syvex") {
-            document.getElementById('admin-panel').classList.remove('hidden');
-            renderAdmin();
-        }
-    }
-
-    // --- BAN SİSTEMİ (Admin) ---
-    function renderAdmin() {
-        let list = document.getElementById('user-list');
-        list.innerHTML = "";
-        getUsers().forEach(user => {
-            if(user.u === "syvex") return;
-            list.innerHTML += `
-                <div class="user-item">
-                    ${user.u} [${user.banned ? 'BANLI' : 'AKTİF'}]
-                    <div>
-                        <button onclick="banUser('${user.u}', 60)" style="width:60px; font-size:10px; background:orange;">1dk Ban</button>
-                        <button onclick="banUser('${user.u}', -1)" style="width:60px; font-size:10px; background:red;">Sınırsız</button>
-                        <button onclick="unbanUser('${user.u}')" style="width:60px; font-size:10px; background:green;">Unban</button>
-                    </div>
-                </div>`;
-        });
-    }
-
-    function banUser(username, seconds) {
-        let users = getUsers();
-        let u = users.find(x => x.u === username);
-        u.banned = true;
-        u.banUntil = seconds === -1 ? -1 : Date.now() + (seconds * 1000);
-        saveUsers(users);
-        renderAdmin();
-    }
-
-    function unbanUser(username) {
-        let users = getUsers();
-        let u = users.find(x => x.u === username);
-        u.banned = false;
-        u.banUntil = 0;
-        saveUsers(users);
-        renderAdmin();
-    }
-
-    function logout() { location.reload(); }
-
-    // --- GÖRSEL EFEKTLER (Mouse & Canvas) ---
-    const c = document.getElementById('canvas');
-    const ctx = c.getContext('2d');
-    c.width = window.innerWidth; c.height = window.innerHeight;
     
-    document.addEventListener('mousemove', (e) => {
-        document.getElementById('cursor').style.left = e.clientX + 'px';
-        document.getElementById('cursor').style.top = e.clientY + 'px';
-        document.getElementById('glow').style.left = e.clientX + 'px';
-        document.getElementById('glow').style.top = e.clientY + 'px';
-    });
+    <style>
+        :root {
+        --banner-logo-size: 200px;--body-color: 236,241,246;--bs-body-color: 236,241,246;--header-banner-background: 52,173,241;--banner-background-text: 255,255,255;--navbar-bg-color: 255,255,255;--navbar-text-color: 104,104,104;--breadcrumb-text-color: 255,255,255;--secondary-color: 0,69,118;--secondary-text-color: 255,255,255;--card-text-color-1: 0,0,0;--card-text-color-2: 114,114,114;--footer-bottom-background: 52,173,241;--footer-text-color-1: 243,243,243;--footer-text-color-2: 243,243,243;        }
+    </style>
+	
+			
+	<!-- CUSTOM CSS -->
+	<style type="text/css">
+			</style>
+	
+	<style>
+		.error-page {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			margin-top: calc(50vh - 200px);
+		}
+	</style>
+</head>
+<body data-bs-theme="dark">
 
-    function draw() {
-        ctx.fillStyle = 'rgba(5,5,5,0.1)';
-        ctx.fillRect(0,0,c.width,c.height);
-        ctx.fillStyle = '#00ff41';
-        for(let i=0; i<30; i++) ctx.fillRect(Math.random()*c.width, Math.random()*c.height, 2, 2);
-        requestAnimationFrame(draw);
-    }
-    draw();
-</script>
+<main class="main" role="main">
+	<div class="error-page">
+		
+<div class="maintenance-container">
+    <div class="background-elements">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+    </div>
+
+    <div class="maintenance-content">
+        <div class="logo-wrapper">
+            <img src="/assets/core/images/uploads/567112d15aa4602e1efc4bddf2e3503a.png?cache=1771704300" alt="Logo" class="main-logo">
+            <div class="logo-shadow"></div>
+        </div>
+
+        <h1 class="maintenance-title">
+            <i class="fas fa-tools"></i> Bakım Modu        </h1>
+        
+        <div class="status-box">
+            <div class="pulse-indicator"></div>
+            <p class="maintenance-subtitle">
+                Web sitemiz şuanda bakımdadır. Lütfen daha sonra tekrar ziyaret edin!            </p>
+        </div>
+
+        <div class="maintenance-actions">
+            
+                            <a class="btn-maintenance btn-login" href="/login/">
+                    <i class="bi bi-person-fill"></i> Giriş Yap                </a>
+                    </div>
+    </div>
+</div>
+
+<style>
+.maintenance-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Montserrat', sans-serif;
+}
+.background-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 100px;
+    filter: blur(20px);
+}
+
+.cloud-1 { width: 300px; height: 100px; top: 10%; left: -10%; animation: float 20s infinite linear; }
+.cloud-2 { width: 200px; height: 80px; top: 40%; right: -10%; animation: float 15s infinite linear reverse; }
+.cloud-3 { width: 400px; height: 120px; bottom: 10%; left: 20%; animation: float 25s infinite linear; }
+
+@keyframes float {
+    from { transform: translateX(-100px); }
+    to { transform: translateX(calc(100vw + 100px)); }
+}
+.maintenance-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 40px;
+    background: rgba(var(--body-color), 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    max-width: 600px;
+}
+
+.logo-wrapper {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.main-logo {
+    max-width: 200px;
+    height: auto;
+    animation: bounce 3s infinite ease-in-out;
+    filter: drop-shadow(0 0 15px rgba(255, 219, 0, 0.2));
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+.maintenance-title {
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #fff, #ffdb00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.status-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: rgba(0,0,0,0.2);
+    padding: 15px 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.pulse-indicator {
+    width: 12px;
+    height: 12px;
+    background: #ffdb00;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(255, 219, 0, 0.4);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 219, 0, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 219, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 219, 0, 0); }
+}
+
+.maintenance-subtitle {
+    margin: 0;
+    color: #ccc;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+.maintenance-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.btn-maintenance {
+    text-decoration: none;
+    padding: 12px 30px;
+    border-radius: 100px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-dashboard {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white !important;
+}
+
+.btn-login {
+    background: rgba(255, 255, 255, 0.05);
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-maintenance:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    filter: brightness(1.1);
+}
+</style>
+<a href="https://www.leaderos.com.tr" target="_blank" id="powered_by_leaderos">Powered by <strong>LeaderOS</strong></a><script>
+						var is_error;
+						var interval = setInterval(function() {
+							if (is_error) {
+								clearInterval(interval);
+								return false;
+							}
+							
+							var brand_el = document.getElementById("powered_by_leaderos");
+							var is_brand_visible = true;
+							
+							if (brand_el) {
+								var style = window.getComputedStyle(brand_el);
+								if (brand_el.offsetParent === null) {
+									is_brand_visible = false;
+								} else if (style.display === "none") {
+									is_brand_visible = false;
+								} else if (style.visibility === "hidden") {
+									is_brand_visible = false;
+								}
+							} else {
+								is_brand_visible = false;
+							}
+							
+							if (!is_brand_visible) {
+								is_error = true;
+								document.body.innerHTML = "<iframe src='https://www.leaderos.com.tr/powered_by_leaderos.php' style='border: 0; position:fixed; top:0; left:0; right:0; bottom:0; width:100%; height:100%'></iframe>";
+							}
+						}, 1000);
+					</script><span>
+<div class="powered-by">
+    <span>Dezigned by:</span> <a href="https://teknodev.qzz.io" target="_blank">teknolojitamirci</a>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+.storm-container {
+    font-family: 'Montserrat', sans-serif !important; 
+}
+.storm-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900; 
+    font-size: 3rem;
+    color: #ff0000;
+    text-transform: uppercase;
+    letter-spacing: -1px; 
+}
+.storm-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    color: #888;
+}
+.powered-by {
+    margin-top: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+}
+
+.powered-by a {
+    color: #ff0000 !important;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.powered-by a:hover {
+    color: #fff !important;
+    text-shadow: 0 0 10px #ff0000;
+}
+</style>	</div>
+</main>
+
+	<script type="text/javascript" src="https://www.termsfeed.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
+	<script type="text/javascript" charset="UTF-8">
+		document.addEventListener('DOMContentLoaded', function () {
+			cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"dark","language":"tr","page_load_consent_levels":["strictly-necessary", "functionality", "tracking", "targeting"],"notice_banner_reject_button_hide":true,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"KurtNW","website_privacy_policy_url":"http://kurtnetwork.com/privacy"});
+		});
+	</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/16.1.0/lazyload.min.js"></script>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"e3f5e2ec65ea4f6bb6cd51fe411124ee","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
 </body>
 </html>
