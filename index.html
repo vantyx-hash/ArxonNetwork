@@ -1,1146 +1,164 @@
-
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="LeaderOS">
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?cache=1750666386">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vexta NW | Box PvP Deneyimi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+        
+        body {
+            background-color: #0a0a0a;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
 
-    <title>LeaderOS - CS:GO Server</title>
-    <meta name="description" content=""/>
-    <link rel="canonical" href="https://demo-site.leaderos.net"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:title" content="LeaderOS - CS:GO Server"/>
-    <meta property="og:description" content=""/>
-    <meta property="og:url" content="https://demo-site.leaderos.net"/>
-    <meta property="og:site_name" content="LeaderOS"/>
-    
-    <!-- CSRF -->
-    <meta name="csrf-token" content="ee4b41e91ec9f59c050a2fb09bacdcee75385397ff755b9e06842de101ca8436">
+        .green-gradient-text {
+            background: linear-gradient(90deg, #37FF00, #ACFF95);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    <!-- EXTRAS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.4.0/dist/select2-bootstrap4.min.css">
-    <link rel="stylesheet" href="https://npmcdn.com/flickity@2/dist/flickity.css">
+        .btn-green {
+            background: linear-gradient(90deg, #37FF00, #48FF15);
+            transition: 0.3s;
+            color: black;
+            font-weight: bold;
+        }
 
-    <!-- THEMES -->
-    <link rel="stylesheet" type="text/css" href="/assets/gale/css/app.1750251520.css">
-    <link rel="stylesheet" type="text/css" href="/assets/gale/css/bootstrap-grid.min.1750251520.css">
+        .btn-green:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(55, 255, 0, 0.3);
+        }
 
-    <link rel="stylesheet" type="text/css" href="/assets/gale/css/plugins/ckeditor/content-styles.1750251520.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tippy.js/6.3.2/animations/scale.min.css"/>
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(55, 255, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
 
-    <!-- AlpineJS Plugins -->
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs-collapse/3.14.8/cdn.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/alpine-tooltip@1.x.x/dist/cdn.min.js" defer></script>
+        /* Avatar El Sallama Animasyonu */
+        @keyframes wave {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+        .avatar-wave {
+            animation: wave 1.5s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
 
-    <!-- AlpineJS Core -->
-		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
-    <!-- Fast Average Color Plugin -->
-    <script src="https://cdn.jsdelivr.net/npm/fast-average-color@9.4.0/dist/index.browser.min.js"></script>
-
-    <script src="/assets/gale/js/theme.1750251520.js"></script>
-
-    <!-- THEME SETTINGS -->
-        <style>
-        :root {
-        --color-indigo-50: 240 249 255;--color-indigo-100: 224 242 254;--color-indigo-200: 186 230 253;--color-indigo-300: 125 211 252;--color-indigo-400: 56 189 248;--color-indigo-500: 14 165 233;--color-indigo-600: 2 132 199;--color-indigo-700: 3 105 161;--color-indigo-800: 7 89 133;--color-indigo-900: 12 74 110;--color-voon-950: 8 8 8;
-          --color-voon-900: 10 10 10;
-          --color-voon-800: 14 14 14;
-          --color-voon-700: 18 18 18;
-          --color-voon-background: 18 18 18;
-          --color-voon-card: 14 14 14;
-          --color-neutral-900: 23 23 23;
-          --color-zinc-600: 82 82 91;        }
+        .hidden-section { display: none; }
     </style>
+</head>
+<body>
 
-        
-    <!-- CUSTOM CSS -->
-    <style type="text/css">
-        .role__admin {
-  color: #fff !important;
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,9,1) 0%, rgba(255,0,0,1) 100%) !important;
-}
-
-.username__admin {
-  color: #ff0000 !important
-}    </style>
-
-    <!-- ROLE CSS -->
-    <style type="text/css">
-                
-                        
-                    </style>
-
-    </head>
-<body x-data="body">
-<div id="app">
-    
-
-<header id="header" class="hidden sm:block">
-    <div class="section flex justify-between items-center py-3">
-        <div class="flex gap-20 items-center">
-            <a href="/">
-                <img class="h-[5.5rem]" src="/assets/core/images/uploads/d671265c6425823502a7e0d518025053.png?cache=1750666386" alt="LeaderOS - Logo">
-            </a>
-            <nav class="gap-6 lg:flex">
-                                                            <a href="/" class="nav-item mr-2 active" >
-                            Anasayfa                        </a>
-                                                                                <a href="/store" class="nav-item mr-2 " >
-                            Mağaza                        </a>
-                                                                                <a href="/forum" class="nav-item mr-2 " >
-                            Forum                        </a>
-                                                                                <a href="/help" class="nav-item mr-2 " >
-                            Yardım                        </a>
-                                                                                <a href="/support/tickets" class="nav-item mr-2 " >
-                            Destek                        </a>
-                                                </nav>
+    <nav class="flex justify-between items-center p-6 bg-black/50 sticky top-0 z-50">
+        <div class="text-2xl font-extrabold green-gradient-text">VEXTA NW</div>
+        <div class="space-x-6 hidden md:flex">
+            <a href="#" onclick="showSection('home')" class="hover:text-green-400">Ana Sayfa</a>
+            <a href="#store" onclick="showSection('store')" class="hover:text-green-400">Mağaza</a>
+            <a href="https://discord.gg/CSbJWxJSgc" target="_blank" class="hover:text-green-400">Discord</a>
+            <a href="#" onclick="showSection('rules')" class="hover:text-green-400">KVKK & Gizlilik</a>
         </div>
-        <div>
-                            <a href="/login/" class="rounded-xl bg-indigo-500 py-3 px-6 text-white text-sm flex gap-3 items-center font-medium">
-                    Giriş Yap                    <i class="fas fa-angle-right"></i>
-                </a>
-                    </div>
-    </div>
-</header>
-
-<!-- Mobile menu, show/hide based on menu state. -->
-<div class="sm:hidden" id="mobile-menu" x-data="{mainMenu: false}">
-    <div class="flex items-center justify-between space-y-1 px-2 pt-2 pb-3">
-        <a href="/">
-            <img class="h-[3rem]" src="/assets/core/images/uploads/d671265c6425823502a7e0d518025053.png?cache=1750666386" alt="LeaderOS - Logo">
-        </a>
-
-        <!-- Mobile menu button-->
-        <button @click="mainMenu = ! mainMenu" type="button" class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg x-cloak="" x-show="!mainMenu" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-            <svg x-cloak x-show="mainMenu" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-    </div>
-    <div x-cloak x-show="mainMenu" class="space-y-1 px-2 pt-2 pb-3">
-                                    <a href="/" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Anasayfa</a>
-                                                <a href="/store" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Mağaza</a>
-                                                <a href="/forum" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Forum</a>
-                                                <a href="/help" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Yardım</a>
-                                                <a href="/support/tickets" class="text-white block px-3 py-2 rounded-md text-base font-medium " aria-current="page" >Destek</a>
-                                        <a href="/login/" class="text-white block px-3 py-2 rounded-md text-base font-medium">Giriş Yap</a>
-                        </div>
-</div>
-    <main class="main" role="main">
-        
-
-<section id="__heroSection" x-data="carousel()" x-init="init()">
-    <div class="carousel overflow-hidden" x-ref="carousel">
-        <div class="">
-            <div class="absolute top-0 left-0 bg-cover bg-center w-full h-full" style="background-image: url('/assets/core/images/uploads/1e5cc8b1e6f88ea4205dd5ca08bbc576.jpg?cache=1750666386')">
-                <div class="bg-gradient-to-tl from-indigo-800/50 to-indigo-800/20 absolute top-0 left-0 w-full h-full"></div>
-            </div>
-            <div class="section pt-36 pb-60 lg:pt-48 lg:pb-96 relative px-6 z-20">
-                <h1 class="text-white text-5xl font-extrabold mt-6 max-w-2xl">
-                    1 Numaralı Minecraft Sunucusuna Katılın!                </h1>
-                <p class="text-white/75 text-xl font-semibold max-w-lg mt-2">
-                    LeaderOS ücretsiz bir Minecraft sunucusudur. Aramıza katılın ve sunucunun en iyisi olun!                </p>
-                <div class="flex items-center gap-4 mt-10 relative z-10">
-                    <a href="/play/" class="rounded-2xl py-3 px-8 font-semibold bg-gradient-to-r from-indigo-500 to-indigo-600 text-white relative flex items-center">
-                        <i class="fas fa-gamepad text-2xl mr-3"></i>
-                        Şimdi Oyna                    </a>
-                                            <a href="/register/" class="font-semibold bg-voon-800 rounded-2xl relative text-white py-3 px-8 flex items-center">
-                            <i class="fas fa-user-plus text-2xl mr-3"></i>
-                            Kayıt Ol                        </a>
-                                    </div>
-            </div>
+        <div id="nav-auth">
+            <button onclick="showSection('login')" class="btn-green px-6 py-2 rounded-lg">Giriş Yap</button>
         </div>
+    </nav>
 
-                                </div>
-    <svg class="absolute -bottom-12 w-full left-0 z-20" style="filter: drop-shadow(0 -85px 45px rgba(0, 0, 0, .5))" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1366 134">
-        <path class="fill-voon-bg" d="M0,91.94C43.71,59.18,114.51,16.29,207.47,3.82c6.79-0.91,32.2-3.96,66.16-3.42 c107.54,1.74,148.6,36.78,252.32,50.55c34.39,4.57,60.71,5.41,78.43,5.96c42.7,1.34,62.27-1.19,67.62-1.92 c32.33-4.43,52.86-13.09,65-17c55.04-17.72,92.95,11.78,189,35c44.78,10.83,82.19,14.22,157,21c0,0,136.88,12.41,195.62-26.42 c0.33-0.22,3.48-2.33,7.91-4.91c4.28-2.49,9.99-5.54,16.95-8.53C1328,43.62,1350.63,41.3,1366,41c0,31,0,62,0,93 c-455.33,0-910.67,0-1366,0C0,119.98,0,105.96,0,91.94z"/>
-    </svg>
-</section>
-
-    <section class="relative z-20 pb-10 -mt-32 section">
-        <div class="grid gap-12 lg:grid-cols-10">
-            <div class="lg:col-span-10 card card-simple p-6 text-white">
-                <div class="absolute opacity-5 top-0 left-0 w-full h-full bg-cover bg-bottom" style="background-image: url('/assets/gale/img/join-widget-bg.png')"></div>
-                <div class="flex flex-col md:flex-row justify-between gap-6 items-center text-center md:text-left relative">
-                    <div>
-                        <div>
-                            <h2 class="font-bold text-2xl mb-2">Oyuna dahil olma zamanı!</h2>
-                        </div>
-                        <div class="text-indigo-100/75">
-                            LeaderOS ile minecraft keyfinizi ikiye katlayın. Profesyonelce yapılmış bu sunucu eğlencenin yeni adresi                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center">
-                        	                        <div class="cursor-pointer btn-before rounded-lg bg-indigo-600 py-3 px-5 text-white relative" data-toggle="copyip" data-clipboard-action="copy" data-clipboard-text="leaderos.net">leaderos.net</div>
-                                                                    </span>
-                    </div>
-                </div>
+    <section id="home" class="min-h-screen flex flex-col items-center justify-center text-center p-4">
+        <div id="welcome-user" class="mb-8 hidden">
+            <img id="user-avatar" src="https://mc-heads.net/body/Steve" alt="Skin" class="h-64 avatar-wave mx-auto mb-4">
+            <h2 class="text-3xl font-bold">Hoş geldin, <span id="display-name" class="green-gradient-text">Oyuncu</span>!</h2>
+        </div>
+        
+        <div id="hero-text">
+            <h1 class="text-6xl font-black mb-4 uppercase">Sınırları <span class="green-gradient-text">Zorla</span></h1>
+            <p class="text-gray-400 max-w-xl mx-auto mb-8">Türkiye'nin en gelişmiş Box PvP sunucusunda adaleti kılıcınla sağla. Kutu aç, geliş ve zirveye oyna!</p>
+            <div class="flex space-x-4 justify-center">
+                <button class="btn-green px-8 py-3 rounded-xl text-lg">PLAY.VEXTANW.COM</button>
+                <a href="https://discord.gg/CSbJWxJSgc" target="_blank" class="bg-indigo-600 px-8 py-3 rounded-xl text-lg hover:bg-indigo-500 transition">Discord'a Katıl</a>
             </div>
         </div>
     </section>
 
-
-<section class="section pt-12 pb-20 gap-12 grid lg:grid-cols-10">
-    <div class="lg:col-span-7">
-        <h3 class="text-white font-bold text-2xl">Haber</h3>
-                    <div class="grid gap-12 mt-12">
-                                    <div class="flex flex-col lg:flex-row group">
-                        <div class="flex-1">
-                            <a href="/blog/posts/what-is-lorem-ipsum-2/" class="block rounded-3xl relative overflow-hidden">
-                                <div class="bg-cover bg-center h-72 lg:h-56 xl:h-72 w-full group-hover:scale-110 transition-all duration-300 group-hover:rotate-3" style="background-image: url('/assets/core/images/blog/posts/20a07638e15c3aa9a939d8882e1ea830.jpg')"></div>
-                                <div class="absolute bottom-0 left-0 right-0 pb-3 pt-20 px-5 bg-gradient-to-t from-black/75 flex items-center"></div>
-                            </a>
-                        </div>
-                        <div class="flex-1 flex flex-col p-4">
-                            <div class="py-3">
-                                <a href="/blog/posts/what-is-lorem-ipsum-2/" class="block">
-                                    <h3 class="line-clamp-1 text-xl font-semibold text-gray-200">
-                                        What is Lorem Ipsum?                                    </h3>
-                                </a>
-                                <div class="text-indigo-50/75 mt-2 text-sm line-clamp-2">
-                                    The standard Lorem Ipsum passage, used since the 1500s"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco la......
-                                </div>
-                            </div>
-                            <div class="mt-auto flex justify-between items-center">
-                                <span class="py-1 px-2 text-sm rounded-lg text-white/75 bg-indigo-600/20">
-                                    Updates                                </span>
-
-                                <div class="flex divide-x divide-white/20">
-                                    <span class="pr-3 text-white/50 flex items-center gap-2">
-                                        <small>
-                                            0                                        </small>
-                                        <i class="fas fa-message text-xs"></i>
-                                    </span>
-                                    <span class="pl-3 text-white/50 flex items-center gap-2">
-                                        <small>1</small>
-                                        <i class="fas fa-eye text-xs"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                                    <div class="flex flex-col lg:flex-row group">
-                        <div class="flex-1">
-                            <a href="/blog/posts/what-is-lorem-ipsum-1/" class="block rounded-3xl relative overflow-hidden">
-                                <div class="bg-cover bg-center h-72 lg:h-56 xl:h-72 w-full group-hover:scale-110 transition-all duration-300 group-hover:rotate-3" style="background-image: url('/assets/core/images/blog/posts/1a9cea9ae8cc1e12273721450dcde7b0.webp')"></div>
-                                <div class="absolute bottom-0 left-0 right-0 pb-3 pt-20 px-5 bg-gradient-to-t from-black/75 flex items-center"></div>
-                            </a>
-                        </div>
-                        <div class="flex-1 flex flex-col p-4">
-                            <div class="py-3">
-                                <a href="/blog/posts/what-is-lorem-ipsum-1/" class="block">
-                                    <h3 class="line-clamp-1 text-xl font-semibold text-gray-200">
-                                        What is Lorem Ipsum?                                    </h3>
-                                </a>
-                                <div class="text-indigo-50/75 mt-2 text-sm line-clamp-2">
-                                    The standard Lorem Ipsum passage, used since the 1500s"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco la......
-                                </div>
-                            </div>
-                            <div class="mt-auto flex justify-between items-center">
-                                <span class="py-1 px-2 text-sm rounded-lg text-white/75 bg-indigo-600/20">
-                                    Updates                                </span>
-
-                                <div class="flex divide-x divide-white/20">
-                                    <span class="pr-3 text-white/50 flex items-center gap-2">
-                                        <small>
-                                            0                                        </small>
-                                        <i class="fas fa-message text-xs"></i>
-                                    </span>
-                                    <span class="pl-3 text-white/50 flex items-center gap-2">
-                                        <small>0</small>
-                                        <i class="fas fa-eye text-xs"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                                    <div class="flex flex-col lg:flex-row group">
-                        <div class="flex-1">
-                            <a href="/blog/posts/what-is-lorem-ipsum/" class="block rounded-3xl relative overflow-hidden">
-                                <div class="bg-cover bg-center h-72 lg:h-56 xl:h-72 w-full group-hover:scale-110 transition-all duration-300 group-hover:rotate-3" style="background-image: url('/assets/core/images/blog/posts/da6bc1f23de6acc4e211a796ab62914e.jpg')"></div>
-                                <div class="absolute bottom-0 left-0 right-0 pb-3 pt-20 px-5 bg-gradient-to-t from-black/75 flex items-center"></div>
-                            </a>
-                        </div>
-                        <div class="flex-1 flex flex-col p-4">
-                            <div class="py-3">
-                                <a href="/blog/posts/what-is-lorem-ipsum/" class="block">
-                                    <h3 class="line-clamp-1 text-xl font-semibold text-gray-200">
-                                        What is Lorem Ipsum?                                    </h3>
-                                </a>
-                                <div class="text-indigo-50/75 mt-2 text-sm line-clamp-2">
-                                    The standard Lorem Ipsum passage, used since the 1500s"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco la......
-                                </div>
-                            </div>
-                            <div class="mt-auto flex justify-between items-center">
-                                <span class="py-1 px-2 text-sm rounded-lg text-white/75 bg-indigo-600/20">
-                                    Updates                                </span>
-
-                                <div class="flex divide-x divide-white/20">
-                                    <span class="pr-3 text-white/50 flex items-center gap-2">
-                                        <small>
-                                            0                                        </small>
-                                        <i class="fas fa-message text-xs"></i>
-                                    </span>
-                                    <span class="pl-3 text-white/50 flex items-center gap-2">
-                                        <small>1</small>
-                                        <i class="fas fa-eye text-xs"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                            </div>
-
-            <!-- Pagination -->
-            <div class="flex justify-center items-center mt-12">
-                    <div class="mt-12 pagination">
-        <a href="#!" class="item disable">
-            <i class="fas fa-angle-left"></i>
-        </a>
-
-                                                                                                                                        <a href="?page=1" class="item active">
-                    1                </a>
-                                                                                                                        
-        <a href="#!" class="item disable">
-            <i class="fas fa-angle-right"></i>
-        </a>
-    </div>
-            </div>
-            </div>
-	
-					<div class="lg:col-span-3 flex flex-col gap-8">
-																				<div>
-							<div class="flex justify-between items-center">
-								<span class="text-white/75 font-medium text-lg font-bold">En Çok Kredi Yükleyen</span>
-								<span class="text-white/75">Tüm Zamanlar</span>
-							</div>
-							<div class="mt-6 card p-6 !overflow-visible hovered flex gap-4">
-								<div class="-mt-10 -ml-10 relative">
-									<div class="bg-top bg-cover w-20 h-20 rounded-2xl"
-     style="background-image: url('/assets/core/images/avatars/73eb453f900cf9d343db7ae6a8a93de7.jpg')">
-</div>									<img class="absolute -bottom-10 -left-2 w-16" src="/assets/gale/img/medal-1.1750251520.svg" alt="">
-								</div>
-								<div>
-									<span class="text-white/75 text-xs uppercase">Kullanıcı Adı</span>
-									<div class="font-semibold text-white text-xl">Fırat Kaya</div>
-									<p class="mt-4 text-white/60 text-sm w-40">
-										<strong class="text-white">350.00 USD</strong>
-									</p>
-								</div>
-								<span class="absolute right-6 top-6 text-red-500/20 text-3xl">
-									<i class="fas fa-heart"></i>
-								</span>
-							</div>
-						</div>
-													
-								
-								
-															<div>
-							<span class="text-white/75 font-medium text-lg font-bold">Son Mağaza Alışverişleri</span>
-							<div class="card hovered mt-3">
-								<table class="w-full overflow-hidden">
-									<thead>
-									<tr class="relative z-10 text-xs uppercase text-gray-400 font-medium bg-voon-950">
-										<th class="text-left p-3 relative z-10">Kullanıcı Adı</th>
-										<th class="p-3 relative z-10">Kategori</th>
-										<th class="p-3 relative z-10">Ürün</th>
-									</tr>
-									</thead>
-									<tbody class="text-gray-200 text-sm text-center relative z-10">
-																			<tr>
-											<td class="text-left pl-4">
-												<a href="/members/3/" class="transition hover:text-green-500">Fırat Kaya</a>
-											</td>
-											<td class="font-normal py-4">VIP</td>
-											<td class="font-normal py-4">MVIP</td>
-										</tr>
-																			<tr>
-											<td class="text-left pl-4">
-												<a href="/members/3/" class="transition hover:text-green-500">Fırat Kaya</a>
-											</td>
-											<td class="font-normal py-4">Spawners</td>
-											<td class="font-normal py-4">Chicken Spawner</td>
-										</tr>
-																			<tr>
-											<td class="text-left pl-4">
-												<a href="/members/1/" class="transition hover:text-green-500">demo</a>
-											</td>
-											<td class="font-normal py-4">VIP</td>
-											<td class="font-normal py-4">VIP+</td>
-										</tr>
-																		</tbody>
-								</table>
-							</div>
-						</div>
-													
-							</div>
-		</section>
-
-
-    </main>
-
-    <div class="bg-voon-700/50 border-t-2 border-zinc-600/10 py-8 relative z-20">
-	<div class="container mx-auto px-4">
-		<div class="row">
-			<div class="col-md-5 mr-auto mb-5 mb-md-0">
-				<div class="text-sm text-center md:text-left flex flex-col">
-					<h3 class="text-white font-semibold uppercase">
-						Hakkımızda					</h3>
-					<div class="text-white/75 max-w-lg mt-2">
-													<p>LeaderOS is a all-in-one website software for game servers. You can manage your server's website, monetize your server, manage support tickets, create a forum for player discussions, and provide unique experiences for your players with 30+ LeaderOS modules.</p>											</div>
-					<div class="flex gap-2 mt-2 justify-center md:justify-start">
-																																									</div>
-				</div>
-			</div>
-			
-							<div class="col-md-2 mb-5 mb-md-0">
-					<div class="text-sm text-center md:text-left flex flex-col">
-						<h3 class="text-white font-semibold uppercase">Hızlı Menü</h3>
-													<ul class="text-white/75 mt-2">
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/" class="widget-link" >
-																							<i class="fas fa-home mr-1"></i>
-																						Anasayfa										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/store" class="widget-link" >
-																							<i class="fas fa-shopping-cart mr-1"></i>
-																						Mağaza										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/forum" class="widget-link" >
-																							<i class="fas fa-comment mr-1"></i>
-																						Forum										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/help" class="widget-link" >
-																							<i class="fas fa-question-circle mr-1"></i>
-																						Yardım										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/support/tickets" class="widget-link" >
-																							<i class="fas fa-life-ring mr-1"></i>
-																						Destek										</a>
-									</li>
-															</ul>
-											</div>
-				</div>
-							<div class="col-md-2 mb-5 mb-md-0">
-					<div class="text-sm text-center md:text-left flex flex-col">
-						<h3 class="text-white font-semibold uppercase">Sosyal Medya</h3>
-													<ul class="text-white/75 mt-2">
-																	<li class="mb-1.5 hover:text-white">
-										<a href="" class="widget-link" target="_blank">
-																							<i class="fab fa-facebook mr-1"></i>
-																						Facebook										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="" class="widget-link" target="_blank">
-																							<i class="fab fa-instagram mr-1"></i>
-																						Instagram										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="" class="widget-link" target="_blank">
-																							<i class="fab fa-x-twitter mr-1"></i>
-																						X										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="" class="widget-link" target="_blank">
-																							<i class="fab fa-youtube mr-1"></i>
-																						YouTube										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="" class="widget-link" target="_blank">
-																							<i class="fab fa-tiktok mr-1"></i>
-																						TikTok										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="" class="widget-link" target="_blank">
-																							<i class="fab fa-discord mr-1"></i>
-																						Discord										</a>
-									</li>
-															</ul>
-											</div>
-				</div>
-							<div class="col-md-2 mb-5 mb-md-0">
-					<div class="text-sm text-center md:text-left flex flex-col">
-						<h3 class="text-white font-semibold uppercase">Bağlantılar</h3>
-													<ul class="text-white/75 mt-2">
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/rules" class="widget-link" >
-																						Kurallar										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/terms" class="widget-link" >
-																						Hizmet Şartları										</a>
-									</li>
-																	<li class="mb-1.5 hover:text-white">
-										<a href="/privacy" class="widget-link" >
-																						Gizlilik Politikası										</a>
-									</li>
-															</ul>
-											</div>
-				</div>
-					</div>
-		<div class="flex flex-col md:flex-row items-center justify-center md:justify-between border-t border-gray-800/50 mt-4 pt-5">
-			<div class="text-center md:text-left mb-4 md:mb-0">
-				<div class="text-white/75 mt-auto text-sm">
-					<span class="font-medium text-white">LeaderOS</span>. Tüm hakları saklıdır. &copy; 2026				</div>
-				<div class="text-white/75 mt-auto text-xs mt-2">
-					<a href="https://www.leaderos.net" target="_blank" id="powered_by_leaderos">Powered by <strong>LeaderOS</strong></a><script>
-						var is_error;
-						var interval = setInterval(function() {
-							if (is_error) {
-								clearInterval(interval);
-								return false;
-							}
-							
-							var brand_el = document.getElementById("powered_by_leaderos");
-							var is_brand_visible = true;
-							
-							if (brand_el) {
-								var style = window.getComputedStyle(brand_el);
-								if (brand_el.offsetParent === null) {
-									is_brand_visible = false;
-								} else if (style.display === "none") {
-									is_brand_visible = false;
-								} else if (style.visibility === "hidden") {
-									is_brand_visible = false;
-								}
-							} else {
-								is_brand_visible = false;
-							}
-							
-							if (!is_brand_visible) {
-								is_error = true;
-								document.body.innerHTML = "<iframe src='https://www.leaderos.net/powered_by_leaderos.php' style='border: 0; position:fixed; top:0; left:0; right:0; bottom:0; width:100%; height:100%'></iframe>";
-							}
-						}, 1000);
-					</script>				</div>
-			</div>
-			<div class="flex gap-2">
-									<div x-cloak class="relative inline-block text-left mb-8 md:mb-0" x-data="{languageMenu: false}">
-						<div>
-							<div @click="languageMenu = ! languageMenu" class="flex text-indigo-200 text-sm border-b-2 py-2 px-3 font-medium cursor-pointer border-indigo-400/50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-								Türkçe								<svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-									<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-								</svg>
-							</div>
-						</div>
-						<div x-show="languageMenu" class="origin-bottom-left absolute bottom-14 left-0 mt-2 w-56 rounded-md shadow-lg bg-voon-900 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-							<div class="py-1" role="none">
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=cs">
-										Čeština									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=de">
-										Deutsch									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=en">
-										English									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=es">
-										Español									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=fr">
-										Français									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=hi">
-										हिन्दी									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=hu">
-										Magyar									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=it">
-										Italiano									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=ja">
-										日本語									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=nl">
-										Nederlands									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=no">
-										Norsk									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=pl">
-										Polski									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=pt_BR">
-										Português (Brasil)									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=ro">
-										Română									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=ru">
-										Русский									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=sv">
-										Svenska									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm active hover:bg-voon-700 hover:text-white" href="?lang=tr">
-										Türkçe									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=vi">
-										Tiếng Việt									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm  hover:bg-voon-700 hover:text-white" href="?lang=zh_CN">
-										中文									</a>
-															</div>
-						</div>
-					</div>
-													<div x-cloak class="relative inline-block text-left mb-8 md:mb-0" x-data="{currencyMenu: false}">
-						<div>
-							<div @click="currencyMenu = ! currencyMenu" class="flex text-indigo-200 text-sm border-b-2 py-2 px-3 font-medium cursor-pointer border-indigo-400/50" id="menu-button" aria-expanded="true" aria-haspopup="true">
-								USD								<svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-									<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-								</svg>
-							</div>
-						</div>
-						<div x-show="currencyMenu" class="origin-bottom-left absolute bottom-14 left-0 mt-2 w-56 rounded-md shadow-lg bg-voon-900 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-							<div class="py-1" role="none">
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=AUD">
-										AUD									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=BRL">
-										BRL									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=CAD">
-										CAD									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=CNY">
-										CNY									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=CZK">
-										CZK									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=DKK">
-										DKK									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=EUR">
-										EUR									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=GBP">
-										GBP									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=HUF">
-										HUF									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=INR">
-										INR									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=JPY">
-										JPY									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=NOK">
-										NOK									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=NZD">
-										NZD									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=PHP">
-										PHP									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=PLN">
-										PLN									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=RUB">
-										RUB									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=SEK">
-										SEK									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=TRY">
-										TL									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white active" href="?currency=USD">
-										USD									</a>
-																	<a class="text-white/75 block px-4 py-2 text-sm hover:bg-voon-700 hover:text-white " href="?currency=VND">
-										VND									</a>
-															</div>
-						</div>
-					</div>
-							</div>
-		</div>
-	</div>
-</div>
-</div>
-
-<script>
-    var $onlineAPI = "1";
-</script>
-
-<script>
-    var lang = {
-        credits: "%credit% kredi",
-        search: "Ara...",
-        loading: "Yükleniyor...",
-        confirm_delete: "Silmek istediğinizden emin misiniz?",
-        player_not_found: "Oyuncu bulunamadı!",
-        play_again: "Tekrar oyna",
-        spinning: "Çeviriliyor...",
-        apply: "Uygula",
-        remove: "Sil",
-        alert_btn_ok: "OK",
-        alert_btn_cancel: "İptal",
-        alert_btn_confirm: "Onayla",
-        alert_btn_buy_credit: "Kredi Yükle",
-        alert_title_success: "Başarılı!",
-        alert_title_error: "Hata!",
-        alert_title_warning: "Uyarı!",
-        alert_title_you_lost: "Kaybettin!",
-        alert_title_you_win: "Kazandınız!",
-        alert_message_server_address_copied: "Sunucu adresi kopyalandı!",
-        alert_message_something_went_wrong: "Bir şeyler yanlış. Sonra tekrar deneyin.",
-        alert_message_lottery_error_duration: "Tekrar çevirmek için %date%'e kadar beklemeniz gerekiyor.",
-        alert_message_lottery_you_lost: "Üzgünüm, kaybettiniz. Sonra tekrar deneyin.",
-        alert_message_lottery_you_win: "Tebrikler! <strong>%prize%</strong> kazandınız!",
-        alert_message_lottery_you_win_chest: "Ürün sandığınıza eklendi.",
-        alert_message_lottery_you_win_credit: "Mevcut Kredi: %credit%",
-        alert_message_lottery_credit_error: "Oynamak için yeterli krediniz bulunmuyor.",
-        alert_message_chest_confirm: "Onaylamadan önce oyunda olduğunuzdan emin olun, aksi takdirde ürün size ulaşmayabilir!",
-        alert_message_chest_sending: "Teslimat işlemi devam ediyor, lütfen bekleyin ve sayfadan ayrılmayın...",
-        alert_message_chest_sent: "Ürün başarıyla teslim edildi, Hayırlı Olsun!",
-        alert_message_chest_server_error: "Sunucuya bağlanırken bir sorun yaşandı, lütfen daha sonra tekrar deneyin.",
-        alert_message_chest_amount_error: "En fazla %amount% adet teslim alabilirsin!",
-        alert_message_login: "Bu işlemi yapabilmek için giriş yapın.",
-        help_voting_success: "Oy kullanımı başarıyla tamamlandı!",
-        alert_message_checkout_credit_error: "Yeterli krediniz bulunmuyor.",
-        alert_message_checkout_success: "Ödeme işlemi tamamlandı ve ürün sandığınıza eklendi.",
-        alert_message_checkout_quantity_error: "Geçerli bir adet giriniz!",
-        alert_message_checkout_stock_error: "Stok nedeniyle bu üründen daha fazla ekleyemezsin!",
-        alert_message_checkout_stock_error2: "Stokta yeterli ürün yok!",
-        alert_message_checkout_cart_empty_error: "Sepetiniz boş!",
-        alert_message_checkout_coupon_invalid: "Kupon geçersiz!",
-        alert_message_checkout_coupon_invalid_for_cart: "Bu kupon, sepetiniz için uygun değil!",
-        alert_message_checkout_coupon_used: "Bu kuponu daha önceden kullandınız!",
-        alert_message_checkout_coupon_expired: "Bu kuponun süresi bitmiş!",
-        alert_message_checkout_coupon_login: "Kupon kullanmak için giriş yapmanız gerekiyor!",
-        alert_message_checkout_coupon_success: "Kupon başarıyla uygulandı!",
-        alert_message_checkout_coupon_price: "Bu kuponu kullanabilmek için sepetiniz en az %amount% kredi değerinde olmalıdır!",
-        alert_message_not_found: "Not found!",
-        limited_stock: "Sınırlı Stok!",
-        out_of_stock: "Stok Yok!"
-    }
-</script>
-
-    <script type="text/javascript" src="https://www.termsfeed.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
-    <script type="text/javascript" charset="UTF-8">
-        document.addEventListener('DOMContentLoaded', function () {
-            cookieconsent.run({"notice_banner_type": "simple", "consent_type": "express", "palette": "dark", "language": "tr", "page_load_consent_levels": ["strictly-necessary", "functionality", "tracking", "targeting"], "notice_banner_reject_button_hide": true, "preferences_center_close_button_hide": false, "page_refresh_confirmation_buttons": false, "website_name": "LeaderOS", "website_privacy_policy_url": "https://demo-site.leaderos.net/privacy"});
-        });
-    </script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.4.1/jquery.scrollUp.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/16.1.0/lazyload.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/tr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.Marquee/1.5.0/jquery.marquee.min.js"></script>
-
-<script src="/assets/gale/js/main.min.1750261360.js"></script>
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/flickity/3.0.0/flickity.pkgd.min.js"></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-<style>
-    #demo_theme_selector {
-        position: fixed;
-        right: 0;
-        top: 30%;
-        z-index: 9999;
-        
-        width: 60px;
-        height: 60px;
-        background-color: #0284C7;
-        border-radius: 0.75rem 0 0 0.75rem;
-        box-shadow: 0 -5px 20px 5px rgba(0,0,0,.15);
-        
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-    }
-    
-    #demo_theme_selector svg {
-        width: 26px;
-        height: 26px;
-        animation: select-theme-offcanvas-rotate 6s linear infinite;
-    }
-    
-    #demo_theme_selector svg path {
-        fill: #fff;
-    }
-    
-    @keyframes select-theme-offcanvas-rotate {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-    
-    /* Backdrop */
-    #demo_theme_selector_modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    
-    #demo_theme_selector_modal .demo-modal-container {
-      width: 100%;
-      max-width: 1024px; /* Tailwind: max-w-screen-lg */
-      margin-left: auto;
-      margin-right: auto;
-      padding-left: 1rem;  /* Tailwind: px-4 */
-      padding-right: 1rem;
-    }
-    
-    @media (min-width: 640px) {
-      #demo_theme_selector_modal .demo-modal-container {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-      }
-    }
-    
-    @media (min-width: 1024px) {
-      #demo_theme_selector_modal .demo-modal-container {
-        padding-left: 2rem;
-        padding-right: 2rem;
-      }
-    }
-    
-    @media (min-width: 1280px) {
-      #demo_theme_selector_modal .demo-modal-container {
-        max-width: 1280px;
-      }
-    }
-    
-    @media (min-width: 1536px) {
-      #demo_theme_selector_modal .demo-modal-container {
-        max-width: 1536px;
-      }
-    }
-    
-    
-
-    /* Modal Box */
-    #demo_theme_selector_modal .demo-modal-box {
-      background: white;
-      width: 100%;
-      height: 85vh;
-      border-radius: 10px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-
-    /* Modal Header */
-    #demo_theme_selector_modal .demo-modal-header {
-      font-family: "Inter", sans-serif !important;
-      padding: 16px 20px;
-      font-size: 22px;
-      font-weight: 700;
-      border-bottom: 1px solid #ddd;
-      color: #1e293b;
-    }
-
-    /* Close Button */
-    #demo_theme_selector_modal .demo-modal-close {
-      position: absolute;
-      top: 11px;
-      right: 20px;
-      font-size: 30px;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-
-    /* Modal Content */
-    #demo_theme_selector_modal .demo-modal-content {
-      padding: 20px;
-      overflow-y: auto;
-      flex-grow: 1;
-    }
-    
-    #demo_theme_selector_modal .demo-theme-thumbnail {
-        height: 384px;
-    }
-    
-    #demo_theme_selector_modal .demo-modal-content-grid {
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      gap: 20px;
-    }
-    
-    /* Tablet ve üzeri: 2'li grid */
-    @media (min-width: 576px) {
-      #demo_theme_selector_modal .demo-modal-content-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      #demo_theme_selector_modal .demo-theme-thumbnail {
-        height: 340px;
-    }
-    }
-    
-    /* Küçük dizüstü ve üzeri: 3'lü grid */
-    @media (min-width: 768px) {
-      #demo_theme_selector_modal .demo-modal-content-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      #demo_theme_selector_modal .demo-theme-thumbnail {
-        height: 250px;
-      }
-    }
-    
-    /* Geniş ekranlar: 4'lü grid */
-    @media (min-width: 992px) {
-      #demo_theme_selector_modal .demo-modal-content-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      #demo_theme_selector_modal .demo-theme-thumbnail {
-        height: 250px;
-      }
-    }
-    
-    @media (min-width: 1280px) {
-      #demo_theme_selector_modal .demo-theme-thumbnail {
-        height: 320px;
-      }
-    }
-    @media (min-width: 1536px) {
-      #demo_theme_selector_modal .demo-theme-thumbnail {
-        height: 384px;
-      }
-    }
-
-    
-    #demo_theme_selector_modal .demo-theme-card {
-        text-align: center;
-    }
-    
-    #demo_theme_selector_modal .demo-theme-wrapper {
-        border: 1px solid #e0e0e0;
-        border-radius: 16px;
-    }
-    
-    #demo_theme_selector_modal .demo-theme-thumbnail {
-        overflow: hidden;
-        position: relative;
-        border-radius: 16px;
-    }
-    
-    #demo_theme_selector_modal .demo-theme-wrapper img {
-        width: 100%;
-        border-radius: 16px;
-        display: block;
-    }
-    
-    #demo_theme_selector_modal .demo-theme-card-active .demo-theme-wrapper {
-        border: 4px solid #3B82F6;
-        border-radius: 20px;
-    }
-    
-    /* Tick simgesi */
-    #demo_theme_selector_modal .demo-theme-check-icon {
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      width: 30px;
-      height: 30px;
-      display: none;
-    }
-    
-    /* Aktif kartta tick simgesi görünür */
-    #demo_theme_selector_modal .demo-theme-card-active .demo-theme-check-icon {
-      display: flex;
-    }
-    
-    #demo_theme_selector_modal .demo-theme-name {
-        padding: 12px 0;
-        font-weight: 600;
-        font-size: 18px;
-        font-family: "Inter", sans-serif !important;
-        color: #1e293b;
-        text-decoration: none !important;
-    }
-    #demo_theme_selector_modal .demo-theme-name:hover {
-        color: #1e293b;
-    }
-    #demo_theme_selector_modal .demo-theme-card:hover {
-        text-decoration: none !important;
-    }
-    #demo_theme_selector_modal .demo-theme-card-active .demo-theme-name {
-        color: #3B82F6;
-    }
-</style>
-<div id="demo_theme_selector" onclick="document.getElementById('demo_theme_selector_modal').style.display='flex'">
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.0002 8C9.79111 8 8.00024 9.79086 8.00024 12C8.00024 14.2091 9.79111 16 12.0002 16C14.2094 16 16.0002 14.2091 16.0002 12C16.0002 9.79086 14.2094 8 12.0002 8ZM10.0002 12C10.0002 10.8954 10.8957 10 12.0002 10C13.1048 10 14.0002 10.8954 14.0002 12C14.0002 13.1046 13.1048 14 12.0002 14C10.8957 14 10.0002 13.1046 10.0002 12Z" fill="#000000"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.2867 0.5C9.88583 0.5 8.6461 1.46745 8.37171 2.85605L8.29264 3.25622C8.10489 4.20638 7.06195 4.83059 6.04511 4.48813L5.64825 4.35447C4.32246 3.90796 2.83873 4.42968 2.11836 5.63933L1.40492 6.83735C0.67773 8.05846 0.954349 9.60487 2.03927 10.5142L2.35714 10.7806C3.12939 11.4279 3.12939 12.5721 2.35714 13.2194L2.03927 13.4858C0.954349 14.3951 0.67773 15.9415 1.40492 17.1626L2.11833 18.3606C2.83872 19.5703 4.3225 20.092 5.64831 19.6455L6.04506 19.5118C7.06191 19.1693 8.1049 19.7935 8.29264 20.7437L8.37172 21.1439C8.6461 22.5325 9.88584 23.5 11.2867 23.5H12.7136C14.1146 23.5 15.3543 22.5325 15.6287 21.1438L15.7077 20.7438C15.8954 19.7936 16.9384 19.1693 17.9553 19.5118L18.3521 19.6455C19.6779 20.092 21.1617 19.5703 21.8821 18.3606L22.5955 17.1627C23.3227 15.9416 23.046 14.3951 21.9611 13.4858L21.6432 13.2194C20.8709 12.5722 20.8709 11.4278 21.6432 10.7806L21.9611 10.5142C23.046 9.60489 23.3227 8.05845 22.5955 6.83732L21.8821 5.63932C21.1617 4.42968 19.678 3.90795 18.3522 4.35444L17.9552 4.48814C16.9384 4.83059 15.8954 4.20634 15.7077 3.25617L15.6287 2.85616C15.3543 1.46751 14.1146 0.5 12.7136 0.5H11.2867ZM10.3338 3.24375C10.4149 2.83334 10.7983 2.5 11.2867 2.5H12.7136C13.2021 2.5 13.5855 2.83336 13.6666 3.24378L13.7456 3.64379C14.1791 5.83811 16.4909 7.09167 18.5935 6.38353L18.9905 6.24984C19.4495 6.09527 19.9394 6.28595 20.1637 6.66264L20.8771 7.86064C21.0946 8.22587 21.0208 8.69271 20.6764 8.98135L20.3586 9.24773C18.6325 10.6943 18.6325 13.3057 20.3586 14.7523L20.6764 15.0186C21.0208 15.3073 21.0946 15.7741 20.8771 16.1394L20.1637 17.3373C19.9394 17.714 19.4495 17.9047 18.9905 17.7501L18.5936 17.6164C16.4909 16.9082 14.1791 18.1618 13.7456 20.3562L13.6666 20.7562C13.5855 21.1666 13.2021 21.5 12.7136 21.5H11.2867C10.7983 21.5 10.4149 21.1667 10.3338 20.7562L10.2547 20.356C9.82113 18.1617 7.50931 16.9082 5.40665 17.6165L5.0099 17.7501C4.55092 17.9047 4.06104 17.714 3.83671 17.3373L3.1233 16.1393C2.9058 15.7741 2.97959 15.3073 3.32398 15.0186L3.64185 14.7522C5.36782 13.3056 5.36781 10.6944 3.64185 9.24779L3.32398 8.98137C2.97959 8.69273 2.9058 8.2259 3.1233 7.86067L3.83674 6.66266C4.06106 6.28596 4.55093 6.09528 5.0099 6.24986L5.40676 6.38352C7.50938 7.09166 9.82112 5.83819 10.2547 3.64392L10.3338 3.24375Z" fill="#000000"/>
-    </svg>
-</div>
-
-<div id="demo_theme_selector_modal">
-    <div class="demo-modal-container">
-        <div class="demo-modal-box">
-            <button class="demo-modal-close" onclick="document.getElementById('demo_theme_selector_modal').style.display='none'">&times;</button>
-            <div class="demo-modal-header">Themes</div>
-            <div class="demo-modal-content">
-                <div class="demo-modal-content-grid">
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=flat&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/flat.png" alt="Flat" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Flat</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=lester&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/lester.png" alt="Lester" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Lester</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=hyterra&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/hyterra.png" alt="Hyterra" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Hyterra</div>
-                        </a>
-                                            <a class="demo-theme-card demo-theme-card-active" href="https://demo-site.leaderos.net/demo.php?theme=gale&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/gale.png" alt="Gale" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Gale</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=blaze&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/blaze.png" alt="Blaze" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Blaze</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=leaf&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/leaf.png" alt="Leaf" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Leaf</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=cobalt&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/cobalt.png" alt="Cobalt" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Cobalt</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=moss&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/moss.png" alt="Moss" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Moss</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=venus&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/venus.png" alt="Venus" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Venus</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=callisto&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/callisto.png" alt="Callisto" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Callisto</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=cloud&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/cloud.png" alt="Cloud" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Cloud</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=mercury&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/mercury.png" alt="Mercury" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Mercury</div>
-                        </a>
-                                            <a class="demo-theme-card " href="https://demo-site.leaderos.net/demo.php?theme=uranus&game=csgo">
-                            <div class="demo-theme-wrapper">
-                                <div class="demo-theme-thumbnail">
-                                    <img src="https://www.leaderos.net/apps/main/public/assets/img/themes/uranus.png" alt="Uranus" loading="lazy">
-                                    <svg class="demo-theme-check-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path opacity="1" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="#3B82F6"/>
-                                        <path d="M10.5795 15.5801C10.3795 15.5801 10.1895 15.5001 10.0495 15.3601L7.21945 12.5301C6.92945 12.2401 6.92945 11.7601 7.21945 11.4701C7.50945 11.1801 7.98945 11.1801 8.27945 11.4701L10.5795 13.7701L15.7195 8.6301C16.0095 8.3401 16.4895 8.3401 16.7795 8.6301C17.0695 8.9201 17.0695 9.4001 16.7795 9.6901L11.1095 15.3601C10.9695 15.5001 10.7795 15.5801 10.5795 15.5801Z" fill="#fff"/>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="demo-theme-name">Uranus</div>
-                        </a>
-                                    </div>
-            </div>
+    <section id="login" class="hidden-section min-h-screen flex items-center justify-center p-4">
+        <div class="card p-8 rounded-2xl w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-6 text-center">Giriş Yap</h2>
+            <input type="text" id="login-name" placeholder="Kullanıcı Adı" class="w-full bg-black border border-green-900 p-3 rounded mb-4 focus:outline-none focus:border-green-400">
+            <input type="password" id="login-pass" placeholder="Şifre" class="w-full bg-black border border-green-900 p-3 rounded mb-6 focus:outline-none focus:border-green-400">
+            <button onclick="handleLogin()" class="btn-green w-full py-3 rounded-lg mb-4">GİRİŞ</button>
+            <p class="text-center text-sm text-gray-500">Hesabın yok mu? <a href="#" onclick="showSection('register')" class="text-green-400">Kayıt Ol</a></p>
         </div>
-    </div>
-</div>
-  
-<script>
-  document.addEventListener('keydown', function(event) {
-    const modal = document.getElementById('demo_theme_selector_modal');
-    if (event.key === 'Escape' && modal.style.display === 'flex') {
-      modal.style.display = 'none';
-    }
-  });
-</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"version":"2024.11.0","token":"fb641061615f4b71b1019365a77694b1","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+    </section>
+
+    <section id="register" class="hidden-section min-h-screen flex items-center justify-center p-4">
+        <div class="card p-8 rounded-2xl w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-6 text-center">Kayıt Ol</h2>
+            <input type="text" id="reg-name" placeholder="Minecraft Kullanıcı Adın" class="w-full bg-black border border-green-900 p-3 rounded mb-4 focus:outline-none focus:border-green-400">
+            <input type="password" id="reg-pass" placeholder="Şifre Belirle" class="w-full bg-black border border-green-900 p-3 rounded mb-6 focus:outline-none focus:border-green-400">
+            <button onclick="handleRegister()" class="btn-green w-full py-3 rounded-lg mb-4">KAYIT OL</button>
+            <p class="text-center text-sm text-gray-500">Zaten üye misin? <a href="#" onclick="showSection('login')" class="text-green-400">Giriş Yap</a></p>
+        </div>
+    </section>
+
+    <section id="rules" class="hidden-section p-12 max-w-4xl mx-auto">
+        <h2 class="text-4xl font-bold green-gradient-text mb-6">Gizlilik ve KVKK</h2>
+        <div class="text-gray-400 space-y-4">
+            <p><strong>1. Veri Sorumlusu:</strong> Vexta NW yönetimi olarak kişisel verilerinizin güvenliğini önemsiyoruz.</p>
+            <p><strong>2. Toplanan Veriler:</strong> Sadece oyun deneyiminizi iyileştirmek adına kullanıcı adı ve giriş bilgileriniz veritabanımızda şifrelenerek saklanır.</p>
+            <p><strong>3. Haklarınız:</strong> İstediğiniz zaman verilerinizin silinmesini talep edebilirsiniz. Discord üzerinden iletişime geçmeniz yeterlidir.</p>
+        </div>
+        <button onclick="showSection('home')" class="mt-8 text-green-400 underline italic">Ana Sayfaya Dön</button>
+    </section>
+
+    <footer class="p-10 bg-black text-center text-gray-600 border-t border-green-900/20">
+        <p>&copy; 2026 Vexta Network. Tüm hakları saklıdır.</p>
+        <p class="text-xs mt-2 italic">Bu site Minecraft veya Mojang ile bağlantılı değildir.</p>
+    </footer>
+
+    <script>
+        // Sayfa Değiştirme Fonksiyonu
+        function showSection(sectionId) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
+            document.getElementById(sectionId).classList.remove('hidden-section');
+        }
+
+        // Kayıt Olma (LocalStorage - Veritabanı Simülasyonu)
+        function handleRegister() {
+            const name = document.getElementById('reg-name').value;
+            const pass = document.getElementById('reg-pass').value;
+
+            if(name && pass) {
+                localStorage.setItem(name, pass);
+                alert("Başarıyla kayıt oldun! Şimdi giriş yap.");
+                showSection('login');
+            } else {
+                alert("Lütfen tüm alanları doldur!");
+            }
+        }
+
+        // Giriş Yapma ve Avatar Güncelleme
+        function handleLogin() {
+            const name = document.getElementById('login-name').value;
+            const pass = document.getElementById('login-pass').value;
+
+            if(localStorage.getItem(name) === pass) {
+                // Giriş Başarılı
+                document.getElementById('display-name').innerText = name;
+                document.getElementById('user-avatar').src = `https://mc-heads.net/body/${name}`;
+                
+                document.getElementById('hero-text').classList.add('hidden');
+                document.getElementById('welcome-user').classList.remove('hidden');
+                document.getElementById('nav-auth').innerHTML = `<span class="text-green-400 font-bold">${name}</span>`;
+                
+                showSection('home');
+            } else {
+                alert("Hatalı kullanıcı adı veya şifre!");
+            }
+        }
+    </script>
 </body>
 </html>
