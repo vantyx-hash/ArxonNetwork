@@ -3,162 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vexta NW | Box PvP Deneyimi</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>6. Sınıf Bilişim Macerası</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
-        
-        body {
-            background-color: #0a0a0a;
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            scroll-behavior: smooth;
-        }
-
-        .green-gradient-text {
-            background: linear-gradient(90deg, #37FF00, #ACFF95);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .btn-green {
-            background: linear-gradient(90deg, #37FF00, #48FF15);
-            transition: 0.3s;
-            color: black;
-            font-weight: bold;
-        }
-
-        .btn-green:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(55, 255, 0, 0.3);
-        }
-
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(55, 255, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Avatar El Sallama Animasyonu */
-        @keyframes wave {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(15deg); }
-        }
-        .avatar-wave {
-            animation: wave 1.5s ease-in-out infinite;
-            transform-origin: bottom center;
-        }
-
-        .hidden-section { display: none; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        #game-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 80%; max-width: 600px; text-align: center; }
+        .unit-title { color: #2c3e50; font-size: 1.2em; margin-bottom: 10px; font-weight: bold; }
+        .question { font-size: 1.4em; margin-bottom: 20px; color: #34495e; }
+        .options { display: grid; gap: 10px; }
+        button { padding: 15px; font-size: 1em; cursor: pointer; border: none; border-radius: 8px; background: #3498db; color: white; transition: 0.3s; }
+        button:hover { background: #2980b9; transform: scale(1.02); }
+        #feedback { margin-top: 20px; font-weight: bold; padding: 10px; border-radius: 5px; display: none; }
+        .score { position: absolute; top: 20px; right: 20px; background: #2ecc71; color: white; padding: 10px 20px; border-radius: 20px; }
     </style>
 </head>
 <body>
 
-    <nav class="flex justify-between items-center p-6 bg-black/50 sticky top-0 z-50">
-        <div class="text-2xl font-extrabold green-gradient-text">VEXTA NW</div>
-        <div class="space-x-6 hidden md:flex">
-            <a href="#" onclick="showSection('home')" class="hover:text-green-400">Ana Sayfa</a>
-            <a href="#store" onclick="showSection('store')" class="hover:text-green-400">Mağaza</a>
-            <a href="https://discord.gg/CSbJWxJSgc" target="_blank" class="hover:text-green-400">Discord</a>
-            <a href="#" onclick="showSection('rules')" class="hover:text-green-400">KVKK & Gizlilik</a>
-        </div>
-        <div id="nav-auth">
-            <button onclick="showSection('login')" class="btn-green px-6 py-2 rounded-lg">Giriş Yap</button>
-        </div>
-    </nav>
+<div class="score">Puan: <span id="score-val">0</span></div>
 
-    <section id="home" class="min-h-screen flex flex-col items-center justify-center text-center p-4">
-        <div id="welcome-user" class="mb-8 hidden">
-            <img id="user-avatar" src="https://mc-heads.net/body/Steve" alt="Skin" class="h-64 avatar-wave mx-auto mb-4">
-            <h2 class="text-3xl font-bold">Hoş geldin, <span id="display-name" class="green-gradient-text">Oyuncu</span>!</h2>
-        </div>
+<div id="game-container">
+    <div id="unit-info" class="unit-title"></div>
+    <div id="question-text" class="question"></div>
+    <div id="options-container" class="options"></div>
+    <div id="feedback"></div>
+</div>
+
+<script>
+    const questions = [
+        {
+            unit: "1. Hafta: Haydi Veri Toplama",
+            q: "Bir araştırma için kişilere yöneltilen soruların tümüne ne denir?",
+            options: ["Anket", "Değişken", "Algoritma", "Sabit"],
+            correct: 0,
+            hint: "Veri toplamak için en yaygın yöntemdir."
+        },
+        {
+            unit: "2. Hafta: Sabit mi? Değişken mi?",
+            q: "Bir program çalışırken değeri hiç değişmeyen ifadelere ne denir?",
+            options: ["Değişken", "Sabit", "Döngü", "Veri"],
+            correct: 1,
+            hint: "Adı üstünde, hep aynı kalır!"
+        },
+        {
+            unit: "3. Hafta: Böl Parçala Çöz",
+            q: "Karmaşık bir problemi daha küçük ve yönetilebilir parçalara ayırmaya ne denir?",
+            options: ["Birleştirme", "Problem Ayrıştırma", "Kodlama", "Veri Girişi"],
+            correct: 1,
+            hint: "Büyük lokmayı küçük parçalara bölmek gibi düşün."
+        },
+        {
+            unit: "4. Hafta: Problem Çözmek Benim İşim",
+            q: "Bir problemin çözümü için takip edilen adım adım yola ne denir?",
+            options: ["Sabit", "Donanım", "Algoritma", "Yazılım"],
+            correct: 2,
+            hint: "Yemek tarifleri de birer örneğidir."
+        },
+        {
+            unit: "5. Hafta: Farklı Yollardan Aynı Çözüme",
+            q: "Aynı sonuca ulaşan farklı algoritmalardan hangisi 'en iyi' kabul edilir?",
+            options: ["En uzun olan", "En karmaşık olan", "En az adımda ve hızlı çözen", "Rengi güzel olan"],
+            correct: 2,
+            hint: "Verimlilik her zaman önemlidir."
+        }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuestion() {
+        const qData = questions[currentQ];
+        document.getElementById('unit-info').innerText = qData.unit;
+        document.getElementById('question-text').innerText = qData.q;
+        const optionsDiv = document.getElementById('options-container');
+        optionsDiv.innerHTML = '';
+        document.getElementById('feedback').style.display = 'none';
+
+        qData.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index);
+            optionsDiv.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(choice) {
+        const feedback = document.getElementById('feedback');
+        feedback.style.display = 'block';
         
-        <div id="hero-text">
-            <h1 class="text-6xl font-black mb-4 uppercase">Sınırları <span class="green-gradient-text">Zorla</span></h1>
-            <p class="text-gray-400 max-w-xl mx-auto mb-8">Türkiye'nin en gelişmiş Box PvP sunucusunda adaleti kılıcınla sağla. Kutu aç, geliş ve zirveye oyna!</p>
-            <div class="flex space-x-4 justify-center">
-                <button class="btn-green px-8 py-3 rounded-xl text-lg">PLAY.VEXTANW.COM</button>
-                <a href="https://discord.gg/CSbJWxJSgc" target="_blank" class="bg-indigo-600 px-8 py-3 rounded-xl text-lg hover:bg-indigo-500 transition">Discord'a Katıl</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="login" class="hidden-section min-h-screen flex items-center justify-center p-4">
-        <div class="card p-8 rounded-2xl w-full max-w-md">
-            <h2 class="text-2xl font-bold mb-6 text-center">Giriş Yap</h2>
-            <input type="text" id="login-name" placeholder="Kullanıcı Adı" class="w-full bg-black border border-green-900 p-3 rounded mb-4 focus:outline-none focus:border-green-400">
-            <input type="password" id="login-pass" placeholder="Şifre" class="w-full bg-black border border-green-900 p-3 rounded mb-6 focus:outline-none focus:border-green-400">
-            <button onclick="handleLogin()" class="btn-green w-full py-3 rounded-lg mb-4">GİRİŞ</button>
-            <p class="text-center text-sm text-gray-500">Hesabın yok mu? <a href="#" onclick="showSection('register')" class="text-green-400">Kayıt Ol</a></p>
-        </div>
-    </section>
-
-    <section id="register" class="hidden-section min-h-screen flex items-center justify-center p-4">
-        <div class="card p-8 rounded-2xl w-full max-w-md">
-            <h2 class="text-2xl font-bold mb-6 text-center">Kayıt Ol</h2>
-            <input type="text" id="reg-name" placeholder="Minecraft Kullanıcı Adın" class="w-full bg-black border border-green-900 p-3 rounded mb-4 focus:outline-none focus:border-green-400">
-            <input type="password" id="reg-pass" placeholder="Şifre Belirle" class="w-full bg-black border border-green-900 p-3 rounded mb-6 focus:outline-none focus:border-green-400">
-            <button onclick="handleRegister()" class="btn-green w-full py-3 rounded-lg mb-4">KAYIT OL</button>
-            <p class="text-center text-sm text-gray-500">Zaten üye misin? <a href="#" onclick="showSection('login')" class="text-green-400">Giriş Yap</a></p>
-        </div>
-    </section>
-
-    <section id="rules" class="hidden-section p-12 max-w-4xl mx-auto">
-        <h2 class="text-4xl font-bold green-gradient-text mb-6">Gizlilik ve KVKK</h2>
-        <div class="text-gray-400 space-y-4">
-            <p><strong>1. Veri Sorumlusu:</strong> Vexta NW yönetimi olarak kişisel verilerinizin güvenliğini önemsiyoruz.</p>
-            <p><strong>2. Toplanan Veriler:</strong> Sadece oyun deneyiminizi iyileştirmek adına kullanıcı adı ve giriş bilgileriniz veritabanımızda şifrelenerek saklanır.</p>
-            <p><strong>3. Haklarınız:</strong> İstediğiniz zaman verilerinizin silinmesini talep edebilirsiniz. Discord üzerinden iletişime geçmeniz yeterlidir.</p>
-        </div>
-        <button onclick="showSection('home')" class="mt-8 text-green-400 underline italic">Ana Sayfaya Dön</button>
-    </section>
-
-    <footer class="p-10 bg-black text-center text-gray-600 border-t border-green-900/20">
-        <p>&copy; 2026 Vexta Network. Tüm hakları saklıdır.</p>
-        <p class="text-xs mt-2 italic">Bu site Minecraft veya Mojang ile bağlantılı değildir.</p>
-    </footer>
-
-    <script>
-        // Sayfa Değiştirme Fonksiyonu
-        function showSection(sectionId) {
-            document.querySelectorAll('section').forEach(s => s.classList.add('hidden-section'));
-            document.getElementById(sectionId).classList.remove('hidden-section');
+        if(choice === questions[currentQ].correct) {
+            feedback.innerText = "Tebrikler! Doğru cevap. 🎉";
+            feedback.style.background = "#d4edda";
+            feedback.style.color = "#155724";
+            score += 20;
+            document.getElementById('score-val').innerText = score;
+            
+            setTimeout(() => {
+                currentQ++;
+                if(currentQ < questions.length) {
+                    loadQuestion();
+                } else {
+                    showFinal();
+                }
+            }, 1500);
+        } else {
+            feedback.innerText = "Hatalı! İpucu: " + questions[currentQ].hint;
+            feedback.style.background = "#f8d7da";
+            feedback.style.color = "#721c24";
         }
+    }
 
-        // Kayıt Olma (LocalStorage - Veritabanı Simülasyonu)
-        function handleRegister() {
-            const name = document.getElementById('reg-name').value;
-            const pass = document.getElementById('reg-pass').value;
+    function showFinal() {
+        document.getElementById('game-container').innerHTML = `
+            <h2>Oyun Bitti! 🏆</h2>
+            <p>6. Sınıf Bilişim konularını başarıyla tamamladın.</p>
+            <h3>Toplam Puanın: ${score}</h3>
+            <button onclick="location.reload()">Tekrar Oyna</button>
+        `;
+    }
 
-            if(name && pass) {
-                localStorage.setItem(name, pass);
-                alert("Başarıyla kayıt oldun! Şimdi giriş yap.");
-                showSection('login');
-            } else {
-                alert("Lütfen tüm alanları doldur!");
-            }
-        }
+    loadQuestion();
+</script>
 
-        // Giriş Yapma ve Avatar Güncelleme
-        function handleLogin() {
-            const name = document.getElementById('login-name').value;
-            const pass = document.getElementById('login-pass').value;
-
-            if(localStorage.getItem(name) === pass) {
-                // Giriş Başarılı
-                document.getElementById('display-name').innerText = name;
-                document.getElementById('user-avatar').src = `https://mc-heads.net/body/${name}`;
-                
-                document.getElementById('hero-text').classList.add('hidden');
-                document.getElementById('welcome-user').classList.remove('hidden');
-                document.getElementById('nav-auth').innerHTML = `<span class="text-green-400 font-bold">${name}</span>`;
-                
-                showSection('home');
-            } else {
-                alert("Hatalı kullanıcı adı veya şifre!");
-            }
-        }
-    </script>
 </body>
 </html>
